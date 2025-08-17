@@ -6,14 +6,16 @@
 //
 
 import UIKit
+import SnapKit
 
 class MainViewController: UIViewController {
+    let sampleText = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
+        
     }
-
 
 }
 
