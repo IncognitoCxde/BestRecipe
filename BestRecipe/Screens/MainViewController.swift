@@ -14,6 +14,11 @@ import SnapKit
 
 class MainViewController: UIViewController {
     
+    // MARK: - Variables
+    
+    let titleLabel = UILabel()
+    let titleLabel2 = UILabel()
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -31,13 +36,35 @@ class MainViewController: UIViewController {
     // MARK: - Navigation
     
     func configureNavTitle() {
-        navigationItem.title = "Get amazing recipes for cooking "
+        titleLabel.text = "Get amazing recipes"
+        titleLabel.textColor = UIColor(named: "Neutal 100")
+        titleLabel.font = UIFont(name: "SemiBold", size: 27)
+        titleLabel.textAlignment = .left
+        view.addSubview(titleLabel)
         
-        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "Neutral 100"), NSAttributedString.Key.font: UIFont(name: "Poppins-SemiBold", size: 21)!]
+        titleLabel2.text = "for cooking"
+        titleLabel2.textColor = UIColor(named: "Neutal 100")
+        titleLabel2.font = UIFont(name: "SemiBold", size: 17)
+        titleLabel2.textAlignment = .left
+        view.addSubview(titleLabel2)
         
-        navigationController?.navigationBar.titleTextAttributes = textAttributes as [NSAttributedString.Key : Any]
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(30)
+            make.top.equalTo(80)
+        }
+        
+        titleLabel2.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.leading.equalToSuperview().inset(30)
+        }
+        
+//        navigationItem.title = "Get amazing recipes for cooking "
+//
+//        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "Neutral 100"), NSAttributedString.Key.font: UIFont(name: "Poppins-SemiBold", size: 21)!]
+//        
+//        navigationController?.navigationBar.titleTextAttributes = textAttributes as [NSAttributedString.Key : Any]
+//        navigationController?.navigationBar.isHidden = false
     }
 
 }
