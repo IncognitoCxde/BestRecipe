@@ -24,13 +24,14 @@ class TrendingCollectionViewCell: UICollectionViewCell {
         
         imageView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(120)
+            make.height.equalTo(200)
         }
+        imageView.layer.cornerRadius = 15
+        imageView.clipsToBounds = true
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(5)
+            make.top.equalTo(imageView.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(5)
-            make.height.equalTo(20)
         }
         
         creatorImage.snp.makeConstraints { make in
@@ -57,11 +58,13 @@ class TrendingCollectionViewCell: UICollectionViewCell {
     
     func  configure(with recipe: Recipe) {
         titleLabel.text = recipe.title
-        titleLabel.font = UIFont(name: AppFont.SemiBold, size: 12)
+        titleLabel.font = UIFont(name: AppFont.SemiBold, size: 17)
         titleLabel.textColor = UIColor(named: "Neutral 100")
         imageView.image = UIImage(named: recipe.image)
         creatorImage.image = UIImage(named: recipe.creator.profileImageUrl ?? "")
         creatorLabel.text = "By \(recipe.creator.name)"
+        creatorLabel.textColor = UIColor(named: "Neutral 50")
+        creatorLabel.font = UIFont(name: AppFont.Regular, size: 14)
     }
     
 }

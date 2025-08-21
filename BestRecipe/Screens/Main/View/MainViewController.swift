@@ -133,7 +133,7 @@ class MainViewController: UIViewController, UISearchBarDelegate {
     
     func configureTrendingCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 150, height: 200)
+        layout.itemSize = CGSize(width: 300, height: 200)
         layout.scrollDirection = .horizontal
         trendingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         trendingCollectionView.dataSource = self
@@ -148,12 +148,12 @@ class MainViewController: UIViewController, UISearchBarDelegate {
         viewModel.loadMockData()
         
         trendingCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(trendingLabel.snp.bottom).offset(10)
+            make.top.equalToSuperview().inset(230)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(220)
+            make.height.equalTo(330)
         }
         
-        trendingCollectionView.backgroundColor = .systemGray6
+        trendingCollectionView.backgroundColor = .clear
     }
     
 }

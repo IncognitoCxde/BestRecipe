@@ -10,9 +10,9 @@ import UIKit
 class MainViewModel {
     // Mock data 4 now
     var trendingRecipes: [Recipe] = [
-        Recipe(id: 1, title: "Grilled Eggplant Salad", image: "eggplantSalad", readyInMinutes: 30, servings: 3, sourceName: "", sourceUrl: "", healthScore: 8.2, creator: Creator(name: "Zeelicious Recipes", profileImageUrl: "chef")),
-        Recipe(id: 2, title: "Smash NYC Burger", image: "burger", readyInMinutes: 45, servings: 2, sourceName: "", sourceUrl: "", healthScore: 5.8, creator: Creator(name: "Zeelicious Recipes", profileImageUrl: "chef")),
-        Recipe(id: 3, title: "Summer Coleslaw Sandwich", image: "sandwich", readyInMinutes: 10, servings: 4, sourceName: "", sourceUrl: "", healthScore: 7, creator: Creator(name: "Zeelicious Recipes", profileImageUrl: "chef"))
+        Recipe(id: 1, title: "Spicy Salmon with edamame", image: "salmon", readyInMinutes: 40, servings: 3, sourceName: "", sourceUrl: "", healthScore: 8.2, creator: Creator(name: "Zeelicious Foods", profileImageUrl: "chef")),
+        Recipe(id: 2, title: "The Perfect Steak", image: "steak", readyInMinutes: 45, servings: 2, sourceName: "", sourceUrl: "", healthScore: 7.2, creator: Creator(name: "Zeelicious Foods", profileImageUrl: "chef")),
+        Recipe(id: 3, title: "Authentic Fettuccine Alfredo", image: "spaghetti", readyInMinutes: 30, servings: 4, sourceName: "", sourceUrl: "", healthScore: 6, creator: Creator(name: "Zeelicious Foods", profileImageUrl: "chef"))
     ]
     
     var onDataUpdated: (() -> Void)?
