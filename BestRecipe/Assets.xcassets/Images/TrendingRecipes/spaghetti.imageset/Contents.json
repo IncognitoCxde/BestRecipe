@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "burger.png",
+      "filename" : "spaghetti.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "burger@2x.png",
+      "filename" : "spaghetti@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "burger@3x.png",
+      "filename" : "spaghetti@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

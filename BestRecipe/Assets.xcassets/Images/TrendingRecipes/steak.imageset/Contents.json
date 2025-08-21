@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "484c4003838ff647482d6df0b927564f390639be.jpg",
+      "filename" : "steak.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "484c4003838ff647482d6df0b927564f390639be 1.jpg",
+      "filename" : "steak@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "484c4003838ff647482d6df0b927564f390639be 2.jpg",
+      "filename" : "steak@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
