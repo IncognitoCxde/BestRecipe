@@ -1,58 +1,45 @@
 //
-//  TrendingCollectionViewCell.swift
+//  RecentCollectionViewCell.swift
 //  BestRecipe
 //
-//  Created by iMacbook on 8/20/25.
+//  Created by iMacbook on 8/22/25.
 //
 
 import UIKit
 
-class TrendingCollectionViewCell: UICollectionViewCell {
-    static let identifier = "TrendingCollectionViewCell"
+class RecentCollectionViewCell: UICollectionViewCell {
+    
+    static let identifier = "RecentCollectionViewCell"
     
     private let titleLabel = UILabel()
     private let imageView = UIImageView()
     private let creatorLabel = UILabel()
-    private let creatorImage = UIImageView()
-    private let ratingButton = UIButton()
-    private let saveButton = UIButton()
-   
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(titleLabel)
         contentView.addSubview(imageView)
-        contentView.addSubview(creatorImage)
         contentView.addSubview(creatorLabel)
         
         imageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(8)
             make.leading.trailing.equalToSuperview().inset(10)
-            make.height.equalTo(200)
+            make.height.equalTo(160)
         }
         imageView.layer.cornerRadius = 15
         imageView.clipsToBounds = true
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(5)
+            make.leading.equalTo(imageView.snp.leading)
         }
-        
-        creatorImage.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(5)
-            make.leading.equalToSuperview().offset(5)
-            make.width.height.equalTo(30)
-        }
-        creatorImage.layer.cornerRadius = 15
-        creatorImage.clipsToBounds = true
         
         creatorLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(creatorImage)
-            make.leading.equalTo(creatorImage.snp.trailing).offset(5)
-            make.trailing.equalToSuperview().inset(5)
+            make.leading.equalTo(titleLabel.snp.leading)
+            make.bottom.equalToSuperview()
             make.height.equalTo(30)
             
         }
-        
     }
     
     required init?(coder: NSCoder) {
@@ -61,13 +48,11 @@ class TrendingCollectionViewCell: UICollectionViewCell {
     
     func  configure(with recipe: Recipe) {
         titleLabel.text = recipe.title
-        titleLabel.font = UIFont(name: AppFont.SemiBold, size: 17)
+        titleLabel.font = UIFont(name: AppFont.SemiBold, size: 15)
         titleLabel.textColor = .neutral100
         imageView.image = UIImage(named: recipe.image)
-        creatorImage.image = UIImage(named: recipe.creator.profileImageUrl ?? "")
         creatorLabel.text = "By \(recipe.creator.name)"
         creatorLabel.textColor = .neutral60
-        creatorLabel.font = UIFont(name: AppFont.Regular, size: 14)
+        creatorLabel.font = UIFont(name: AppFont.Regular, size: 13)
     }
-    
 }
