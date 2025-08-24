@@ -19,11 +19,13 @@ class PopularCategoryCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-//    override var isSelected: Bool {
-//        didSet {
-//            label.textColor = isSelected ? .white : .primary30
-//        }
-//    }
+    // fix after section constraints solved
+    
+    override var isSelected: Bool {
+        didSet {
+            label.textColor = isSelected ? .white : .primary30
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,11 +38,11 @@ class PopularCategoryCollectionViewCell: UICollectionViewCell {
             make.bottom.equalToSuperview()
         }
         
-//        let selectedView = UIView()
-//        selectedView.backgroundColor = .primary50
-//        selectedView.layer.masksToBounds = true
-//        selectedView.layer.cornerRadius = 10
-//        selectedBackgroundView = selectedView
+        let selectedView = UIView()
+        selectedView.backgroundColor = .primary50
+        selectedView.layer.masksToBounds = true
+        selectedView.layer.cornerRadius = 10
+        selectedBackgroundView = selectedView
     }
     
     required init?(coder: NSCoder) {
