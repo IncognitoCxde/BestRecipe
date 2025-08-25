@@ -18,6 +18,7 @@ class PopularCollectionViewCell: UICollectionViewCell {
     private let saveButton = UIButton()
     
     
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(rectangularBackground)
@@ -85,8 +86,13 @@ class PopularCollectionViewCell: UICollectionViewCell {
         timeCount.text = "\(recipe.timeTaken ?? 0) mins"
         timeCount.font = UIFont(name: AppFont.SemiBold, size: 14)
         timeCount.textColor = .neutral100
-        saveButton.setImage(UIImage(named: "Bookmark"), for: .normal)
+        saveButton.setImage(UIImage(systemName: "bookmark.circle"), for: .normal)
+        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         
+    }
+    
+    @objc func saveButtonTapped() {
+        print("save button tapped")
     }
 }
 

@@ -17,6 +17,14 @@ class SectionHeaderReusableView: UICollectionReusableView {
         return label
     }()
     
+    private let seeAllButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("See All ->", for: .normal)
+        button.setTitleColor(.primary50, for: .normal)
+        button.titleLabel?.font = UIFont(name: AppFont.Regular, size: 13)
+        return button
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(titleLabel)
