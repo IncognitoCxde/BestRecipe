@@ -15,7 +15,7 @@ class TrendingCollectionViewCell: UICollectionViewCell {
     private let creatorLabel = UILabel()
     private let creatorImage = UIImageView()
     private let ratingButton = UIButton()
-    private let saveButton = UIButton()
+    private let saveButton = UIButton.configureSaveButton()
    
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,6 +23,7 @@ class TrendingCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(imageView)
         contentView.addSubview(creatorImage)
         contentView.addSubview(creatorLabel)
+        contentView.addSubview(saveButton)
         
         imageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(8)
@@ -52,6 +53,12 @@ class TrendingCollectionViewCell: UICollectionViewCell {
             make.height.equalTo(30)
             
         }
+        saveButton.snp.makeConstraints { make in
+            make.top.equalTo(imageView.snp.top).inset(5)
+            make.trailing.equalTo(imageView.snp.trailing).inset(10)
+            make.width.equalTo(60)
+            make.height.equalTo(65)
+        }
         
     }
     
@@ -68,6 +75,23 @@ class TrendingCollectionViewCell: UICollectionViewCell {
         creatorLabel.text = "By \(recipe.creator.name)"
         creatorLabel.textColor = .neutral60
         creatorLabel.font = UIFont(name: AppFont.Regular, size: 14)
+        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc func saveButtonTapped() {
+        print("saved!")
     }
     
 }
+
+
+extension UIButton {
+    static func configureSaveButton() -> UIButton {
+        let savebutton = UIButton()
+        savebutton.setImage(UIImage(named: "Bookmark"), for: .normal)
+        savebutton.contentVerticalAlignment = .fill
+        savebutton.contentHorizontalAlignment = .fill
+        return savebutton
+    }
+}
+
