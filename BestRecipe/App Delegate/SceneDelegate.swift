@@ -10,14 +10,25 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var coordinator: AppCoordinator?
 
+    func scene(_ scene: UIScene,
+               willConnectTo session: UISceneSession,
+               options connectionOptions: UIScene.ConnectionOptions) {
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        print("SceneDelegate: scene(_:willConnectTo:options:) запущен")
 
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-               guard let windowScene = (scene as? UIWindowScene) else { return }
-               let window = UIWindow(windowScene: windowScene)
-               window.rootViewController = MainViewController()
-               window.makeKeyAndVisible()
-               self.window = window
+        let window = UIWindow(windowScene: windowScene)
+        self.window = window
+
+        let storage = OnboardingStorage()
+        print("SceneDelegate: OnboardingStorage создан")
+
+        coordinator = AppCoordinator(window: window, storage: storage)
+        print("SceneDelegate: AppCoordinator инициализирован")
+
+        coordinator?.start()
+        print("SceneDelegate: coordinator?.start() вызван. Окно должно быть видно.")
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -47,6 +58,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
+    
 
 
 }
