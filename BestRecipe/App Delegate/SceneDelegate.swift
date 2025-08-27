@@ -13,11 +13,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-               guard let windowScene = (scene as? UIWindowScene) else { return }
-               let window = UIWindow(windowScene: windowScene)
-               window.rootViewController = SavedScreenViewController()
-               window.makeKeyAndVisible()
-               self.window = window
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        let window = UIWindow(windowScene: windowScene)
+        let savedRecipesVC = SavedScreenViewController()
+        let navigationController = UINavigationController(rootViewController: savedRecipesVC)
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
+        self.window = window
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
