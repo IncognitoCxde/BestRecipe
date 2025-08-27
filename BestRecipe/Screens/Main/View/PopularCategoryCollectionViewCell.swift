@@ -19,11 +19,14 @@ class PopularCategoryCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    // fix after section constraints solved
-    
     override var isSelected: Bool {
         didSet {
+            let selectedView = UIView()
+            selectedView.backgroundColor = .primary50
+            selectedView.layer.masksToBounds = true
+            selectedView.layer.cornerRadius = 10
             label.textColor = isSelected ? .white : .primary30
+            selectedBackgroundView = selectedView
         }
     }
     
@@ -32,17 +35,11 @@ class PopularCategoryCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(label)
         
         label.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(5)
+            make.top.equalToSuperview().inset(10)
             make.leading.equalTo(contentView.snp.leading)
             make.trailing.equalTo(contentView.snp.trailing).inset(10)
             make.bottom.equalToSuperview()
         }
-        
-        let selectedView = UIView()
-        selectedView.backgroundColor = .primary50
-        selectedView.layer.masksToBounds = true
-        selectedView.layer.cornerRadius = 10
-        selectedBackgroundView = selectedView
     }
     
     required init?(coder: NSCoder) {

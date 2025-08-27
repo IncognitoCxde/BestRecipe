@@ -29,7 +29,7 @@ class PopularCollectionViewCell: UICollectionViewCell {
         
         rectangularBackground.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(20)
-            make.leading.trailing.equalToSuperview().inset(10)
+            make.leading.trailing.equalToSuperview().inset(5)
             make.height.equalTo(180)
         }
         
@@ -60,8 +60,6 @@ class PopularCollectionViewCell: UICollectionViewCell {
             make.width.equalTo(60)
             make.height.equalTo(65)
         }
-        
-        
     }
     
     required init?(coder: NSCoder) {
@@ -87,7 +85,7 @@ class PopularCollectionViewCell: UICollectionViewCell {
         timeCount.font = UIFont(name: AppFont.SemiBold, size: 14)
         timeCount.textColor = .neutral100
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-        
+
     }
     
     @objc func saveButtonTapped() {

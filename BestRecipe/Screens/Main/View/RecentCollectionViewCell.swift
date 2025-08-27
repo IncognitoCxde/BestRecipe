@@ -23,7 +23,7 @@ class RecentCollectionViewCell: UICollectionViewCell {
         
         imageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(8)
-            make.leading.trailing.equalToSuperview().inset(10)
+            make.leading.trailing.equalToSuperview().inset(5)
             make.height.equalTo(160)
         }
         imageView.layer.cornerRadius = 15
