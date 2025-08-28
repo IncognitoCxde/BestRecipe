@@ -22,7 +22,7 @@ class PopularCategoryCollectionViewCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             label.textColor = isSelected ? .primary50 : .primary30
-            label.font = isSelected ? UIFont(name: AppFont.SemiBold, size: 16) : UIFont(name: AppFont.SemiBold, size: 15)
+            label.font = isSelected ? UIFont(name: AppFont.SemiBold, size: 17) : UIFont(name: AppFont.SemiBold, size: 15)
         }
     }
     
@@ -46,4 +46,6 @@ class PopularCategoryCollectionViewCell: UICollectionViewCell {
     func configure(with text: String) {
         label.text = text
     }
+    
+    
 }

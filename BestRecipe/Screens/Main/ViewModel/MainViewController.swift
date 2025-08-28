@@ -308,13 +308,13 @@ extension MainViewController: UICollectionViewDataSource {
         ) as! SectionHeaderReusableView
         
         if indexPath.section == 0 {
-            header.configure(title: "Trending Now 🔥")
+            header.configure(title: "Trending Now 🔥", showButton: true)
         } else if indexPath.section == 1 {
-            header.configure(title: "Popular Categories")
+            header.configure(title: "Popular Categories", showButton: false)
         } else if indexPath.section == 3{
-            header.configure(title: "Recent recipes")
+            header.configure(title: "Recent recipes", showButton: true)
         } else {
-            header.configure(title: "")
+            header.configure(title: "", showButton: false)
         }
         
         return header
