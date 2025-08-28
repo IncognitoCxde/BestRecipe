@@ -36,14 +36,13 @@ class CustomButton: UIButton {
     // MARK: - Configuration
     private func setupButton() {
         setTitleColor(.white, for: .normal)
-        titleLabel?.font = .SemiBold(size: 20)
+        titleLabel?.font = UIFont(name: AppFont.SemiBold, size: 20)
         titleLabel?.adjustsFontSizeToFitWidth = false
         titleLabel?.minimumScaleFactor = 1.0
         titleLabel?.lineBreakMode = .byClipping
         backgroundColor = .primary50
         layer.cornerRadius = customCornerRadius
         layer.masksToBounds = true
-        contentEdgeInsets = UIEdgeInsets(top: 10, left: 18, bottom: 10, right: 18)
     }
     
    

@@ -14,7 +14,7 @@ final class HomeViewController: UIViewController {
         
         let label = UILabel()
         label.text = "🍳 Home Screen"
-        label.font = .Bold(size: 24)
+        label.font = UIFont(name: AppFont.SemiBold, size: 24)
         label.textAlignment = .center
         view.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false

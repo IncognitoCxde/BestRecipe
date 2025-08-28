@@ -31,13 +31,13 @@ final class OnboardingViewModel {
         self.pages = [
             .init(title: "Recipes from\nall over the\nWorld",
                   subtitle: "",
-                  imageName: "Image1"),
+                  imageName: "onboarding2"),
             .init(title: "Recipes with\n each and every detail",
                   subtitle: "",
-                  imageName: "Image2"),
-            .init(title: "Cook it now or\nsave it for later",
+                  imageName: "onboarding3"),
+            .init(title: "Cook it now or \nsave it for later",
                   subtitle: "",
-                  imageName: "Image3")
+                  imageName: "onboarding4")
         ]
     }
     

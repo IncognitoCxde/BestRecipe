@@ -25,7 +25,7 @@ final class OnboardingPageViewController: UIViewController {
     private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = .systemFont(ofSize: 30, weight: .regular)
+        label.font = UIFont(name: AppFont.Regular, size: 30)
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -41,7 +41,7 @@ final class OnboardingPageViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("Skip", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        button.titleLabel?.font = UIFont(name: AppFont.Medium, size: 14)
         return button
     }()
     
@@ -149,7 +149,7 @@ final class OnboardingPageViewController: UIViewController {
                                 "1": ["over the"],
                                 "2": ["World"]
                               ],
-                              color: thirdColor)
+                               color: .secondary50)
         case 1:
             // "Recipes with\neach and every detail"
             // Строка 0: "Recipes with" - ничего не красим
@@ -158,7 +158,7 @@ final class OnboardingPageViewController: UIViewController {
                               coloredParts: [
                                 "1": ["each and every detail"]
                               ],
-                              color: thirdColor)
+                               color: .secondary50)
         case 2:
             // "Cook it now or\nsave it for later"
             // Строка 0: "Cook it now or" - ничего не красим
@@ -167,7 +167,7 @@ final class OnboardingPageViewController: UIViewController {
                               coloredParts: [
                                 "1": ["save it for later"]
                               ],
-                              color: thirdColor)
+                               color: .secondary50)
         default:
             titleLabel.setText(page.title, coloredParts: [:], color: thirdColor)
         }

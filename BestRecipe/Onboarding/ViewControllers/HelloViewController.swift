@@ -10,23 +10,23 @@ import SnapKit
 final class HelloViewController: UIViewController {
 
     private let viewModel: HelloViewModel
-    private let bg = BackgroundImageView(imageName: "hello")
+    private let bg = BackgroundImageView(imageName: "onboarding1")
     private let gradientOverlay = GradientOverlayView() // Используем кастомный градиент
     
     private let premiumLabel: UILabel = {
         let label = UILabel()
         label.text = "⭐ 100k+ Premium recipes"
         label.textColor = .white
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.font = UIFont(name: AppFont.Medium, size: 16)
         label.textAlignment = .center
         return label
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Best\nRecipe"
+        label.text = "BEST \nRECIPE"
         label.textColor = .white
-        label.font = .systemFont(ofSize: 40, weight: .bold)
+        label.font = UIFont(name: AppFont.Bold, size: 50)
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -35,7 +35,7 @@ final class HelloViewController: UIViewController {
     private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = .systemFont(ofSize: 18, weight: .medium)
+        label.font = UIFont(name: AppFont.Medium, size: 17)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.text = "Find best recipes for cooking"
@@ -86,7 +86,7 @@ final class HelloViewController: UIViewController {
         let stack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel, ctaButton])
         stack.axis = .vertical
         stack.alignment = .center
-        stack.spacing = 16
+        stack.spacing = 20
         view.addSubview(stack)
         
         stack.snp.makeConstraints { make in
@@ -95,7 +95,7 @@ final class HelloViewController: UIViewController {
         }
         
         ctaButton.snp.makeConstraints { make in
-            make.width.greaterThanOrEqualTo(220)
+            make.width.greaterThanOrEqualTo(200)
             make.height.equalTo(52)
         }
         

@@ -28,7 +28,7 @@ class CustomLabel: UILabel {
     // MARK: - Configuration
     private func setupLabel() {
         textColor = .white
-        font = UIFont.Bold(size: 60) // большой, но адаптивный
+        font = UIFont(name: AppFont.SemiBold, size: 50) // большой, но адаптивный
         textAlignment = .center
         numberOfLines = 0
         adjustsFontSizeToFitWidth = true
@@ -90,9 +90,9 @@ final class MulticolorTitleLabel: UIView {
             
             let label = UILabel()
             label.attributedText = attributedString
-            label.font = UIFont.systemFont(ofSize: 40, weight: .bold)
+            label.font = UIFont(name: AppFont.SemiBold, size: 43)
             label.textAlignment = .center
-            label.numberOfLines = 0
+            label.numberOfLines = 2
             label.adjustsFontSizeToFitWidth = true
             label.minimumScaleFactor = 0.1
             
