@@ -10,18 +10,37 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
-
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+    var coordinator: AppCoordinator?
+    
+    func scene(_ scene: UIScene,
+               willConnectTo session: UISceneSession,
+               options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        print("SceneDelegate: scene(_:willConnectTo:options:) запущен")
+        
         let window = UIWindow(windowScene: windowScene)
-        
-        let tabbarVC = TabBarController()
-        
-        window.rootViewController = UINavigationController(rootViewController: tabbarVC)
-        window.makeKeyAndVisible()
         self.window = window
-    }
+        
+        let storage = OnboardingStorage()
+        print("SceneDelegate: OnboardingStorage создан")
+        
+        coordinator = AppCoordinator(window: window, storage: storage)
+        print("SceneDelegate: AppCoordinator инициализирован")
+        
+        coordinator?.start()
+        print("SceneDelegate: coordinator?.start() вызван. Окно должно быть видно.")
+    
+
+//    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+//        guard let windowScene = (scene as? UIWindowScene) else { return }
+//        let window = UIWindow(windowScene: windowScene)
+//        
+//        let tabbarVC = TabBarController()
+//        
+//        window.rootViewController = UINavigationController(rootViewController: tabbarVC)
+//        window.makeKeyAndVisible()
+//        self.window = window
+//    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
