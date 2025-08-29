@@ -39,7 +39,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = helloViewController
         }
         
-        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
