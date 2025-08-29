@@ -8,9 +8,9 @@
 import Foundation
 
 class RecipeDetailViewModel {
-    private(set) var recipe: Recipe
+    private(set) var recipe: RecipeDetails
 
-    init(recipe: Recipe) {
+    init(recipe: RecipeDetails) {
         self.recipe = recipe
     }
 

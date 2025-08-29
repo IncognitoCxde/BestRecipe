@@ -1,13 +1,14 @@
 //
-//  Recipe.swift
+//  RecipeDetails.swift
 //  BestRecipe
 //
-//  Created by Administration  on 22/08/25.
+//  Created by iMacbook on 8/29/25.
 //
+
 
 import Foundation
 
-struct Recipe {
+struct RecipeDetails {
     let title: String
     let time: String
     let imageName: String

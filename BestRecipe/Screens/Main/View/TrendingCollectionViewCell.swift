@@ -80,12 +80,13 @@ class TrendingCollectionViewCell: UICollectionViewCell {
     
     @objc func saveButtonTapped() {
         print("saved!")
+        saveButton.setImage(UIImage(named: "BookmarkSelected"), for: .normal)
     }
     
 }
 
 
-extension UIButton {
+public extension UIButton {
     static func configureSaveButton() -> UIButton {
         let savebutton = UIButton()
         savebutton.setImage(UIImage(named: "Bookmark"), for: .normal)

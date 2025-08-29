@@ -68,10 +68,13 @@ class SectionHeaderReusableView: UICollectionReusableView {
         titleLabel.text = title
         seeAllButton.isHidden = !showButton
         arrowButton.isHidden = !showButton
+        
     }
     
+    
+    
     @objc func seeAllButtonTapped() {
-        print("transfer user to all recipes")
+        print("user transferred!")
     }
 }
 

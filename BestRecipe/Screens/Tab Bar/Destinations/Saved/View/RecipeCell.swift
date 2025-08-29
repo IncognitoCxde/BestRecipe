@@ -22,8 +22,8 @@ class RecipeCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        label.textColor = .black
+        label.font = UIFont(name: AppFont.SemiBold, size: 18)
+        label.textColor = .neutral100
         label.numberOfLines = 0
         return label
     }()
@@ -42,28 +42,30 @@ class RecipeCell: UITableViewCell {
     
     private let ratingIcon: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "star.fill"))
-        imageView.tintColor = .systemYellow
+        imageView.tintColor = .neutral100
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     private let ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label.font = UIFont(name: AppFont.Regular, size: 14)
         label.textColor = .white
         return label
     }()
     
+    
     private let saveButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "bookmark"), for: .normal)
-        button.tintColor = .white
+        let button = UIButton()
+        button.setImage(UIImage(named: "BookmarkSelected"), for: .normal)
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
         return button
     }()
     
     private let timeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        label.font = UIFont(name: AppFont.SemiBold, size: 14)
         label.textColor = .white
         label.backgroundColor = UIColor(white: 0, alpha: 0.5)
         label.layer.cornerRadius = 8
@@ -119,19 +121,19 @@ class RecipeCell: UITableViewCell {
         
         saveButton.snp.makeConstraints { make in
             make.top.trailing.equalToSuperview().inset(10)
-            make.width.height.equalTo(30)
+            make.width.height.equalTo(60)
         }
         
         timeLabel.snp.makeConstraints { make in
             make.trailing.bottom.equalToSuperview().inset(10)
-            make.height.equalTo(25)
+            make.height.equalTo(35)
             make.width.equalTo(60)
         }
     }
     
     // MARK: - Public Methods
     
-    func configure(with recipe: Recipe) {
+    func configure(with recipe: RecipeDetails) {
         recipeImageView.image = UIImage(named: recipe.imageName)
         titleLabel.text = recipe.title
         ratingLabel.text = "\(recipe.rating)"

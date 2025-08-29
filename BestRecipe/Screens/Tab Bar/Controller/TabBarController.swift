@@ -48,7 +48,7 @@ class TabBarController: UITabBarController {
     
     func setupTabs() {
         let v1 = createNavigationController(with: UIImage(systemName: "house"), vc: MainViewController())
-        let v2 = createNavigationController(with: UIImage(systemName: "bookmark"), vc: SavedViewController())
+        let v2 = createNavigationController(with: UIImage(systemName: "bookmark"), vc: SavedScreenViewController())
         let v3 = createNavigationController(with: UIImage(systemName: "bell"), vc: NotificationViewController())
         let v4 = createNavigationController(with: UIImage(systemName: "person"), vc: ProfileViewController())
         

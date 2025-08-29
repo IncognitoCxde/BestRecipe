@@ -37,32 +37,30 @@ class RecipeDetailsViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.font = UIFont(name: AppFont.SemiBold, size: 24)
         label.numberOfLines = 0
         return label
     }()
     
     private let ratingStackView: UIStackView = {
         let starImageView = UIImageView()
-        starImageView.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-        starImageView.tintColor = UIColor(named: "Neutral 100")
+        starImageView.image = UIImage(named: "Star")
+        starImageView.tintColor = .neutral100
         starImageView.contentMode = .scaleAspectFit
         starImageView.snp.makeConstraints { make in
             make.width.height.equalTo(16)
         }
 
         let ratingValueLabel = UILabel()
-        ratingValueLabel.font = .systemFont(ofSize: 16, weight: .semibold)
-        ratingValueLabel.textColor = UIColor(named: "Neutral 100")
+        ratingValueLabel.font = UIFont(name: AppFont.SemiBold, size: 16)
+        ratingValueLabel.textColor = .neutral100
 
         let reviewsLabel = UILabel()
-        reviewsLabel.font = .systemFont(ofSize: 16)
-        reviewsLabel.textColor = .systemGray
+        reviewsLabel.font = UIFont(name: AppFont.Regular, size: 16)
+        reviewsLabel.textColor = .neutral50
         reviewsLabel.text = ""
 
         let textStack = UIStackView(arrangedSubviews: [ratingValueLabel, reviewsLabel])
-        textStack.axis = .horizontal
-        textStack.spacing = 7
 
         let mainStack = UIStackView(arrangedSubviews: [starImageView, textStack])
         mainStack.axis = .horizontal
@@ -75,7 +73,7 @@ class RecipeDetailsViewController: UIViewController {
     private let instructionsTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Instructions"
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.font = UIFont(name: AppFont.SemiBold, size: 20)
         return label
     }()
     
@@ -89,7 +87,7 @@ class RecipeDetailsViewController: UIViewController {
     private let ingredientsTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Ingredients"
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.font = UIFont(name: AppFont.SemiBold, size: 20)
         return label
     }()
     
@@ -149,7 +147,7 @@ class RecipeDetailsViewController: UIViewController {
         let backButton = UIButton(type: .system)
         let icon = UIImage(systemName: "arrow.left")?.withRenderingMode(.alwaysTemplate)
         backButton.setImage(icon, for: .normal)
-        backButton.tintColor = UIColor(named: "Neutral 100")
+        backButton.tintColor = .neutral100
         backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
@@ -177,12 +175,13 @@ class RecipeDetailsViewController: UIViewController {
         if let image = UIImage(named: viewModel.recipe.imageName) {
             recipeImageView.image = image
         } else {
-             recipeImageView.image = UIImage(systemName: "photo")
+            recipeImageView.image = UIImage(systemName: "square.dashed")
+            recipeImageView.tintColor = .neutral60
         }
         
         for (index, instruction) in viewModel.recipeInstructions.enumerated() {
             let instructionLabel = UILabel()
-            instructionLabel.font = .systemFont(ofSize: 16)
+            instructionLabel.font = UIFont(name: AppFont.Regular, size: 16)
             instructionLabel.text = "\(index + 1). \(instruction)"
             instructionLabel.numberOfLines = 0
             instructionsStackView.addArrangedSubview(instructionLabel)

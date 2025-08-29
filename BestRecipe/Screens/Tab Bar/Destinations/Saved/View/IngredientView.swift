@@ -30,28 +30,29 @@ class IngredientView: UIView {
     }
 
     private func setupUI(ingredient: Ingredient) {
-        backgroundColor = UIColor.systemGray5
+        backgroundColor = .neutral40
         layer.cornerRadius = 10
         clipsToBounds = true
 
-        imageView.image = UIImage(named: ingredient.imageName) ?? UIImage(systemName: "photo")
+        imageView.image = UIImage(named: ingredient.imageName) ?? UIImage(systemName: "square.dashed")
+        imageView.tintColor = .neutral60
         imageView.contentMode = .scaleAspectFit
         imageView.snp.makeConstraints { $0.size.equalTo(40) }
 
         nameLabel.text = ingredient.name
-        nameLabel.font = .systemFont(ofSize: 16, weight: .bold)
+        nameLabel.font = UIFont(name: AppFont.SemiBold, size: 16)
         nameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
 
         quantityLabel.text = ingredient.quantity
-        quantityLabel.font = .systemFont(ofSize: 14)
-        quantityLabel.textColor = .gray
+        quantityLabel.font = UIFont(name: AppFont.Regular, size: 14)
+        quantityLabel.textColor = .neutral60
         quantityLabel.setContentHuggingPriority(.required, for: .horizontal)
 
         // MARK: - Initial Checkbox Setup
         checkboxButton.layer.cornerRadius = 11.5
         checkboxButton.layer.borderWidth = 2
-        checkboxButton.layer.borderColor = UIColor.black.cgColor
-        checkboxButton.backgroundColor = .black
+        checkboxButton.layer.borderColor = UIColor.neutral100.cgColor
+        checkboxButton.backgroundColor = .neutral100
         checkboxButton.tintColor = .white
         checkboxButton.setImage(nil, for: .normal)
         checkboxButton.snp.makeConstraints { $0.size.equalTo(23) }
@@ -83,13 +84,13 @@ class IngredientView: UIView {
     private func updateCheckboxAppearance() {
         if isChecked {
             checkboxButton.backgroundColor = .systemRed
-            checkboxButton.layer.borderColor = UIColor.systemRed.cgColor
+            checkboxButton.layer.borderColor = UIColor.primary50.cgColor
             let checkmark = UIImage(systemName: "checkmark")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .bold))
             checkboxButton.setImage(checkmark, for: .normal)
             checkboxButton.tintColor = .white
         } else {
-            checkboxButton.backgroundColor = .black
-            checkboxButton.layer.borderColor = UIColor.black.cgColor
+            checkboxButton.backgroundColor = .neutral100
+            checkboxButton.layer.borderColor = UIColor.neutral100.cgColor
             let checkmark = UIImage(systemName: "checkmark")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .bold))
             checkboxButton.setImage(checkmark, for: .normal)
             checkboxButton.tintColor = .white

@@ -90,6 +90,7 @@ class PopularCollectionViewCell: UICollectionViewCell {
     
     @objc func saveButtonTapped() {
         print("saved!")
+        saveButton.setImage(UIImage(named: "BookmarkSelected"), for: .normal)
     }
 }
 
