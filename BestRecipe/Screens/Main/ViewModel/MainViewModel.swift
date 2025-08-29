@@ -39,24 +39,6 @@ class MainViewModel {
     
     var onDataUpdated: (() -> Void)?
     
-    var selectedCategory: String? {
-        didSet {
-            filterPopularRecipes()
-        }
-    }
-    
-    var onPopularRecipesUpdated: (() -> Void)?
-
-    
-    private func filterPopularRecipes() {
-        if let category = selectedCategory {
-            filteredPopularRecipes = allPopularRecipes.filter { $0.category == category }
-        } else {
-            filteredPopularRecipes = allPopularRecipes
-        }
-        
-        onPopularRecipesUpdated?()
-    }
     
     func recipes(for section: RecipeSectionType) -> [Recipe] {
         switch section {
