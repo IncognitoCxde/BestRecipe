@@ -9,7 +9,7 @@ import UIKit
 final class AppCoordinator {
     private let window: UIWindow
     private let storage: OnboardingStorageProtocol
-    private var navigationController: UINavigationController?
+    var navigationController: UINavigationController?
 
     init(window: UIWindow, storage: OnboardingStorageProtocol) {
         self.window = window
@@ -33,19 +33,25 @@ final class AppCoordinator {
         print("AppCoordinator: start() завершен.")
     }
 
-    private func showHello() {
+    func showHello() {
         print("Coordinator: showHello()")
         let helloViewModel = HelloViewModel()
         let helloViewController = HelloViewController(viewModel: helloViewModel)
-
+        
         helloViewModel.onContinue = { [weak self] in
             print("Coordinator: Замыкание helloViewModel.onContinue вызвано")
             self?.showOnboarding()
         }
-
+        
         navigationController = UINavigationController(rootViewController: helloViewController)
         navigationController?.isNavigationBarHidden = true
         window.rootViewController = navigationController
+        
+//        if storage.hasSeenOnboarding == true {
+//            window.rootViewController = TabBarController()
+//        } else if storage.hasSeenOnboarding == false {
+//            window.rootViewController = helloViewController
+//        }
     }
 
     private func showOnboarding() {
@@ -66,14 +72,14 @@ final class AppCoordinator {
 
     private func showHome() {
         print("Coordinator: showHome()")
-        let homeViewController = HomeViewController()
-        let navController = UINavigationController(rootViewController: homeViewController)
+        let MainViewController = MainViewController()
+        let navController = UINavigationController(rootViewController: MainViewController)
         navController.isNavigationBarHidden = true
 
         UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {
             self.window.rootViewController = navController
         }, completion: { _ in
-            print("Coordinator: Успешно перешли на HomeViewController.")
+            print("Coordinator: Успешно перешли на MainViewController.")
         })
     }
 }

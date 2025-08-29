@@ -320,6 +320,17 @@ extension MainViewController: UICollectionViewDataSource {
         return header
     }
     
+    @objc private func resetOnboarding() {
+        UserDefaults.standard.removeObject(forKey: "hasSeenOnboarding")
+        UserDefaults.standard.synchronize()
+        print("🔄 Онбординг сброшен")
+        
+        if let window = view.window {
+            let storage = OnboardingStorage()
+            let coordinator = AppCoordinator(window: window, storage: storage)
+            coordinator.start()
+        }
+    }
 }
 
 // MARK: - Delegate

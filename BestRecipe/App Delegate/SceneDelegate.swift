@@ -29,18 +29,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         coordinator?.start()
         print("SceneDelegate: coordinator?.start() вызван. Окно должно быть видно.")
-    
-
-//    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-//        guard let windowScene = (scene as? UIWindowScene) else { return }
-//        let window = UIWindow(windowScene: windowScene)
-//        
-//        let tabbarVC = TabBarController()
-//        
-//        window.rootViewController = UINavigationController(rootViewController: tabbarVC)
-//        window.makeKeyAndVisible()
-//        self.window = window
-//    }
+        
+        let helloViewModel = HelloViewModel()
+        let helloViewController = HelloViewController(viewModel: helloViewModel)
+        
+        if storage.hasSeenOnboarding == true {
+            window.rootViewController = TabBarController()
+        } else if storage.hasSeenOnboarding == false {
+            window.rootViewController = helloViewController
+        }
+        
+        
+    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
