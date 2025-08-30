@@ -12,7 +12,8 @@ class TrendingRecipesViewController: UIViewController {
     // MARK: - Variables
     
     let trendingTitle = UILabel()
-    
+    let trendingTableView = UITableView()
+    private let viewModel = SideViewModel()
     
     // MARK: - Lifecycle
     
@@ -28,7 +29,21 @@ class TrendingRecipesViewController: UIViewController {
     private func setUpUI() {
         setupCustomBackButton()
         setUpTitle()
+        setUpTrendingTableView()
         configureConstraints()
+        bindViewModel()
+        
+    }
+    
+    // MARK: - Data Centre
+    
+    func bindViewModel() {
+        viewModel.onDataUpdated = { [weak self] in
+            DispatchQueue.main.async {
+                self?.trendingTableView.reloadData()
+            }
+        }
+        viewModel.loadMockTrendingData()
     }
     
     func setUpTitle() {
@@ -49,6 +64,15 @@ class TrendingRecipesViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
     
+    func setUpTrendingTableView() {
+        trendingTableView.separatorStyle = .none
+        trendingTableView.backgroundColor = .clear
+        trendingTableView.delegate = self
+        trendingTableView.dataSource = self
+        trendingTableView.register(TrendingTableViewCell.self, forCellReuseIdentifier: TrendingTableViewCell.identifier)
+        view.addSubview(trendingTableView)
+    }
+    
     // MARK: - Constraints
     
     func configureConstraints() {
@@ -56,10 +80,50 @@ class TrendingRecipesViewController: UIViewController {
             make.top.equalToSuperview().inset(80)
             make.leading.equalToSuperview().inset(110)
         }
+        
+        trendingTableView.snp.makeConstraints { make in
+            make.top.equalTo(trendingTitle.snp.bottom).offset(20)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     @objc private func backTapped() {
         navigationController?.popViewController(animated: true)
     }
     
+}
+
+// MARK: - Data Source
+
+extension TrendingRecipesViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.trendingRecipes.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TrendingTableViewCell.identifier, for: indexPath) as? TrendingTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        let recipe = viewModel.trendingRecipes[indexPath.row]
+        cell.configure(with: recipe)
+        
+//        if indexPath.row == 1 {
+//            cell.titleLabel.textColor = .white
+//        } else {
+//            cell.titleLabel.textColor = .neutral100
+//        }
+        
+        return cell
+    }
+    
+}
+
+// MARK: - Delegate
+
+extension TrendingRecipesViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 240
+    }
 }
