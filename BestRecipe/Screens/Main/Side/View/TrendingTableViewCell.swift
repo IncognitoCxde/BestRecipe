@@ -22,7 +22,7 @@ class TrendingTableViewCell: UITableViewCell {
    let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.SemiBold, size: 18)
-       label.textColor = .neutral60
+       label.textColor = .neutral100
         label.numberOfLines = 2
         return label
     }()
@@ -67,7 +67,7 @@ class TrendingTableViewCell: UITableViewCell {
     
     private func setupViews() {
         contentView.addSubview(recipeImageView)
-        recipeImageView.addSubview(titleLabel)
+        contentView.addSubview(titleLabel)
         
         ratingStackView.addArrangedSubview(ratingIcon)
         ratingStackView.addArrangedSubview(ratingLabel)
@@ -83,8 +83,8 @@ class TrendingTableViewCell: UITableViewCell {
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(10)
-            make.bottom.equalToSuperview().inset(30)
+            make.leading.equalToSuperview().inset(25)
+            make.top.equalTo(recipeImageView.snp.bottom).offset(10)
         }
         
         ratingStackView.snp.makeConstraints { make in

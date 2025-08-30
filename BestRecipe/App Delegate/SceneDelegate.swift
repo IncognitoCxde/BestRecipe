@@ -30,14 +30,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         coordinator?.start()
         print("SceneDelegate: coordinator?.start() вызван. Окно должно быть видно.")
         
-        let helloViewModel = HelloViewModel()
-        let helloViewController = HelloViewController(viewModel: helloViewModel)
-        
-        if storage.hasSeenOnboarding == true {
-            window.rootViewController = TabBarController()
-        } else if storage.hasSeenOnboarding == false {
-            window.rootViewController = helloViewController
-        }
+//        let helloViewModel = HelloViewModel()
+//        let helloViewController = HelloViewController(viewModel: helloViewModel)
+//        
+//        if storage.hasSeenOnboarding == true {
+//            window.rootViewController = TabBarController()
+//        } else if storage.hasSeenOnboarding == false {
+//            window.rootViewController = helloViewController
+//        }
         
     }
 

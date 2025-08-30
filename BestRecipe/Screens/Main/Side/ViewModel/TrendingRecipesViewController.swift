@@ -35,6 +35,15 @@ class TrendingRecipesViewController: UIViewController {
         
     }
     
+    private func setupCustomBackButton() {
+        let backButton = UIButton(type: .system)
+        let icon = UIImage(systemName: "arrow.left")?.withRenderingMode(.alwaysTemplate)
+        backButton.setImage(icon, for: .normal)
+        backButton.tintColor = .neutral100
+        backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+    }
+    
     // MARK: - Data Centre
     
     func bindViewModel() {
@@ -54,15 +63,6 @@ class TrendingRecipesViewController: UIViewController {
         view.addSubview(trendingTitle)
     }
     
-    
-    private func setupCustomBackButton() {
-        let backButton = UIButton(type: .system)
-        let icon = UIImage(systemName: "arrow.left")?.withRenderingMode(.alwaysTemplate)
-        backButton.setImage(icon, for: .normal)
-        backButton.tintColor = .neutral100
-        backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-    }
     
     func setUpTrendingTableView() {
         trendingTableView.separatorStyle = .none
@@ -109,12 +109,6 @@ extension TrendingRecipesViewController: UITableViewDataSource {
         let recipe = viewModel.trendingRecipes[indexPath.row]
         cell.configure(with: recipe)
         
-//        if indexPath.row == 1 {
-//            cell.titleLabel.textColor = .white
-//        } else {
-//            cell.titleLabel.textColor = .neutral100
-//        }
-        
         return cell
     }
     
@@ -124,6 +118,6 @@ extension TrendingRecipesViewController: UITableViewDataSource {
 
 extension TrendingRecipesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 240
+        return 260
     }
 }
