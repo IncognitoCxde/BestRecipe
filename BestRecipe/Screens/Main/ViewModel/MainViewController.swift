@@ -245,13 +245,25 @@ class MainViewController: UIViewController, UISearchBarDelegate {
             
         }
     }
+    
+    @objc private func resetOnboarding() {
+        UserDefaults.standard.removeObject(forKey: "hasSeenOnboarding")
+        UserDefaults.standard.synchronize()
+        print("🔄 Онбординг сброшен")
+        
+        if let window = view.window {
+            let storage = OnboardingStorage()
+            let coordinator = AppCoordinator(window: window, storage: storage)
+            coordinator.start()
+        }
+    }
 }
 
 
 
 // MARK: - Data Source
 
-extension MainViewController: UICollectionViewDataSource {
+extension MainViewController: UICollectionViewDataSource, SectionHeaderReusableViewDelegate {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return RecipeSectionType.allCases.count
@@ -308,29 +320,30 @@ extension MainViewController: UICollectionViewDataSource {
         ) as! SectionHeaderReusableView
         
         if indexPath.section == 0 {
-            header.configure(title: "Trending Now 🔥", showButton: true)
+            header.configure(title: "Trending Now 🔥", showButton: true, section: indexPath.section, delegate: self)
         } else if indexPath.section == 1 {
-            header.configure(title: "Popular Categories", showButton: false)
-        } else if indexPath.section == 3{
-            header.configure(title: "Recent recipes", showButton: true)
+            header.configure(title: "Popular Categories", showButton: false, section: indexPath.section, delegate: self)
+        } else if indexPath.section == 3 {
+            header.configure(title: "Recent recipes", showButton: true, section: indexPath.section, delegate: self)
         } else {
-            header.configure(title: "", showButton: false)
+            header.configure(title: "", showButton: false, section: indexPath.section, delegate: self)
         }
         
         return header
     }
     
-    @objc private func resetOnboarding() {
-        UserDefaults.standard.removeObject(forKey: "hasSeenOnboarding")
-        UserDefaults.standard.synchronize()
-        print("🔄 Онбординг сброшен")
-        
-        if let window = view.window {
-            let storage = OnboardingStorage()
-            let coordinator = AppCoordinator(window: window, storage: storage)
-            coordinator.start()
+    func sectionHeaderReusableViewDidTapSeeAll(in section: Int) {
+        if section == 0 {
+            let tvc = TrendingRecipesViewController()
+            navigationController?.pushViewController(tvc, animated: true)
+        } else if section == 3 {
+            let rvc = RecentRecipesViewController()
+            navigationController?.pushViewController(rvc, animated: true)
+        } else {
+            
         }
     }
+    
 }
 
 // MARK: - Delegate

@@ -7,8 +7,16 @@
 
 import UIKit
 
+protocol SectionHeaderReusableViewDelegate: AnyObject {
+    func sectionHeaderReusableViewDidTapSeeAll(in section: Int)
+}
+
 class SectionHeaderReusableView: UICollectionReusableView {
+    
     static let identifier = "SectionHeaderReusableView"
+    
+    weak var delegate: SectionHeaderReusableViewDelegate?
+    var section: Int = 0
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -64,17 +72,18 @@ class SectionHeaderReusableView: UICollectionReusableView {
         titleLabel.text = title
     }
     
-    func configure(title: String, showButton: Bool) {
+    func configure(title: String, showButton: Bool, section: Int, delegate: SectionHeaderReusableViewDelegate) {
         titleLabel.text = title
         seeAllButton.isHidden = !showButton
         arrowButton.isHidden = !showButton
+        self.section = section
+        self.delegate = delegate
         
     }
     
-    
-    
     @objc func seeAllButtonTapped() {
         print("user transferred!")
+        delegate?.sectionHeaderReusableViewDidTapSeeAll(in: section)
     }
 }
 
