@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EF445B262E54BE5600C0E201 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = EF445B252E54BE5600C0E201 /* SnapKit */; };
-		EF445B282E54BE5600C0E201 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = EF445B272E54BE5600C0E201 /* SnapKit-Dynamic */; };
+		EF9EA4372E60402300AA9BE0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = EF9EA4362E60402300AA9BE0 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,9 +33,22 @@
 		573DD3DD2E4FA460002C552F /* BestRecipeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BestRecipeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		EF445B5A2E56216300C0E201 /* Exceptions for "BestRecipe" folder in "BestRecipe" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 573DD3BC2E4FA45E002C552F /* BestRecipe */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		573DD3BF2E4FA45E002C552F /* BestRecipe */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				EF445B5A2E56216300C0E201 /* Exceptions for "BestRecipe" folder in "BestRecipe" target */,
+			);
 			path = BestRecipe;
 			sourceTree = "<group>";
 		};
@@ -50,11 +62,6 @@
 			path = BestRecipeUITests;
 			sourceTree = "<group>";
 		};
-		EF445B2F2E559C3100C0E201 /* Design System */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Design System";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,8 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF445B262E54BE5600C0E201 /* SnapKit in Frameworks */,
-				EF445B282E54BE5600C0E201 /* SnapKit-Dynamic in Frameworks */,
+				EF9EA4372E60402300AA9BE0 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,7 +94,6 @@
 			isa = PBXGroup;
 			children = (
 				573DD3BF2E4FA45E002C552F /* BestRecipe */,
-				EF445B2F2E559C3100C0E201 /* Design System */,
 				573DD3D62E4FA460002C552F /* BestRecipeTests */,
 				573DD3E02E4FA460002C552F /* BestRecipeUITests */,
 				573DD3BE2E4FA45E002C552F /* Products */,
@@ -122,12 +127,10 @@
 			);
 			fileSystemSynchronizedGroups = (
 				573DD3BF2E4FA45E002C552F /* BestRecipe */,
-				EF445B2F2E559C3100C0E201 /* Design System */,
 			);
 			name = BestRecipe;
 			packageProductDependencies = (
-				EF445B252E54BE5600C0E201 /* SnapKit */,
-				EF445B272E54BE5600C0E201 /* SnapKit-Dynamic */,
+				EF9EA4362E60402300AA9BE0 /* SnapKit */,
 			);
 			productName = BestRecipe;
 			productReference = 573DD3BD2E4FA45E002C552F /* BestRecipe.app */;
@@ -212,7 +215,7 @@
 			mainGroup = 573DD3B42E4FA45E002C552F;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				EF445B242E54BE5600C0E201 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				EF9EA4352E60402300AA9BE0 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 573DD3BE2E4FA45E002C552F /* Products */;
@@ -577,7 +580,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		EF445B242E54BE5600C0E201 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		EF9EA4352E60402300AA9BE0 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
 			requirement = {
@@ -588,15 +591,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		EF445B252E54BE5600C0E201 /* SnapKit */ = {
+		EF9EA4362E60402300AA9BE0 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = EF445B242E54BE5600C0E201 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = EF9EA4352E60402300AA9BE0 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		EF445B272E54BE5600C0E201 /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EF445B242E54BE5600C0E201 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
