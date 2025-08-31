@@ -10,19 +10,38 @@ import UIKit
 class TrendingTableViewCell: UITableViewCell {
     
     static let identifier = "TrendingTableViewCell"
-    
+
     private let recipeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
+        let vignetteOverlay = UIView()
+        vignetteOverlay.isUserInteractionEnabled = false
+        vignetteOverlay.backgroundColor = .clear
+        
+        imageView.addSubview(vignetteOverlay)
+        vignetteOverlay.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        let gradient = CAGradientLayer()
+        gradient.colors = [
+            UIColor.black.withAlphaComponent(0.5).cgColor,
+            UIColor.clear.cgColor,
+            UIColor.clear.cgColor,
+            UIColor.black.withAlphaComponent(0.5).cgColor
+        ]
+        gradient.locations = [0, 0.1, 0.7, 1] as [NSNumber]
+        gradient.frame = UIScreen.main.bounds
+        vignetteOverlay.layer.addSublayer(gradient)
         return imageView
     }()
     
-   let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.SemiBold, size: 18)
-       label.textColor = .neutral100
+        label.textColor = .white
         label.numberOfLines = 2
         return label
     }()
@@ -52,6 +71,20 @@ class TrendingTableViewCell: UITableViewCell {
         label.textColor = .white
         return label
     }()
+    
+    let numOfIngredients: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: AppFont.Regular, size: 14)
+        label.textColor = .white
+        return label
+    }()
+    
+   let timeTaken: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: AppFont.Regular, size: 14)
+        label.textColor = .white
+        return label
+    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -68,6 +101,8 @@ class TrendingTableViewCell: UITableViewCell {
     private func setupViews() {
         contentView.addSubview(recipeImageView)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(numOfIngredients)
+        contentView.addSubview(timeTaken)
         
         ratingStackView.addArrangedSubview(ratingIcon)
         ratingStackView.addArrangedSubview(ratingLabel)
@@ -83,19 +118,33 @@ class TrendingTableViewCell: UITableViewCell {
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(25)
-            make.top.equalTo(recipeImageView.snp.bottom).offset(10)
+            make.leading.equalTo(recipeImageView.snp.leading).inset(20)
+            make.bottom.equalTo(recipeImageView.snp.bottom).inset(40)
         }
         
         ratingStackView.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(10)
         }
+        
+        numOfIngredients.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.leading.equalTo(titleLabel.snp.leading)
+        }
+        
+        timeTaken.snp.makeConstraints { make in
+            make.top.equalTo(numOfIngredients.snp.top)
+            make.leading.equalTo(numOfIngredients.snp.trailing).offset(5)
+        }
+                
     }
     
     func configure(with recipe: SideRecipe) {
         recipeImageView.image = UIImage(named: recipe.image)
         titleLabel.text = recipe.title
         ratingLabel.text = "\(recipe.rating)"
+        numOfIngredients.text = "\(recipe.numberOfIngredients) Ingredients |"
+        timeTaken.text = "\(recipe.timeTaken) mins"
+        
     }
 
 }

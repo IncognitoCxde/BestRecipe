@@ -12,5 +12,5 @@ struct SideRecipe: Codable {
     let image: String
     let timeTaken: Int
     let rating: Double
-    let numberOfIngerdients: Int
+    let numberOfIngredients: Int
 }

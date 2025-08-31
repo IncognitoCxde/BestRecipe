@@ -108,7 +108,6 @@ extension RecentRecipesViewController: UITableViewDataSource {
         
         let recipe = viewModel.recentRecipes[indexPath.row]
         cell.configure(with: recipe)
-        
         return cell
     }
     
@@ -118,6 +117,6 @@ extension RecentRecipesViewController: UITableViewDataSource {
 
 extension RecentRecipesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 260
+        return 230
     }
 }
