@@ -30,6 +30,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         coordinator?.start()
         print("SceneDelegate: coordinator?.start() вызван. Окно должно быть видно.")
         
+        let helloViewModel = HelloViewModel()
+        let helloViewController = HelloViewController(viewModel: helloViewModel)
+        let customTabBar = CustomTabBarController()
+        if storage.hasSeenOnboarding == true {
+            window.rootViewController = UINavigationController(rootViewController: customTabBar)
+        } else if storage.hasSeenOnboarding == false {
+            window.rootViewController = helloViewController
+        }
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
