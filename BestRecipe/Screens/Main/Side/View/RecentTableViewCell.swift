@@ -1,15 +1,15 @@
 //
-//  TrendingTableViewCell.swift
+//  RecentTableViewCell.swift
 //  BestRecipe
 //
-//  Created by iMacbook on 8/30/25.
+//  Created by iMacbook on 8/31/25.
 //
 
 import UIKit
 
-class TrendingTableViewCell: UITableViewCell {
-    
-    static let identifier = "TrendingTableViewCell"
+class RecentTableViewCell: UITableViewCell {
+
+    static let identifier = "RecentTableViewCell"
     
     private let recipeImageView: UIImageView = {
         let imageView = UIImageView()
@@ -97,5 +97,4 @@ class TrendingTableViewCell: UITableViewCell {
         titleLabel.text = recipe.title
         ratingLabel.text = "\(recipe.rating)"
     }
-
 }
