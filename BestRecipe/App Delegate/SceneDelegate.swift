@@ -32,9 +32,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let helloViewModel = HelloViewModel()
         let helloViewController = HelloViewController(viewModel: helloViewModel)
-        
+        let customTabBar = CustomTabBarController()
         if storage.hasSeenOnboarding == true {
-            window.rootViewController = CustomTabBarController()
+            window.rootViewController = UINavigationController(rootViewController: customTabBar)
         } else if storage.hasSeenOnboarding == false {
             window.rootViewController = helloViewController
         }
