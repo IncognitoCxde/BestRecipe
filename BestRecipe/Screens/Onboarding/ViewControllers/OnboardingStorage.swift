@@ -12,6 +12,7 @@ protocol OnboardingStorageProtocol {
 }
 
 final class OnboardingStorage: OnboardingStorageProtocol {
+    static let shared = OnboardingStorage()
     private let key = "hasSeenOnboarding"
     
     var hasSeenOnboarding: Bool {

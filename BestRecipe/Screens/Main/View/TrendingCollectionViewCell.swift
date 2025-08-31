@@ -16,6 +16,7 @@ class TrendingCollectionViewCell: UICollectionViewCell {
     private let creatorImage = UIImageView()
     private let ratingButton = UIButton()
     private let saveButton = UIButton.configureSaveButton()
+    private var toggleState = 0
    
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -80,7 +81,7 @@ class TrendingCollectionViewCell: UICollectionViewCell {
     
     @objc func saveButtonTapped() {
         print("saved!")
-        saveButton.setImage(UIImage(named: "BookmarkSelected"), for: .normal)
+        saveButton.setImage(UIImage.bookmarkSelected, for: .normal)
     }
     
 }
@@ -89,7 +90,7 @@ class TrendingCollectionViewCell: UICollectionViewCell {
 public extension UIButton {
     static func configureSaveButton() -> UIButton {
         let savebutton = UIButton()
-        savebutton.setImage(UIImage(named: "Bookmark"), for: .normal)
+        savebutton.setImage(UIImage.bookmark, for: .normal)
         savebutton.contentVerticalAlignment = .fill
         savebutton.contentHorizontalAlignment = .fill
         return savebutton

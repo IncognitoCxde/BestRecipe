@@ -64,7 +64,7 @@ class CustomTabBarController: UITabBarController {
     }
     
     @objc func centerButtonTapped() {
-        let createVC = UINavigationController(rootViewController: CreateRecipeViewController())
-        present(createVC, animated: true, completion: nil)
+        let createVC = CreateRecipeViewController()
+        navigationController?.pushViewController(createVC, animated: true)
     }
 }
