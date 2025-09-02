@@ -2,7 +2,7 @@ import UIKit
 
 final class RecipeCardCell: UICollectionViewCell {
     
-    struct ViewModel: Hashable {
+    struct ViewModel: Hashable, Sendable {
         let id: UUID
         let title: String
         let cookTimeText: String
@@ -171,7 +171,7 @@ final class RecipeCardCell: UICollectionViewCell {
 
 final class PlaceholderCell: UICollectionViewCell {
     
-    struct ViewModel: Hashable {
+    struct ViewModel: Hashable, Sendable {
         let title: String
         let ctaTitle: String?
     }

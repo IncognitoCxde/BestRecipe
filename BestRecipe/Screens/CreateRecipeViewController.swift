@@ -26,7 +26,7 @@ final class CreateRecipeViewController: UIViewController {
     private let cookTimeChevron = UIImageView(image: UIImage(systemName: "chevron.right"))
     
     private let ingredientsHeaderLabel = UILabel()
-    private let ingredientsTableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let ingredientsTableView = UITableView(frame: .zero, style: .plain)
     private var tableHeightConstraint: NSLayoutConstraint?
     
     private let createButton = UIButton(type: .system)
@@ -138,6 +138,8 @@ final class CreateRecipeViewController: UIViewController {
         ingredientsTableView.isScrollEnabled = false
         ingredientsTableView.backgroundColor = .clear
         ingredientsTableView.separatorStyle = .none
+        ingredientsTableView.contentInset = .zero
+        ingredientsTableView.contentInsetAdjustmentBehavior = .never
     }
     
     private func setupCreateButton() {
@@ -230,12 +232,12 @@ final class CreateRecipeViewController: UIViewController {
             cookTimeChevron.trailingAnchor.constraint(equalTo: cookTimeRow.trailingAnchor, constant: -12),
             cookTimeChevron.centerYAnchor.constraint(equalTo: cookTimeRow.centerYAnchor),
             
-            ingredientsHeaderLabel.topAnchor.constraint(equalTo: cookTimeRow.bottomAnchor, constant: 16),
+            ingredientsHeaderLabel.topAnchor.constraint(equalTo: cookTimeRow.bottomAnchor, constant: 8),
             ingredientsHeaderLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
             ingredientsTableView.topAnchor.constraint(equalTo: ingredientsHeaderLabel.bottomAnchor, constant: 8),
-            ingredientsTableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            ingredientsTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            ingredientsTableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            ingredientsTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             createButton.topAnchor.constraint(equalTo: ingredientsTableView.bottomAnchor, constant: 16),
             createButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -447,6 +449,6 @@ extension CreateRecipeViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 60 // 44 (field height) + 8 (top) + 8 (bottom)
     }
 }

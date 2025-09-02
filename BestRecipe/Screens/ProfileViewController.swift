@@ -1,21 +1,27 @@
 import UIKit
 import PhotosUI
 
-struct PlaceholderItem: Hashable {
+struct PlaceholderItem: Hashable, Sendable {
     let id = UUID()
 }
 
 final class ProfileViewController: UIViewController {
     
-    enum Section: Hashable {
+    enum Section: Hashable, Sendable {
         case recipes
+    }
+    
+    // Sendable wrapper для items в collection view
+    enum CollectionItem: Hashable, Sendable {
+        case recipe(RecipeCardCell.ViewModel)
+        case placeholder(PlaceholderItem)
     }
     
     private let viewModel: ProfileViewModel
     private let collectionView: UICollectionView
     
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, AnyHashable>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, AnyHashable>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, CollectionItem>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, CollectionItem>
     private var dataSource: DataSource!
     
     private let avatar = AvatarView()
@@ -140,19 +146,16 @@ final class ProfileViewController: UIViewController {
         }
     }
     
-    private func configureCell(collectionView: UICollectionView, indexPath: IndexPath, item: AnyHashable) -> UICollectionViewCell {
-        if let viewModel = item as? RecipeCardCell.ViewModel {
+    private func configureCell(collectionView: UICollectionView, indexPath: IndexPath, item: CollectionItem) -> UICollectionViewCell {
+        switch item {
+        case .recipe(let viewModel):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecipeCardCell", for: indexPath) as! RecipeCardCell
             cell.configure(with: viewModel)
             cell.onDeleteTapped = { [weak self] id in
                 self?.confirmDelete(id)
             }
             return cell
-        } else if item is PlaceholderItem {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlaceholderCell", for: indexPath) as! PlaceholderCell
-            cell.configure(with: PlaceholderCell.ViewModel(title: "No recipes yet", ctaTitle: nil))
-            return cell
-        } else {
+        case .placeholder(_):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlaceholderCell", for: indexPath) as! PlaceholderCell
             cell.configure(with: PlaceholderCell.ViewModel(title: "No recipes yet", ctaTitle: nil))
             return cell
@@ -194,10 +197,12 @@ final class ProfileViewController: UIViewController {
         
         if recipes.isEmpty {
             let placeholderItem = PlaceholderItem()
-            snapshot.appendItems([AnyHashable(placeholderItem)])
+            snapshot.appendItems([.placeholder(placeholderItem)])
         } else {
-            let viewModels = recipes.map { RecipeCardCell.ViewModel(recipe: $0) }
-            snapshot.appendItems(viewModels.map { AnyHashable($0) })
+            let items = recipes.map { recipe in
+                CollectionItem.recipe(RecipeCardCell.ViewModel(recipe: recipe))
+            }
+            snapshot.appendItems(items)
         }
         
         dataSource.apply(snapshot, animatingDifferences: true)

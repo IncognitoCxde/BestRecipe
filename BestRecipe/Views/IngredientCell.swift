@@ -50,7 +50,7 @@ final class IngredientCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
         
-        // Name field
+        // Name field - same style as recipe title field but regular font
         nameTextField.borderStyle = .none
         nameTextField.font = .systemFont(ofSize: 16, weight: .regular)
         nameTextField.textColor = .label
@@ -59,7 +59,7 @@ final class IngredientCell: UITableViewCell {
         nameTextField.leftViewMode = .always
         nameTextField.isUserInteractionEnabled = false
         
-        // Quantity field
+        // Quantity field - same style as recipe title field but regular font
         quantityTextField.borderStyle = .none
         quantityTextField.font = .systemFont(ofSize: 16, weight: .regular)
         quantityTextField.textColor = .label
@@ -68,7 +68,8 @@ final class IngredientCell: UITableViewCell {
         quantityTextField.leftViewMode = .always
         quantityTextField.isUserInteractionEnabled = false
         
-        // Delete button -
+        // Delete button - minus in transparent rectangle with border
+        // Размер иконки: 8.66x1.5pt
         let minusConfig = UIImage.SymbolConfiguration(pointSize: 8, weight: .regular)
         deleteButton.setImage(UIImage(systemName: "minus", withConfiguration: minusConfig), for: .normal)
         deleteButton.tintColor = .label
@@ -83,26 +84,27 @@ final class IngredientCell: UITableViewCell {
         }
         
         NSLayoutConstraint.activate([
-            // Name field
+            // Name field - занимает половину доступной ширины минус отступы
             nameTextField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             nameTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             nameTextField.heightAnchor.constraint(equalToConstant: 44),
             
-            // Quantity field
+            // Quantity field - занимает вторую половину доступной ширины
             quantityTextField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             quantityTextField.leadingAnchor.constraint(equalTo: nameTextField.trailingAnchor, constant: 12),
             quantityTextField.heightAnchor.constraint(equalToConstant: 44),
             
-            // Delete button
+            // Delete button - фиксированная ширина справа
             deleteButton.centerYAnchor.constraint(equalTo: nameTextField.centerYAnchor),
             deleteButton.leadingAnchor.constraint(equalTo: quantityTextField.trailingAnchor, constant: 12),
             deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             deleteButton.widthAnchor.constraint(equalToConstant: 21),
             deleteButton.heightAnchor.constraint(equalToConstant: 21),
             
-            nameTextField.widthAnchor.constraint(equalToConstant: 164),
-            quantityTextField.widthAnchor.constraint(equalToConstant: 155),
+            // Делаем поля одинаковой ширины - каждое занимает 50% доступного пространства
+            nameTextField.widthAnchor.constraint(equalTo: quantityTextField.widthAnchor, multiplier: 1.0),
             
+            // Устанавливаем высоту contentView
             contentView.bottomAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 8)
         ])
     }
@@ -136,17 +138,17 @@ final class AddIngredientCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        // Устанавливаем радиус и рамки
+        // Устанавливаем радиус и рамки после того, как Auto Layout применил размеры
         nameTextField.layer.masksToBounds = true
         quantityTextField.layer.masksToBounds = true
         addButton.layer.masksToBounds = true
         
-        // Радиус
+        // Радиус 10px как в спецификации
         nameTextField.layer.cornerRadius = 10
         quantityTextField.layer.cornerRadius = 10
-        addButton.layer.cornerRadius = addButton.bounds.height / 2
+        addButton.layer.cornerRadius = addButton.bounds.height / 2  // круглые кнопки
         
-        // Рамки
+        // Рамки (устанавливаем по умолчанию, валидация может изменить цвет)
         nameTextField.layer.borderWidth = 1
         if nameTextField.layer.borderColor == UIColor.systemRed.cgColor {
             // Сохраняем красный цвет если была ошибка валидации
@@ -179,7 +181,7 @@ final class AddIngredientCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
         
-        // Name field
+        // Name field - regular font with gray placeholder
         nameTextField.borderStyle = .none
         nameTextField.placeholder = "Ingredient name"
         nameTextField.font = .systemFont(ofSize: 16, weight: .regular)
@@ -192,7 +194,7 @@ final class AddIngredientCell: UITableViewCell {
         nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 44))
         nameTextField.leftViewMode = .always
         
-        // Quantity field
+        // Quantity field - regular font with gray placeholder
         quantityTextField.borderStyle = .none
         quantityTextField.placeholder = "Quantity"
         quantityTextField.font = .systemFont(ofSize: 16, weight: .regular)
@@ -209,7 +211,8 @@ final class AddIngredientCell: UITableViewCell {
         nameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         quantityTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
-        // Add button
+        // Add button - black plus in transparent rectangle with border
+        // Размер иконки: 8.66x1.5pt + 1.5x8.66pt (крестик)
         let plusConfig = UIImage.SymbolConfiguration(pointSize: 8, weight: .regular)
         addButton.setImage(UIImage(systemName: "plus", withConfiguration: plusConfig), for: .normal)
         addButton.tintColor = .label
@@ -224,26 +227,27 @@ final class AddIngredientCell: UITableViewCell {
         }
         
         NSLayoutConstraint.activate([
-            // Name field
+            // Name field - занимает всю доступную ширину минус кнопка
             nameTextField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             nameTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             nameTextField.heightAnchor.constraint(equalToConstant: 44),
             
-            // Quantity field
+            // Quantity field - занимает оставшуюся часть
             quantityTextField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             quantityTextField.leadingAnchor.constraint(equalTo: nameTextField.trailingAnchor, constant: 12),
             quantityTextField.heightAnchor.constraint(equalToConstant: 44),
             
-            // Add button
+            // Add button - фиксированная ширина справа
             addButton.centerYAnchor.constraint(equalTo: nameTextField.centerYAnchor),
             addButton.leadingAnchor.constraint(equalTo: quantityTextField.trailingAnchor, constant: 12),
             addButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             addButton.widthAnchor.constraint(equalToConstant: 21),
             addButton.heightAnchor.constraint(equalToConstant: 21),
             
-            nameTextField.widthAnchor.constraint(equalToConstant: 164),
-            quantityTextField.widthAnchor.constraint(equalToConstant: 155),
+            // Делаем поля одинаковой ширины - каждое занимает 50% доступного пространства
+            nameTextField.widthAnchor.constraint(equalTo: quantityTextField.widthAnchor, multiplier: 1.0),
             
+            // Устанавливаем высоту contentView
             contentView.bottomAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 8)
         ])
     }

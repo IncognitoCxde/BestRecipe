@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-struct Ingredient: Hashable, Codable {
+struct Ingredient: Hashable, Codable, Sendable {
     let id: UUID
     var name: String
     var quantity: String
@@ -13,7 +13,7 @@ struct Ingredient: Hashable, Codable {
     }
 }
 
-struct Recipe: Hashable, Codable {
+struct Recipe: Hashable, Codable, Sendable {
     let id: UUID
     var title: String
     var serves: Int

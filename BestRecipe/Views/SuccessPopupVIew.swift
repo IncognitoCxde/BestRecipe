@@ -31,13 +31,13 @@ final class SuccessPopupView: UIView {
         checkmarkImageView.tintColor = .systemGreen
         checkmarkImageView.contentMode = .scaleAspectFit
         
-        titleLabel.text = "Ваш рецепт успешно создан"
+        titleLabel.text = "Your recipe has been successfully created"
         titleLabel.font = UIFont(name: AppFont.SemiBold, size: 18) ?? .systemFont(ofSize: 18, weight: .semibold)
         titleLabel.textColor = .label
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
         
-        viewRecipesButton.setTitle("Посмотреть мои рецепты", for: .normal)
+        viewRecipesButton.setTitle("My Recipes", for: .normal)
         viewRecipesButton.backgroundColor = .systemGreen
         viewRecipesButton.setTitleColor(.white, for: .normal)
         viewRecipesButton.titleLabel?.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
