@@ -46,12 +46,6 @@ final class AppCoordinator {
         navigationController = UINavigationController(rootViewController: helloViewController)
         navigationController?.isNavigationBarHidden = true
         window.rootViewController = navigationController
-        
-//        if storage.hasSeenOnboarding == true {
-//            window.rootViewController = TabBarController()
-//        } else if storage.hasSeenOnboarding == false {
-//            window.rootViewController = helloViewController
-//        }
     }
 
     private func showOnboarding() {
@@ -72,9 +66,8 @@ final class AppCoordinator {
 
     private func showHome() {
         print("Coordinator: showHome()")
-        let MainViewController = MainViewController()
-        let navController = UINavigationController(rootViewController: MainViewController)
-        navController.isNavigationBarHidden = true
+        let CustomTabBar = CustomTabBarController()
+        let navController = UINavigationController(rootViewController: CustomTabBar)
 
         UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {
             self.window.rootViewController = navController

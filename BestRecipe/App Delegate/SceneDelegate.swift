@@ -20,7 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         self.window = window
-        let router = Router(window: window, coordinator: coordinator)
         
         let storage = OnboardingStorage.shared
         
@@ -31,12 +30,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         coordinator?.start()
         print("SceneDelegate: coordinator?.start() вызван. Окно должно быть видно.")
-        
-        if storage.hasSeenOnboarding == false {
-            router.start()
-        } else {
-            window.rootViewController = UINavigationController(rootViewController: CustomTabBarController())
-        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

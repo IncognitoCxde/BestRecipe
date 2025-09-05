@@ -57,14 +57,14 @@ struct NetworkingManager {
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse else {
+            guard response is HTTPURLResponse else {
                 let error = NSError(domain: "No HTTP URLResponse", code: 0, userInfo: nil)
                 completion(.failure(.serverError(statusCode: error.code)))
                 return
             }
             
             guard let data = data else {
-                let error =  NSError(domain: "No data", code: 0, userInfo: nil)
+                _ =  NSError(domain: "No data", code: 0, userInfo: nil)
                 completion(.failure(.noData))
                 return
             }

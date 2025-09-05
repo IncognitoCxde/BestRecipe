@@ -31,6 +31,8 @@ class MainViewController: UIViewController, UISearchBarDelegate {
         super.viewDidLoad()
         setUpUI()
         tabBarController?.tabBar.dropShadow()
+        
+        
     }
     
     // MARK: - UI
