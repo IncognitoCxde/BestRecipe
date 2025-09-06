@@ -21,9 +21,12 @@ class MainViewController: UIViewController, UISearchBarDelegate {
     let searchBar = UISearchBar()
     let trendingLabel = UILabel()
     let seeAllButton = UIButton()
-    let viewModel = MainViewModel()
+    var viewModel = MainViewModel()
     var ultimateCollectionView: UICollectionView!
     
+    let networkingManager : HomeNetworkingProtocol = HomeNetworkingManager()
+    
+    var selectedIndexPath: IndexPath?
     
     // MARK: - Lifecycle
     
@@ -31,9 +34,20 @@ class MainViewController: UIViewController, UISearchBarDelegate {
         super.viewDidLoad()
         setUpUI()
         tabBarController?.tabBar.dropShadow()
-        
+//        testAPI()
         
     }
+    
+//    func testAPI() {
+//        networkingManager.fetchRecipesByPopularCategory(for: Categories.dessert) { result in
+//            switch result {
+//            case .success(let recipes):
+//                print("Popular dessert recipes fetched successfully: \(recipes.results ?? []) \n")
+//            case .failure(let error):
+//                print("Error fetching Popular dessert recipes: \(error)")
+//            }
+//        }
+//    }
     
     // MARK: - UI
     
@@ -129,7 +143,10 @@ class MainViewController: UIViewController, UISearchBarDelegate {
                 self?.ultimateCollectionView.reloadData()
             }
         }
-        viewModel.loadMockData()
+//        viewModel.loadMockData()
+        viewModel.fetchData {
+            self.ultimateCollectionView.reloadData()
+        }
     }
     
     // MARK: - Compositional Layout
@@ -276,7 +293,7 @@ extension MainViewController: UICollectionViewDataSource, SectionHeaderReusableV
         case .trending:
             return viewModel.trendingRecipes.count
         case.popularCategories:
-            return viewModel.popularCategories.count
+            return viewModel.categories.count
         case .popular:
             return viewModel.allPopularRecipes.count
         case .recent:
@@ -299,9 +316,10 @@ extension MainViewController: UICollectionViewDataSource, SectionHeaderReusableV
             cell.configure(with: recipe)
             return cell
         case .popularCategories:
-            let recipe = viewModel.popularCategories[indexPath.item]
+            let categories = viewModel.categories[indexPath.item].name
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularCategoryCollectionViewCell.identifier, for: indexPath) as! PopularCategoryCollectionViewCell
-            cell.configure(with: recipe)
+            let isSelected = indexPath == selectedIndexPath
+            cell.configure(with: categories, isSelected: isSelected)
             return cell
         case .recent:
             let recipe = viewModel.recentRecipes[indexPath.item]
@@ -352,5 +370,44 @@ extension MainViewController: UICollectionViewDataSource, SectionHeaderReusableV
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let section = RecipeSectionType(rawValue: indexPath.section)!
+        switch section {
+        case .popularCategories:
+            let category = viewModel.categories[indexPath.item]
+            viewModel.fetchRecipes(for: category) {
+                collectionView.reloadSections(IndexSet(integer: RecipeSectionType.popular.rawValue))
+            }
+            let previousIndexPath = selectedIndexPath
+            selectedIndexPath = indexPath
+            
+            var indexPathsToReload = [indexPath]
+            if let previous = previousIndexPath, previous != indexPath {
+                indexPathsToReload.append(previous)
+            }
+            
+            collectionView.reloadItems(at: indexPathsToReload)
+            
+        case .trending, .popular:
+            let recipe = section == .trending ? viewModel.trendingRecipes[indexPath.item] : viewModel.allPopularRecipes[indexPath.item]
+            viewModel.recentRecipes.insert(recipe, at: 0)
+            collectionView.reloadSections(IndexSet(integer: RecipeSectionType.recent.rawValue))
+        case .recent:
+            break
+        }
+        
+//        let recipe: RecipeDetail
+//        if let id = recipe.id {
+//            viewModel.fetchRecipeDetail(id: id) { [weak self] result in
+//                DispatchQueue.main.async {
+//                    switch result {
+//                    case .success(let detail):
+//                        let vc = RecipeDetailViewController(recipe: detail)
+//                        self?.navigationController?.pushViewController(vc, animated: true)
+//                    case .failure(let error):
+//                        print("Failed to fetch details:", error)
+//                    }
+//                }
+//            }
+//        }
     }
 }

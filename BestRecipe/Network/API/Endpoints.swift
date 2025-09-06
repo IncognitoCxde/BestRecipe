@@ -15,14 +15,13 @@ enum Endpoint {
     case trending
     case popularCategories(category: String)
     case popularRecipes
-    case recent
     case search(query: String)
     case details(id: Int)
     
 
     var path: String {
         switch self {
-        case .trending, .popularRecipes, .popularCategories, .search, .recent:
+        case .trending, .popularRecipes, .popularCategories, .search:
             return "/recipes/complexSearch"
         case .details(let id):
             return "/recipes/\(id)/information"

@@ -43,7 +43,7 @@ class PopularCategoryCollectionViewCell: UICollectionViewCell {
     }
     
     
-    func configure(with text: String) {
+    func configure(with text: String, isSelected: Bool) {
         label.text = text
     }
     

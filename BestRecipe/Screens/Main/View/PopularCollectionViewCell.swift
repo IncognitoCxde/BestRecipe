@@ -42,10 +42,11 @@ class PopularCollectionViewCell: UICollectionViewCell {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(15)
             make.centerX.equalToSuperview().inset(3)
+            make.leading.trailing.equalToSuperview().inset(10)
         }
         
         timeLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(15)
+            make.top.equalToSuperview().inset(140)
             make.leading.equalTo(rectangularBackground.snp.leading).inset(15)
         }
         
@@ -73,15 +74,17 @@ class PopularCollectionViewCell: UICollectionViewCell {
         titleLabel.text = recipe.title
         titleLabel.font = UIFont(name: AppFont.SemiBold, size: 15)
         titleLabel.numberOfLines = 2
+        titleLabel.lineBreakMode = .byWordWrapping
+        titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.textColor = .neutral100
         titleLabel.textAlignment = .center
-        imageView.image = UIImage(named: recipe.image)
+        imageView.setImage(from: recipe.image)
         imageView.layer.cornerRadius = 50
         imageView.clipsToBounds = true
         timeLabel.text = "Time"
         timeLabel.textColor = .neutral60
         timeLabel.font = UIFont(name: AppFont.Regular, size: 13)
-        timeCount.text = "\(recipe.timeTaken ?? 0) mins"
+        timeCount.text = "\(recipe.readyInMinutes ?? 15) mins"
         timeCount.font = UIFont(name: AppFont.SemiBold, size: 14)
         timeCount.textColor = .neutral100
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)

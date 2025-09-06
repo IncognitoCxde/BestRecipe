@@ -13,19 +13,38 @@ struct Recipe: Codable {
     let id: Int
     let title: String
     let image: String
-    let timeTaken: Int?
+    let readyInMinutes: Int?
     let servings: Int?
     let sourceName: String?
     let sourceUrl: String?
     let healthScore: Double?
-    let creator: Creator
+    let author: author?
     let category: String?
+}
+
+// MARK: - Recipe Details
+
+struct RecipeDetail: Codable {
+    let id: Int
+    let title: String
+    let time: String
+    let image: String
+    let rating: Double
+    let reviews: Int
+    let instructions: String?
+    let ingredients: [ingredient]
+}
+
+struct ingredient: Codable {
+    let name: String?
+    let quantity: String?
+    let imageName: String?
 }
 
 // MARK: - Creator Model
 
-struct Creator: Codable {
-    let name: String
+struct author: Codable {
+    let name: String?
     let profileImageUrl: String?
 }
 
@@ -48,9 +67,31 @@ enum RecipeSectionType: Int, CaseIterable {
     }
 }
 
+// MARK: - Category
+
+struct Category {
+    let name: String
+}
+
+// MARK: - Categories enum
+
+enum Categories: String, Equatable {
+    case salad = "salad"
+    case appetizer = "appetizer"
+    case mainCourse = "main course"
+    case sideDish = "side dish"
+    case dessert = "dessert"
+    case breakfast = "breakfast"
+    case beverage = "beverage"
+    
+    var stringValue: String {
+        rawValue
+    }
+}
+
 
 // MARK: - API response manager
 
 struct RecipesResponse: Codable {
-    let recipes: [Recipe]
+    var results: [Recipe]?
 }

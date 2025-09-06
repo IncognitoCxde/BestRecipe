@@ -8,34 +8,35 @@
 import UIKit
 
 protocol HomeNetworkingProtocol {
-    func fetchTrending(completion: @escaping ((Result<[Recipe], NetworkError>) -> Void))
-    func fetchPopularCategories(_ category: String, completion: @escaping ((Result<[Recipe], NetworkError>) -> Void))
-    func fetchPopular(completion: @escaping ((Result<[Recipe], NetworkError>) -> Void))
-    func fetchRecent(completion: @escaping ((Result<[Recipe], NetworkError>) -> Void))
-}
+    func fetchTrending(completion: @escaping ((Result<RecipesResponse, NetworkError>) -> Void))
+    func fetchRecipesByPopularCategory(for category: Categories, completion: @escaping (Result<RecipesResponse, NetworkError>) -> Void)
+    func fetchPopular(completion: @escaping ((Result<RecipesResponse, NetworkError>) -> Void))
+    func fetchRecipeDetail(id: Int, completion: @escaping (Result<RecipeDetail, NetworkError>) -> Void)}
 
 final class HomeNetworkingManager: HomeNetworkingProtocol {
     
     let manager = NetworkingManager()
     
-    func fetchTrending(completion: @escaping (Result<[Recipe], NetworkError>) -> Void) {
+    func fetchTrending(completion: @escaping (Result<RecipesResponse, NetworkError>) -> Void) {
         guard let url = manager.createURL(for: .trending) else { return }
         manager.makeTask(for: url, apiKey: API.apiKey, completion: completion)
     }
     
-    func fetchPopularCategories(_ category: String, completion: @escaping (Result<[Recipe], NetworkError>) -> Void) {
-        guard let url = manager.createURL(for: .popularCategories(category: category)) else { return }
+    func fetchRecipesByPopularCategory(for category: Categories, completion: @escaping (Result<RecipesResponse, NetworkError>) -> Void) {
+        guard let url = manager.createURL(for: .popularCategories(category: Categories.RawValue(category.rawValue))) else { return }
         manager.makeTask(for: url, apiKey: API.apiKey, completion: completion)
     }
     
-    func fetchPopular(completion: @escaping (Result<[Recipe], NetworkError>) -> Void) {
+    func fetchPopular(completion: @escaping (Result<RecipesResponse, NetworkError>) -> Void) {
         guard let url = manager.createURL(for: .popularRecipes) else { return }
         manager.makeTask(for: url, apiKey: API.apiKey, completion: completion)
     }
     
-    func fetchRecent(completion: @escaping (Result<[Recipe], NetworkError>) -> Void) {
-        guard let url = manager.createURL(for: .recent) else { return }
+    func fetchRecipeDetail(id: Int, completion: @escaping (Result<RecipeDetail, NetworkError>) -> Void) {
+        guard let url = manager.createURL(for: .details(id: id)) else { return }
         manager.makeTask(for: url, apiKey: API.apiKey, completion: completion)
     }
+    
+    
     
 }

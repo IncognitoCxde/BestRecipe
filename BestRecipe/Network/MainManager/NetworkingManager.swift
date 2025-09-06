@@ -34,9 +34,6 @@ struct NetworkingManager {
         case .popularCategories(let category):
             parameters["number"] = "10"
             parameters["type"] = category
-        case .recent:
-            parameters["number"] = "10"
-            parameters["sort"] = "latest"
         case .search(query: let request):
             parameters["number"] = "10"
             parameters["query"] = request

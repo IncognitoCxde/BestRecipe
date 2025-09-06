@@ -118,7 +118,7 @@ class RecentTableViewCell: UITableViewCell {
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(recipeImageView.snp.leading).inset(20)
+            make.leading.trailing.equalTo(recipeImageView.snp.leading).inset(10)
             make.bottom.equalTo(recipeImageView.snp.bottom).inset(40)
         }
         

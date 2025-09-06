@@ -15,7 +15,7 @@ struct API {
 }
 
 struct Token {
-    static let first = "e546311b23da47b78b4731fe83e8d7c3"
+    static let first = "41275846fbf64db8b110d980ce6135f1"
     static let second = "af8edef3a32c4adbac65b8c283475508"
     static let third = "651ec0da730e44c6a02c07e9abb888c3"
     static let fourth = "2415ef7c13274f62940b3053e241d579"

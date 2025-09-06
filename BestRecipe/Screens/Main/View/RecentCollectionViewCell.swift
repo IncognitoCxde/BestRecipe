@@ -31,12 +31,12 @@ class RecentCollectionViewCell: UICollectionViewCell {
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(10)
-            make.leading.equalTo(imageView.snp.leading)
+            make.leading.trailing.equalTo(imageView)
         }
         
         creatorLabel.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel.snp.leading)
-            make.bottom.equalToSuperview()
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
             make.height.equalTo(30)
             
         }
@@ -50,8 +50,11 @@ class RecentCollectionViewCell: UICollectionViewCell {
         titleLabel.text = recipe.title
         titleLabel.font = UIFont(name: AppFont.SemiBold, size: 15)
         titleLabel.textColor = .neutral100
-        imageView.image = UIImage(named: recipe.image)
-        creatorLabel.text = "By \(recipe.creator.name)"
+        titleLabel.numberOfLines = 2
+        titleLabel.lineBreakMode = .byWordWrapping
+        titleLabel.adjustsFontSizeToFitWidth = true
+        imageView.setImage(from: recipe.image)
+        creatorLabel.text = "By \(recipe.author?.name ?? "Zeelicious Recipes")"
         creatorLabel.textColor = .neutral60
         creatorLabel.font = UIFont(name: AppFont.Regular, size: 13)
     }
