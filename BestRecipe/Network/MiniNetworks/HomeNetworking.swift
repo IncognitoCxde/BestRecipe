@@ -11,7 +11,9 @@ protocol HomeNetworkingProtocol {
     func fetchTrending(completion: @escaping ((Result<RecipesResponse, NetworkError>) -> Void))
     func fetchRecipesByPopularCategory(for category: Categories, completion: @escaping (Result<RecipesResponse, NetworkError>) -> Void)
     func fetchPopular(completion: @escaping ((Result<RecipesResponse, NetworkError>) -> Void))
-    func fetchRecipeDetail(id: Int, completion: @escaping (Result<RecipeDetail, NetworkError>) -> Void)}
+    func fetchRecipeDetail(id: Int, completion: @escaping (Result<RecipeDetail, NetworkError>) -> Void)
+    func fetchFullTrending(completion: @escaping ((Result<FullRecipeResponse, NetworkError>) -> Void))
+}
 
 final class HomeNetworkingManager: HomeNetworkingProtocol {
     
@@ -33,10 +35,16 @@ final class HomeNetworkingManager: HomeNetworkingProtocol {
     }
     
     func fetchRecipeDetail(id: Int, completion: @escaping (Result<RecipeDetail, NetworkError>) -> Void) {
-        guard let url = manager.createURL(for: .details(id: id)) else { return }
+        guard let url = manager.createURL(for: .details(id: id)) else {
+            completion(.failure(.noData))
+            return
+        }
         manager.makeTask(for: url, apiKey: API.apiKey, completion: completion)
     }
     
-    
+    func fetchFullTrending(completion: @escaping (Result<FullRecipeResponse, NetworkError>) -> Void) {
+        guard let url = manager.createURL(for: .trending) else { return }
+        manager.makeTask(for: url, apiKey: API.apiKey, completion: completion)
+    }
     
 }

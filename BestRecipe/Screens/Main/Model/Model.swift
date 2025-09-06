@@ -25,20 +25,21 @@ struct Recipe: Codable {
 // MARK: - Recipe Details
 
 struct RecipeDetail: Codable {
-    let id: Int
-    let title: String
-    let time: String
-    let image: String
-    let rating: Double
-    let reviews: Int
+    let id: Int?
+    let title: String?
+    let image: String?
+    let readyInMinutes: Int?
+    let servings: Int?
     let instructions: String?
-    let ingredients: [ingredient]
+    let extendedIngredients: [ingredient]
 }
 
 struct ingredient: Codable {
+    let id: Int?
     let name: String?
-    let quantity: String?
-    let imageName: String?
+    let image: String?
+    let amount: Double?
+    let unit: String?
 }
 
 // MARK: - Creator Model

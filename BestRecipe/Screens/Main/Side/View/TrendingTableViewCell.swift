@@ -10,7 +10,9 @@ import UIKit
 class TrendingTableViewCell: UITableViewCell {
     
     static let identifier = "TrendingTableViewCell"
-
+    
+    let networkingManager: HomeNetworkingProtocol = HomeNetworkingManager()
+    
     private let recipeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -119,6 +121,7 @@ class TrendingTableViewCell: UITableViewCell {
         
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(recipeImageView.snp.leading).inset(20)
+            make.trailing.equalTo(recipeImageView.snp.trailing).inset(30)
             make.bottom.equalTo(recipeImageView.snp.bottom).inset(40)
         }
         
@@ -139,11 +142,11 @@ class TrendingTableViewCell: UITableViewCell {
     }
     
     func configure(with recipe: SideRecipe) {
-        recipeImageView.image = UIImage(named: recipe.image)
+        recipeImageView.setImage(from: recipe.image ?? "")
         titleLabel.text = recipe.title
-        ratingLabel.text = "\(recipe.rating)"
-        numOfIngredients.text = "\(recipe.numberOfIngredients) Ingredients |"
-        timeTaken.text = "\(recipe.timeTaken) mins"
+        ratingLabel.text = "\(recipe.rating ?? 5.0)"
+        numOfIngredients.text = "\(recipe.numberOfIngredients ?? 5) Ingredients |"
+        timeTaken.text = "\(recipe.timeTaken ?? 15) mins"
         
     }
 

@@ -13,7 +13,8 @@ class TrendingRecipesViewController: UIViewController {
     
     let trendingTitle = UILabel()
     let trendingTableView = UITableView()
-    private let viewModel = SideViewModel()
+    var viewModel = SideViewModel()
+    let networkingManager: HomeNetworkingProtocol = HomeNetworkingManager()
     
     // MARK: - Lifecycle
     
@@ -30,8 +31,8 @@ class TrendingRecipesViewController: UIViewController {
         setupCustomBackButton()
         setUpTitle()
         setUpTrendingTableView()
-        configureConstraints()
         bindViewModel()
+        configureConstraints()
         
     }
     
@@ -52,7 +53,9 @@ class TrendingRecipesViewController: UIViewController {
                 self?.trendingTableView.reloadData()
             }
         }
-        viewModel.loadMockTrendingData()
+        viewModel.fetchData {
+            self.trendingTableView.reloadData()
+        }
     }
     
     func setUpTitle() {
@@ -105,7 +108,6 @@ extension TrendingRecipesViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TrendingTableViewCell.identifier, for: indexPath) as? TrendingTableViewCell else {
             return UITableViewCell()
         }
-        
         let recipe = viewModel.trendingRecipes[indexPath.row]
         cell.configure(with: recipe)
         

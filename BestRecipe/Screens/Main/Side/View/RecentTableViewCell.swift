@@ -138,10 +138,10 @@ class RecentTableViewCell: UITableViewCell {
     }
     
     func configure(with recipe: SideRecipe) {
-        recipeImageView.image = UIImage(named: recipe.image)
+        recipeImageView.image = UIImage(named: recipe.image ?? "")
         titleLabel.text = recipe.title
-        ratingLabel.text = "\(recipe.rating)"
-        numOfIngredients.text = "\(recipe.numberOfIngredients) Ingredients |"
-        timeTaken.text = "\(recipe.timeTaken) mins"
+        ratingLabel.text = "\(recipe.rating ?? 3.0)"
+        numOfIngredients.text = "\(recipe.numberOfIngredients ?? 0) Ingredients |"
+        timeTaken.text = "\(recipe.timeTaken ?? 15) mins"
     }
 }

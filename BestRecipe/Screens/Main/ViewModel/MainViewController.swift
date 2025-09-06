@@ -33,21 +33,8 @@ class MainViewController: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        tabBarController?.tabBar.dropShadow()
-//        testAPI()
-        
+        tabBarController?.tabBar.dropShadow()        
     }
-    
-//    func testAPI() {
-//        networkingManager.fetchRecipesByPopularCategory(for: Categories.dessert) { result in
-//            switch result {
-//            case .success(let recipes):
-//                print("Popular dessert recipes fetched successfully: \(recipes.results ?? []) \n")
-//            case .failure(let error):
-//                print("Error fetching Popular dessert recipes: \(error)")
-//            }
-//        }
-//    }
     
     // MARK: - UI
     
@@ -377,37 +364,55 @@ extension MainViewController: UICollectionViewDelegate {
             viewModel.fetchRecipes(for: category) {
                 collectionView.reloadSections(IndexSet(integer: RecipeSectionType.popular.rawValue))
             }
+
             let previousIndexPath = selectedIndexPath
             selectedIndexPath = indexPath
-            
+
             var indexPathsToReload = [indexPath]
             if let previous = previousIndexPath, previous != indexPath {
                 indexPathsToReload.append(previous)
             }
-            
             collectionView.reloadItems(at: indexPathsToReload)
-            
+
         case .trending, .popular:
-            let recipe = section == .trending ? viewModel.trendingRecipes[indexPath.item] : viewModel.allPopularRecipes[indexPath.item]
+            let recipe = (section == .trending) ?
+                viewModel.trendingRecipes[indexPath.item] :
+                viewModel.allPopularRecipes[indexPath.item]
+
             viewModel.recentRecipes.insert(recipe, at: 0)
             collectionView.reloadSections(IndexSet(integer: RecipeSectionType.recent.rawValue))
+            
+            let recipeId = recipe.id
+            networkingManager.fetchRecipeDetail(id: recipeId) { [weak self] result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let detail):
+                        let detailVC = RecipeDetailViewController(recipe: detail)
+                        self?.navigationController?.pushViewController(detailVC, animated: true)
+                    case .failure(let error):
+                        print("Failed to fetch recipe details:", error)
+                    }
+                }
+            }
+
         case .recent:
-            break
+            let recipe = (section == .recent) ?
+            viewModel.recentRecipes[indexPath.item]:
+            viewModel.trendingRecipes[indexPath.item]
+            viewModel.allPopularRecipes[indexPath.item]
+            
+            let recipeId = recipe.id
+            networkingManager.fetchRecipeDetail(id: recipeId) { [weak self] result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let detail):
+                        let detailVC = RecipeDetailViewController(recipe: detail)
+                        self?.navigationController?.pushViewController(detailVC, animated: true)
+                    case .failure(let error):
+                        print("Failed to fetch recipe details:", error)
+                    }
+                }
+            }
         }
-        
-//        let recipe: RecipeDetail
-//        if let id = recipe.id {
-//            viewModel.fetchRecipeDetail(id: id) { [weak self] result in
-//                DispatchQueue.main.async {
-//                    switch result {
-//                    case .success(let detail):
-//                        let vc = RecipeDetailViewController(recipe: detail)
-//                        self?.navigationController?.pushViewController(vc, animated: true)
-//                    case .failure(let error):
-//                        print("Failed to fetch details:", error)
-//                    }
-//                }
-//            }
-//        }
     }
 }

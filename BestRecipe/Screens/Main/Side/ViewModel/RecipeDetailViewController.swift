@@ -8,11 +8,21 @@
 import UIKit
 
 class RecipeDetailViewController: UIViewController {
+    
     private let recipe: RecipeDetail
-
     private let imageView = UIImageView()
     private let titleLabel = UILabel()
+    private let instructionsTitle = UILabel()
     private let instructionsLabel = UILabel()
+    private let ingredientsTitle = UILabel()
+    
+    private let ingredientsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 12
+        return stackView
+    }()
+
 
     init(recipe: RecipeDetail) {
         self.recipe = recipe
@@ -24,26 +34,80 @@ class RecipeDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        setUpUI()
+        setupCustomBackButton()
+    }
+    
 
+    func setUpUI() {
+        let scrollView = UIScrollView()
+        scrollView.bouncesVertically = true
+        scrollView.showsVerticalScrollIndicator = true
+        view.addSubview(scrollView)
+        
+        scrollView.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        let contentView = UIView()
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview()
+            make.trailing.leading.equalToSuperview().inset(25)
+        }
+        
         titleLabel.text = recipe.title
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.font = UIFont(name: AppFont.SemiBold, size: 20)
         titleLabel.numberOfLines = 0
-
-        instructionsLabel.text = recipe.instructions ?? "No instructions available."
+        
+        instructionsTitle.text = "Instructions"
+        instructionsTitle.font = UIFont(name: AppFont.SemiBold, size: 20)
+        
+        instructionsLabel.text = recipe.instructions?.htmlStripped ?? "No instructions available."
         instructionsLabel.numberOfLines = 0
         instructionsLabel.lineBreakMode = .byWordWrapping
+        instructionsLabel.font = UIFont(name: AppFont.Regular, size: 16)
 
         imageView.setImage(from: recipe.image)
-
-        let stack = UIStackView(arrangedSubviews: [imageView, titleLabel, instructionsLabel])
+        imageView.layer.cornerRadius = 8
+        imageView.clipsToBounds = true
+        
+        imageView.snp.makeConstraints { make in
+            make.height.equalTo(230)
+            make.width.equalTo(343)
+        }
+        
+        ingredientsTitle.text = "Ingredients"
+        ingredientsTitle.font = UIFont(name: AppFont.SemiBold, size: 20)
+        
+        for ingredient in recipe.extendedIngredients {
+            let ingredientView = IngredientCustomView(ingredient: ingredient)
+            ingredientsStackView.addArrangedSubview(ingredientView)
+        }
+        
+        let stack = UIStackView(arrangedSubviews: [imageView, titleLabel,instructionsTitle, instructionsLabel, ingredientsTitle, ingredientsStackView])
+        
         stack.axis = .vertical
         stack.spacing = 16
-        view.addSubview(stack)
+        
+        contentView.addSubview(stack)
         
         stack.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(16)
-            make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().inset(16)
+            make.top.bottom.leading.trailing.equalTo(contentView)
         }
+    }
+    
+    private func setupCustomBackButton() {
+        let backButton = UIButton(type: .system)
+        let icon = UIImage(systemName: "arrow.left")?.withRenderingMode(.alwaysTemplate)
+        backButton.setImage(icon, for: .normal)
+        backButton.tintColor = .neutral100
+        backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+    }
+
+
+    @objc private func backTapped() {
+        navigationController?.popViewController(animated: true)
     }
 }
