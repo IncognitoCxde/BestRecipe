@@ -11,26 +11,121 @@ final class ProfileViewController: UIViewController {
         case recipes
     }
     
-    // Sendable wrapper для items в collection view
     enum CollectionItem: Hashable, Sendable {
         case recipe(RecipeCardCell.ViewModel)
         case placeholder(PlaceholderItem)
     }
     
+    // MARK: - Properties
     private let viewModel: ProfileViewModel
     private let collectionView: UICollectionView
+    private let avatar = AvatarView()
+    private let nameLabel = UILabel()
+    private let profileTitleLabel = UILabel()
     
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, CollectionItem>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, CollectionItem>
     private var dataSource: DataSource!
     
-    private let avatar = AvatarView()
-    private let nameLabel = UILabel()
+    // MARK: - Initialization
+    init(viewModel: ProfileViewModel = ProfileViewModel(), persistenceService: PersistenceService = InMemoryPersistenceService.shared) {
+        self.viewModel = ProfileViewModel(persistence: persistenceService)
+        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        super.init(nibName: nil, bundle: nil)
+    }
     
-    init(viewModel: ProfileViewModel = ProfileViewModel()) {
-        self.viewModel = viewModel
+    required init?(coder: NSCoder) { nil }
+    
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        collectionView.collectionViewLayout = createRecipesLayout()
+        setupUI()
+        setupCollectionView()
+        setNeedsStatusBarAppearanceUpdate()
+        Task { await reload() }
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return false
+    }
+    
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .none
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Task { await reload() }
+    }
+    
+    // MARK: - Setup
+    private func setupUI() {
+        view.backgroundColor = .systemBackground
+        setupNavigationBar()
+        setupHeader()
+        setupCollectionLayout()
+    }
+    
+    private func setupNavigationBar() {
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.largeTitleDisplayMode = .never
+    }
+    
+    private func setupHeader() {
+        avatar.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        profileTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let layout = UICollectionViewCompositionalLayout { _, _ in
+        profileTitleLabel.font = UIFont(name: AppFont.SemiBold, size: 24) ?? .systemFont(ofSize: 24, weight: .semibold)
+        profileTitleLabel.text = "My Profile"
+        profileTitleLabel.textColor = .label
+        
+        nameLabel.font = UIFont(name: AppFont.SemiBold, size: 24) ?? .systemFont(ofSize: 24, weight: .semibold)
+        nameLabel.text = "My recipes"
+        nameLabel.textColor = .label
+        
+        avatar.setInitials("SR")
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(avatarTapped))
+        avatar.addGestureRecognizer(tapGesture)
+        avatar.isUserInteractionEnabled = true
+        
+        view.addSubview(avatar)
+        view.addSubview(nameLabel)
+        view.addSubview(profileTitleLabel)
+        
+        NSLayoutConstraint.activate([
+            profileTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            profileTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            
+            // Аватарка - размер 100x100px, отступ сверху до заголовка 32px
+            avatar.topAnchor.constraint(equalTo: profileTitleLabel.bottomAnchor, constant: 32),
+            avatar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            avatar.widthAnchor.constraint(equalToConstant: 100),
+            avatar.heightAnchor.constraint(equalToConstant: 100),
+            
+            // "My recipes" - отступ сверху до аватарки 68px, слева 36px
+            nameLabel.topAnchor.constraint(equalTo: avatar.bottomAnchor, constant: 68),
+            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 36),
+            nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+    }
+    
+    private func setupCollectionLayout() {
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 16),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    private func createRecipesLayout() -> UICollectionViewCompositionalLayout {
+        UICollectionViewCompositionalLayout { _, _ in
             let item = NSCollectionLayoutItem(
                 layoutSize: .init(
                     widthDimension: .fractionalWidth(1.0),
@@ -52,88 +147,6 @@ final class ProfileViewController: UIViewController {
             
             return section
         }
-        
-        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) { nil }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-        setupCollectionView()
-        Task { await reload() }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        Task { await reload() }
-    }
-    
-    private func setupUI() {
-        view.backgroundColor = .systemBackground
-        
-        setupNavigationBar()
-        setupHeader()
-        setupCollectionLayout()
-    }
-    
-    private func setupNavigationBar() {
-        title = "My profile"
-        
-        // Configure navigation bar appearance
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationItem.largeTitleDisplayMode = .never
-        
-        // Set custom title font
-        if let font = UIFont(name: AppFont.Bold, size: 24) {
-            navigationController?.navigationBar.titleTextAttributes = [
-                .font: font,
-                .foregroundColor: UIColor.label
-            ]
-        }
-    }
-    
-    private func setupHeader() {
-        avatar.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        nameLabel.font = .systemFont(ofSize: 20, weight: .semibold)
-        nameLabel.text = "My recipes"
-        nameLabel.textColor = .label
-        
-        avatar.setInitials("SR")
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(avatarTapped))
-        avatar.addGestureRecognizer(tapGesture)
-        avatar.isUserInteractionEnabled = true
-        
-        view.addSubview(avatar)
-        view.addSubview(nameLabel)
-        
-        NSLayoutConstraint.activate([
-            avatar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            avatar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            avatar.widthAnchor.constraint(equalToConstant: 64),
-            avatar.heightAnchor.constraint(equalTo: avatar.widthAnchor),
-            
-            nameLabel.topAnchor.constraint(equalTo: avatar.bottomAnchor, constant: 24),
-            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -16)
-        ])
-    }
-    
-    private func setupCollectionLayout() {
-        view.addSubview(collectionView)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 16),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
     }
     
     private func setupCollectionView() {

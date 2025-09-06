@@ -6,6 +6,24 @@ final class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         setupTabBar()
         setupViewControllers()
+        setupNotifications()
+    }
+    
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(navigateToProfile),
+            name: NSNotification.Name("NavigateToProfile"),
+            object: nil
+        )
+    }
+    
+    @objc private func navigateToProfile() {
+        selectedIndex = 2 // Profile tab index
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func setupTabBar() {
@@ -33,7 +51,7 @@ final class MainTabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "house.fill")
         )
         
-        let createRecipeVC = CreateRecipeViewController()
+        let createRecipeVC = CreateRecipeViewController(persistenceService: InMemoryPersistenceService.shared)
         let createRecipeNav = UINavigationController(rootViewController: createRecipeVC)
         createRecipeNav.tabBarItem = UITabBarItem(
             title: "Create recipe",
@@ -41,7 +59,7 @@ final class MainTabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "plus.circle.fill")
         )
         
-        let profileVC = ProfileViewController()
+        let profileVC = ProfileViewController(persistenceService: InMemoryPersistenceService.shared)
         let profileNav = UINavigationController(rootViewController: profileVC)
         profileNav.tabBarItem = UITabBarItem(
             title: "My profile",
@@ -67,3 +85,5 @@ final class MainTabBarController: UITabBarController {
         )
     }
 }
+
+

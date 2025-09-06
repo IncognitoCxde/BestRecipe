@@ -193,7 +193,7 @@ final class PlaceholderCell: UICollectionViewCell {
         contentView.backgroundColor = .clear
         
         titleLabel.textAlignment = .center
-        titleLabel.font = .preferredFont(forTextStyle: .title3)
+        titleLabel.font = UIFont(name: AppFont.Regular, size: 20) ?? .preferredFont(forTextStyle: .title3)
         titleLabel.textColor = .secondaryLabel
         titleLabel.numberOfLines = 0
         

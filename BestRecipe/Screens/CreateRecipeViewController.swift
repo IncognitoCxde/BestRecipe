@@ -4,36 +4,48 @@ import PhotosUI
 final class CreateRecipeViewController: UIViewController {
     
     private let viewModel: CreateRecipeViewModel
+    private let persistenceService: PersistenceService
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     
+    // Navigation
+    private let backButton = UIButton(type: .system)
+    private let optionsButton = UIButton(type: .system)
+    private let titleLabel = UILabel()
+    
+    // Image section
+    private let imageContainer = UIView()
     private let imageView = UIImageView()
     private let imageEditButton = UIButton(type: .system)
     
+    // Title field
     private let titleField = UITextField()
     
-    private let servesRow = UIControl()
-    private let servesIcon = UIImageView(image: UIImage(systemName: "person.2"))
+    // Serves and Cook Time
+    private let servesContainer = UIView()
+    private let servesIcon = UIImageView()
     private let servesTitleLabel = UILabel()
     private let servesValueLabel = UILabel()
     private let servesChevron = UIImageView(image: UIImage(systemName: "chevron.right"))
     
-    private let cookTimeRow = UIControl()
-    private let cookTimeIcon = UIImageView(image: UIImage(systemName: "clock"))
+    private let cookTimeContainer = UIView()
+    private let cookTimeIcon = UIImageView()
     private let cookTimeTitleLabel = UILabel()
     private let cookTimeValueLabel = UILabel()
     private let cookTimeChevron = UIImageView(image: UIImage(systemName: "chevron.right"))
     
-    private let ingredientsHeaderLabel = UILabel()
-    private let ingredientsTableView = UITableView(frame: .zero, style: .plain)
-    private var tableHeightConstraint: NSLayoutConstraint?
+    // Ingredients section
+    private let ingredientsTitleLabel = UILabel()
+    private let ingredientsStackView = UIStackView()
+    private let addIngredientButton = UIButton(type: .system)
     
+    // Create button
     private let createButton = UIButton(type: .system)
-    private let loadingIndicator = UIActivityIndicatorView(style: .medium)
     
-    init(viewModel: CreateRecipeViewModel = CreateRecipeViewModel()) {
+    init(viewModel: CreateRecipeViewModel = CreateRecipeViewModel(), persistenceService: PersistenceService = InMemoryPersistenceService.shared) {
         self.viewModel = viewModel
+        self.persistenceService = persistenceService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -42,127 +54,31 @@ final class CreateRecipeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupConstraints()
-        setupTableView()
-        updateUI()
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return false
+    }
+    
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .none
     }
     
     private func setupUI() {
         view.backgroundColor = .systemBackground
-        title = "Create recipe"
-        
-        setupNavigationBar()
+        setupScrollView()
+        setupNavigation()
         setupImageSection()
         setupTitleField()
-        setupMetaRows()
+        setupServesAndCookTime()
         setupIngredientsSection()
         setupCreateButton()
     }
     
-    private func setupNavigationBar() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis"),
-            style: .plain,
-            target: self,
-            action: #selector(moreOptionsTapped)
-        )
-    }
-    
-    private func setupImageSection() {
-        imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .secondarySystemBackground
-        imageView.layer.cornerRadius = 12
-        imageView.clipsToBounds = true
-        
-        imageEditButton.setImage(UIImage(systemName: "pencil"), for: .normal)
-        imageEditButton.tintColor = .label
-        imageEditButton.backgroundColor = .systemBackground
-        imageEditButton.layer.cornerRadius = 20
-        imageEditButton.layer.shadowColor = UIColor.black.cgColor
-        imageEditButton.layer.shadowOffset = CGSize(width: 0, height: 2)
-        imageEditButton.layer.shadowRadius = 4
-        imageEditButton.layer.shadowOpacity = 0.1
-        imageEditButton.addTarget(self, action: #selector(imageEditTapped), for: .touchUpInside)
-    }
-    
-    private func setupTitleField() {
-        titleField.placeholder = "Recipe title"
-        titleField.font = .systemFont(ofSize: 16, weight: .medium)
-        titleField.backgroundColor = .systemBackground
-        titleField.layer.cornerRadius = 10
-        titleField.layer.borderWidth = 1
-        titleField.layer.borderColor = UIColor.systemGray4.cgColor
-        titleField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 44))
-        titleField.leftViewMode = .always
-        titleField.addTarget(self, action: #selector(titleChanged), for: .editingChanged)
-    }
-    
-    private func setupMetaRows() {
-        setupRow(servesRow, icon: servesIcon, title: servesTitleLabel, value: servesValueLabel, chevron: servesChevron, titleText: "Serves", action: #selector(servesTapped))
-        setupRow(cookTimeRow, icon: cookTimeIcon, title: cookTimeTitleLabel, value: cookTimeValueLabel, chevron: cookTimeChevron, titleText: "Cook time", action: #selector(cookTimeTapped))
-    }
-    
-    private func setupRow(_ row: UIControl, icon: UIImageView, title: UILabel, value: UILabel, chevron: UIImageView, titleText: String, action: Selector) {
-        row.backgroundColor = .systemGray6
-        row.layer.cornerRadius = 10
-        row.addTarget(self, action: action, for: .touchUpInside)
-        
-        icon.tintColor = .label
-        
-        title.text = titleText
-        title.font = .systemFont(ofSize: 16, weight: .semibold)
-        title.textColor = .label
-        
-        value.font = .systemFont(ofSize: 16, weight: .semibold)
-        value.textColor = .secondaryLabel
-        value.textAlignment = .right
-        value.setContentHuggingPriority(.required, for: .horizontal)
-        
-        chevron.tintColor = .tertiaryLabel
-    }
-    
-    private func setupIngredientsSection() {
-        ingredientsHeaderLabel.text = "Ingredients"
-        ingredientsHeaderLabel.font = .systemFont(ofSize: 20, weight: .semibold)
-        ingredientsHeaderLabel.textColor = .label
-    }
-    
-    private func setupTableView() {
-        ingredientsTableView.dataSource = self
-        ingredientsTableView.delegate = self
-        ingredientsTableView.register(IngredientCell.self, forCellReuseIdentifier: "IngredientCell")
-        ingredientsTableView.register(AddIngredientCell.self, forCellReuseIdentifier: "AddIngredientCell")
-        ingredientsTableView.register(AddNewIngredientCell.self, forCellReuseIdentifier: "AddNewIngredientCell")
-        ingredientsTableView.isScrollEnabled = false
-        ingredientsTableView.backgroundColor = .clear
-        ingredientsTableView.separatorStyle = .none
-        ingredientsTableView.contentInset = .zero
-        ingredientsTableView.contentInsetAdjustmentBehavior = .never
-    }
-    
-    private func setupCreateButton() {
-        createButton.setTitle("Create recipe", for: .normal)
-        createButton.backgroundColor = .systemRed
-        createButton.setTitleColor(.white, for: .normal)
-        createButton.titleLabel?.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
-        createButton.layer.cornerRadius = 8
-        createButton.addTarget(self, action: #selector(createRecipeTapped), for: .touchUpInside)
-        
-        loadingIndicator.color = .white
-    }
-    
-    private func setupConstraints() {
+    private func setupScrollView() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        
-        let components = [imageView, imageEditButton, titleField, servesRow, servesIcon, servesTitleLabel, servesValueLabel, servesChevron, cookTimeRow, cookTimeIcon, cookTimeTitleLabel, cookTimeValueLabel, cookTimeChevron, ingredientsHeaderLabel, ingredientsTableView, createButton, loadingIndicator]
-        
-        components.forEach { component in
-            component.translatesAutoresizingMaskIntoConstraints = false
-            contentView.addSubview(component)
-        }
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -171,90 +87,368 @@ final class CreateRecipeViewController: UIViewController {
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
+    }
+    
+    private func setupNavigation() {
+        backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        backButton.tintColor = .label
+        backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
+        
+        optionsButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        optionsButton.tintColor = .label
+        
+        titleLabel.text = "Create Recipe"
+        titleLabel.font = UIFont(name: AppFont.SemiBold, size: 24) ?? .systemFont(ofSize: 24, weight: .semibold)
+        titleLabel.textColor = .label
+        
+        contentView.addSubview(backButton)
+        contentView.addSubview(optionsButton)
+        contentView.addSubview(titleLabel)
+        
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        optionsButton.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            backButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            backButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            backButton.widthAnchor.constraint(equalToConstant: 44),
+            backButton.heightAnchor.constraint(equalToConstant: 44),
             
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            imageView.heightAnchor.constraint(equalToConstant: 200),
+            optionsButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            optionsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            optionsButton.widthAnchor.constraint(equalToConstant: 44),
+            optionsButton.heightAnchor.constraint(equalToConstant: 44),
             
-            imageEditButton.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 12),
-            imageEditButton.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -12),
+            titleLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 24),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+        ])
+    }
+    
+    private func setupImageSection() {
+        imageContainer.backgroundColor = .systemGray5
+        imageContainer.layer.cornerRadius = 12
+        
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 12
+        
+        // Круглая иконка добавления фото (карандаш)
+        imageEditButton.setImage(UIImage(systemName: "pencil"), for: .normal)
+        imageEditButton.backgroundColor = .white
+        imageEditButton.layer.cornerRadius = 20
+        imageEditButton.layer.shadowColor = UIColor.black.cgColor
+        imageEditButton.layer.shadowOffset = CGSize(width: 0, height: 2)
+        imageEditButton.layer.shadowOpacity = 0.1
+        imageEditButton.layer.shadowRadius = 4
+        imageEditButton.tintColor = .black
+        imageEditButton.addTarget(self, action: #selector(imageEditTapped), for: .touchUpInside)
+        
+        contentView.addSubview(imageContainer)
+        imageContainer.addSubview(imageView)
+        imageContainer.addSubview(imageEditButton)
+        
+        imageContainer.translatesAutoresizingMaskIntoConstraints = false
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageEditButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            imageContainer.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
+            imageContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            imageContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            imageContainer.heightAnchor.constraint(equalToConstant: 200),
+            
+            imageView.topAnchor.constraint(equalTo: imageContainer.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: imageContainer.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: imageContainer.trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: imageContainer.bottomAnchor),
+            
+            imageEditButton.trailingAnchor.constraint(equalTo: imageContainer.trailingAnchor, constant: -16),
+            imageEditButton.topAnchor.constraint(equalTo: imageContainer.topAnchor, constant: 16),
             imageEditButton.widthAnchor.constraint(equalToConstant: 40),
-            imageEditButton.heightAnchor.constraint(equalToConstant: 40),
-            
-            titleField.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 16),
+            imageEditButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+    
+    private func setupTitleField() {
+        titleField.placeholder = "Recipe title"
+        titleField.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16)
+        titleField.borderStyle = .none
+        titleField.backgroundColor = .clear
+        titleField.layer.cornerRadius = 10
+        titleField.layer.borderWidth = 1
+        titleField.layer.borderColor = UIColor.systemGray4.cgColor
+        titleField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
+        titleField.leftViewMode = .always
+        
+        contentView.addSubview(titleField)
+        
+        titleField.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            titleField.topAnchor.constraint(equalTo: imageContainer.bottomAnchor, constant: 16),
             titleField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             titleField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            titleField.heightAnchor.constraint(equalToConstant: 44),
+            titleField.heightAnchor.constraint(equalToConstant: 44)
+        ])
+    }
+    
+    private func setupServesAndCookTime() {
+        servesContainer.backgroundColor = UIColor(red: 0.945, green: 0.945, blue: 0.945, alpha: 1.0) // #F1F1F1
+        servesContainer.layer.cornerRadius = 12
+        
+        servesIcon.image = UIImage(named: "PersonIcon")
+        servesIcon.contentMode = .scaleAspectFit
+        servesIcon.tintColor = .systemGray
+        
+        servesTitleLabel.text = "Serves"
+        servesTitleLabel.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
+        servesTitleLabel.textColor = .label
+        
+        servesValueLabel.text = "2 people"
+        servesValueLabel.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16)
+        servesValueLabel.textColor = .secondaryLabel
+        
+        servesChevron.tintColor = .systemGray
+        servesChevron.contentMode = .scaleAspectFit
+        
+        let servesTap = UITapGestureRecognizer(target: self, action: #selector(servesTapped))
+        servesContainer.addGestureRecognizer(servesTap)
+        servesContainer.isUserInteractionEnabled = true
+        
+        cookTimeContainer.backgroundColor = UIColor(red: 0.945, green: 0.945, blue: 0.945, alpha: 1.0) // #F1F1F1
+        cookTimeContainer.layer.cornerRadius = 12
+        
+        cookTimeIcon.image = UIImage(named: "ClockIcon")
+        cookTimeIcon.contentMode = .scaleAspectFit
+        cookTimeIcon.tintColor = .systemGray
+        
+        cookTimeTitleLabel.text = "Cook Time"
+        cookTimeTitleLabel.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
+        cookTimeTitleLabel.textColor = .label
+        
+        cookTimeValueLabel.text = "10 min"
+        cookTimeValueLabel.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16)
+        cookTimeValueLabel.textColor = .secondaryLabel
+        
+        cookTimeChevron.tintColor = .systemGray
+        cookTimeChevron.contentMode = .scaleAspectFit
+        
+        let cookTimeTap = UITapGestureRecognizer(target: self, action: #selector(cookTimeTapped))
+        cookTimeContainer.addGestureRecognizer(cookTimeTap)
+        cookTimeContainer.isUserInteractionEnabled = true
+        
+        contentView.addSubview(servesContainer)
+        contentView.addSubview(cookTimeContainer)
+        
+        servesContainer.addSubview(servesIcon)
+        servesContainer.addSubview(servesTitleLabel)
+        servesContainer.addSubview(servesValueLabel)
+        servesContainer.addSubview(servesChevron)
+        
+        cookTimeContainer.addSubview(cookTimeIcon)
+        cookTimeContainer.addSubview(cookTimeTitleLabel)
+        cookTimeContainer.addSubview(cookTimeValueLabel)
+        cookTimeContainer.addSubview(cookTimeChevron)
+        
+        servesContainer.translatesAutoresizingMaskIntoConstraints = false
+        cookTimeContainer.translatesAutoresizingMaskIntoConstraints = false
+        servesIcon.translatesAutoresizingMaskIntoConstraints = false
+        servesTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        servesValueLabel.translatesAutoresizingMaskIntoConstraints = false
+        servesChevron.translatesAutoresizingMaskIntoConstraints = false
+        cookTimeIcon.translatesAutoresizingMaskIntoConstraints = false
+        cookTimeTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        cookTimeValueLabel.translatesAutoresizingMaskIntoConstraints = false
+        cookTimeChevron.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            servesContainer.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 16),
+            servesContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            servesContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            servesContainer.heightAnchor.constraint(equalToConstant: 60),
             
-            servesRow.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 16),
-            servesRow.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            servesRow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            servesRow.heightAnchor.constraint(equalToConstant: 56),
-            
-            servesIcon.leadingAnchor.constraint(equalTo: servesRow.leadingAnchor, constant: 12),
-            servesIcon.centerYAnchor.constraint(equalTo: servesRow.centerYAnchor),
+            servesIcon.leadingAnchor.constraint(equalTo: servesContainer.leadingAnchor, constant: 16),
+            servesIcon.centerYAnchor.constraint(equalTo: servesContainer.centerYAnchor),
             servesIcon.widthAnchor.constraint(equalToConstant: 24),
             servesIcon.heightAnchor.constraint(equalToConstant: 24),
             
             servesTitleLabel.leadingAnchor.constraint(equalTo: servesIcon.trailingAnchor, constant: 12),
-            servesTitleLabel.centerYAnchor.constraint(equalTo: servesRow.centerYAnchor),
+            servesTitleLabel.centerYAnchor.constraint(equalTo: servesContainer.centerYAnchor),
+            
+            servesChevron.trailingAnchor.constraint(equalTo: servesContainer.trailingAnchor, constant: -16),
+            servesChevron.centerYAnchor.constraint(equalTo: servesContainer.centerYAnchor),
+            servesChevron.widthAnchor.constraint(equalToConstant: 16),
+            servesChevron.heightAnchor.constraint(equalToConstant: 16),
             
             servesValueLabel.trailingAnchor.constraint(equalTo: servesChevron.leadingAnchor, constant: -8),
-            servesValueLabel.centerYAnchor.constraint(equalTo: servesRow.centerYAnchor),
+            servesValueLabel.centerYAnchor.constraint(equalTo: servesContainer.centerYAnchor),
             
-            servesChevron.trailingAnchor.constraint(equalTo: servesRow.trailingAnchor, constant: -12),
-            servesChevron.centerYAnchor.constraint(equalTo: servesRow.centerYAnchor),
+            cookTimeContainer.topAnchor.constraint(equalTo: servesContainer.bottomAnchor, constant: 16),
+            cookTimeContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            cookTimeContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            cookTimeContainer.heightAnchor.constraint(equalToConstant: 60),
             
-            cookTimeRow.topAnchor.constraint(equalTo: servesRow.bottomAnchor, constant: 12),
-            cookTimeRow.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            cookTimeRow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            cookTimeRow.heightAnchor.constraint(equalToConstant: 56),
-            
-            cookTimeIcon.leadingAnchor.constraint(equalTo: cookTimeRow.leadingAnchor, constant: 12),
-            cookTimeIcon.centerYAnchor.constraint(equalTo: cookTimeRow.centerYAnchor),
+            cookTimeIcon.leadingAnchor.constraint(equalTo: cookTimeContainer.leadingAnchor, constant: 16),
+            cookTimeIcon.centerYAnchor.constraint(equalTo: cookTimeContainer.centerYAnchor),
             cookTimeIcon.widthAnchor.constraint(equalToConstant: 24),
             cookTimeIcon.heightAnchor.constraint(equalToConstant: 24),
             
             cookTimeTitleLabel.leadingAnchor.constraint(equalTo: cookTimeIcon.trailingAnchor, constant: 12),
-            cookTimeTitleLabel.centerYAnchor.constraint(equalTo: cookTimeRow.centerYAnchor),
+            cookTimeTitleLabel.centerYAnchor.constraint(equalTo: cookTimeContainer.centerYAnchor),
+            
+            cookTimeChevron.trailingAnchor.constraint(equalTo: cookTimeContainer.trailingAnchor, constant: -16),
+            cookTimeChevron.centerYAnchor.constraint(equalTo: cookTimeContainer.centerYAnchor),
+            cookTimeChevron.widthAnchor.constraint(equalToConstant: 16),
+            cookTimeChevron.heightAnchor.constraint(equalToConstant: 16),
             
             cookTimeValueLabel.trailingAnchor.constraint(equalTo: cookTimeChevron.leadingAnchor, constant: -8),
-            cookTimeValueLabel.centerYAnchor.constraint(equalTo: cookTimeRow.centerYAnchor),
+            cookTimeValueLabel.centerYAnchor.constraint(equalTo: cookTimeContainer.centerYAnchor)
+        ])
+    }
+    
+    private func setupIngredientsSection() {
+        ingredientsTitleLabel.text = "Ingredients"
+        ingredientsTitleLabel.font = UIFont(name: AppFont.SemiBold, size: 20) ?? .systemFont(ofSize: 20, weight: .semibold)
+        ingredientsTitleLabel.textColor = UIColor(red: 0.094, green: 0.094, blue: 0.094, alpha: 1.0) // #181818
+        
+        ingredientsStackView.axis = .vertical
+        ingredientsStackView.spacing = 16
+        
+        addIngredientButton.setTitle("+ Add new Ingredient", for: .normal)
+        addIngredientButton.titleLabel?.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
+        addIngredientButton.setTitleColor(UIColor(red: 0.094, green: 0.094, blue: 0.094, alpha: 1.0), for: .normal)
+        addIngredientButton.addTarget(self, action: #selector(addNewIngredientTapped), for: .touchUpInside)
+        
+        contentView.addSubview(ingredientsTitleLabel)
+        contentView.addSubview(ingredientsStackView)
+        contentView.addSubview(addIngredientButton)
+        
+        ingredientsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        ingredientsStackView.translatesAutoresizingMaskIntoConstraints = false
+        addIngredientButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            ingredientsTitleLabel.topAnchor.constraint(equalTo: cookTimeContainer.bottomAnchor, constant: 24),
+            ingredientsTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            ingredientsTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            cookTimeChevron.trailingAnchor.constraint(equalTo: cookTimeRow.trailingAnchor, constant: -12),
-            cookTimeChevron.centerYAnchor.constraint(equalTo: cookTimeRow.centerYAnchor),
+            ingredientsStackView.topAnchor.constraint(equalTo: ingredientsTitleLabel.bottomAnchor, constant: 16),
+            ingredientsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            ingredientsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            ingredientsHeaderLabel.topAnchor.constraint(equalTo: cookTimeRow.bottomAnchor, constant: 8),
-            ingredientsHeaderLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            addIngredientButton.topAnchor.constraint(equalTo: ingredientsStackView.bottomAnchor, constant: 16),
+            addIngredientButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
+        ])
+        
+        addDefaultIngredientFields()
+    }
+    
+    private func addDefaultIngredientFields() {
+        addIngredientField()
+        addIngredientField()
+    }
+    
+    private func addIngredientField(name: String = "", quantity: String = "") {
+        let ingredientRow = UIView()
+        
+        // Ingredient name field
+        let nameField = UITextField()
+        nameField.placeholder = "Item name"
+        nameField.font = UIFont(name: AppFont.Regular, size: 14) ?? .systemFont(ofSize: 14)
+        nameField.borderStyle = .none
+        nameField.backgroundColor = .clear
+        nameField.layer.cornerRadius = 10
+        nameField.layer.borderWidth = 1
+        nameField.layer.borderColor = UIColor.systemGray4.cgColor
+        nameField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 0))
+        nameField.leftViewMode = .always
+        
+        // Quantity field
+        let quantityField = UITextField()
+        quantityField.placeholder = "Quantity"
+        quantityField.font = UIFont(name: AppFont.Regular, size: 14) ?? .systemFont(ofSize: 14)
+        quantityField.borderStyle = .none
+        quantityField.backgroundColor = .clear
+        quantityField.layer.cornerRadius = 10
+        quantityField.layer.borderWidth = 1
+        quantityField.layer.borderColor = UIColor.systemGray4.cgColor
+        quantityField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 0))
+        quantityField.leftViewMode = .always
+        
+        let actionButton = UIButton(type: .system)
+        actionButton.setImage(UIImage.plusIcon, for: .normal)
+        actionButton.tintColor = .black
+        actionButton.addTarget(self, action: #selector(addIngredientTapped(_:)), for: .touchUpInside)
+        
+        actionButton.tag = ingredientsStackView.arrangedSubviews.count
+        nameField.tag = actionButton.tag * 10 + 1
+        quantityField.tag = actionButton.tag * 10 + 2
+        
+        ingredientRow.addSubview(nameField)
+        ingredientRow.addSubview(quantityField)
+        ingredientRow.addSubview(actionButton)
+        
+        nameField.translatesAutoresizingMaskIntoConstraints = false
+        quantityField.translatesAutoresizingMaskIntoConstraints = false
+        actionButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            nameField.leadingAnchor.constraint(equalTo: ingredientRow.leadingAnchor, constant: 16),
+            nameField.centerYAnchor.constraint(equalTo: ingredientRow.centerYAnchor),
+            nameField.widthAnchor.constraint(equalToConstant: 164),
+            nameField.heightAnchor.constraint(equalToConstant: 44),
             
-            ingredientsTableView.topAnchor.constraint(equalTo: ingredientsHeaderLabel.bottomAnchor, constant: 8),
-            ingredientsTableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            ingredientsTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            quantityField.leadingAnchor.constraint(equalTo: nameField.trailingAnchor, constant: 16),
+            quantityField.centerYAnchor.constraint(equalTo: ingredientRow.centerYAnchor),
+            quantityField.widthAnchor.constraint(equalToConstant: 115),
+            quantityField.heightAnchor.constraint(equalToConstant: 44),
             
-            createButton.topAnchor.constraint(equalTo: ingredientsTableView.bottomAnchor, constant: 16),
+            actionButton.leadingAnchor.constraint(equalTo: quantityField.trailingAnchor, constant: 13.5),
+            actionButton.centerYAnchor.constraint(equalTo: ingredientRow.centerYAnchor),
+            actionButton.widthAnchor.constraint(equalToConstant: 24),
+            actionButton.heightAnchor.constraint(equalToConstant: 24),
+            
+            ingredientRow.heightAnchor.constraint(equalToConstant: 44)
+        ])
+        
+        ingredientsStackView.addArrangedSubview(ingredientRow)
+    }
+    
+    private func setupCreateButton() {
+        createButton.setTitle("Create Recipe", for: .normal)
+        createButton.titleLabel?.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
+        createButton.backgroundColor = UIColor(red: 0.886, green: 0.243, blue: 0.243, alpha: 1.0) // #E23E3E
+        createButton.setTitleColor(.white, for: .normal)
+        createButton.layer.cornerRadius = 8
+        createButton.addTarget(self, action: #selector(createTapped), for: .touchUpInside)
+        
+        contentView.addSubview(createButton)
+        
+        createButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            createButton.topAnchor.constraint(equalTo: addIngredientButton.bottomAnchor, constant: 24),
             createButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             createButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             createButton.heightAnchor.constraint(equalToConstant: 56),
-            createButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24),
-            
-            loadingIndicator.centerXAnchor.constraint(equalTo: createButton.centerXAnchor),
-            loadingIndicator.centerYAnchor.constraint(equalTo: createButton.centerYAnchor)
+            createButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -32)
         ])
-        
-        tableHeightConstraint = ingredientsTableView.heightAnchor.constraint(equalToConstant: 60)
-        tableHeightConstraint?.isActive = true
     }
     
-    @objc private func moreOptionsTapped() {
+    // MARK: - Actions
         
+    @objc private func backTapped() {
+        dismiss(animated: true)
     }
     
     @objc private func imageEditTapped() {
@@ -266,18 +460,14 @@ final class CreateRecipeViewController: UIViewController {
         present(picker, animated: true)
     }
     
-    @objc private func titleChanged() {
-        viewModel.updateTitle(titleField.text ?? "")
-        updateCreateButtonState()
-    }
-    
     @objc private func servesTapped() {
-        let alert = UIAlertController(title: "Serves", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Select Servings", message: "Choose number of people", preferredStyle: .actionSheet)
         
-        [1, 2, 3, 4, 5, 6, 8, 10, 12].forEach { servings in
-            alert.addAction(UIAlertAction(title: "\(servings)", style: .default) { [weak self] _ in
-                self?.viewModel.updateServes(servings)
-                self?.updateMetaLabels()
+        let servings = ["1 person", "2 people", "3 people", "4 people", "5 people", "6 people", "8 people", "10 people"]
+        
+        for serving in servings {
+            alert.addAction(UIAlertAction(title: serving, style: .default) { _ in
+                self.servesValueLabel.text = serving
             })
         }
         
@@ -286,102 +476,165 @@ final class CreateRecipeViewController: UIViewController {
     }
     
     @objc private func cookTimeTapped() {
-        let alert = UIAlertController(title: "Cook time (minutes)", message: nil, preferredStyle: .alert)
-        alert.addTextField { textField in
-            textField.keyboardType = .numberPad
-            textField.placeholder = "e.g. 20"
-            textField.text = "\(self.viewModel.inputs.cookTimeMinutes)"
-        }
+        let alert = UIAlertController(title: "Select Cook Time", message: "Choose cooking duration", preferredStyle: .actionSheet)
         
-        alert.addAction(UIAlertAction(title: "Set", style: .default) { [weak self] _ in
-            guard let text = alert.textFields?.first?.text,
-                  let minutes = Int(text) else { return }
-            self?.viewModel.updateCookTime(minutes)
-            self?.updateMetaLabels()
-        })
+        let times = ["5 min", "10 min", "15 min", "20 min", "25 min", "30 min", "45 min", "60 min", "90 min", "120 min"]
+        
+        for time in times {
+            alert.addAction(UIAlertAction(title: time, style: .default) { _ in
+                self.cookTimeValueLabel.text = time
+            })
+        }
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(alert, animated: true)
     }
     
-    @objc private func createRecipeTapped() {
-        Task {
-            await createRecipe()
-        }
+    @objc private func addNewIngredientTapped() {
+        addIngredientField()
     }
     
-    private func updateUI() {
-        updateMetaLabels()
-        updateCreateButtonState()
-        updateTableHeight()
-    }
-    
-    private func updateMetaLabels() {
-        servesValueLabel.text = String(format: "%02d", viewModel.inputs.serves)
-        cookTimeValueLabel.text = "\(viewModel.inputs.cookTimeMinutes) min"
-    }
-    
-    private func updateCreateButtonState() {
-        let validation = viewModel.validate()
-        createButton.alpha = validation.isValid ? 1.0 : 0.5
-        createButton.isEnabled = validation.isValid
+    @objc private func addIngredientTapped(_ sender: UIButton) {
+        guard let ingredientRow = sender.superview else { return }
         
-        let isEmpty = titleField.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true
-        titleField.layer.borderColor = isEmpty ? UIColor.systemRed.cgColor : UIColor.systemGray4.cgColor
-    }
-    
-    private func updateTableHeight() {
-        ingredientsTableView.layoutIfNeeded()
-        let contentHeight = ingredientsTableView.contentSize.height
-        tableHeightConstraint?.constant = max(60, contentHeight)
-        view.layoutIfNeeded()
-    }
-    
-    private func setLoading(_ loading: Bool) {
-        createButton.setTitle(loading ? "" : "Create recipe", for: .normal)
-        createButton.isEnabled = !loading
+        let nameField = ingredientRow.subviews.compactMap { $0 as? UITextField }.first { $0.tag == sender.tag * 10 + 1 }
+        let quantityField = ingredientRow.subviews.compactMap { $0 as? UITextField }.first { $0.tag == sender.tag * 10 + 2 }
         
-        if loading {
-            loadingIndicator.startAnimating()
+        // Checking fields
+        let hasName = !(nameField?.text?.isEmpty ?? true)
+        let hasQuantity = !(quantityField?.text?.isEmpty ?? true)
+        
+        if hasName || hasQuantity {
+            sender.setImage(UIImage.minusIcon, for: .normal)
+            sender.tintColor = .black
+            sender.removeTarget(self, action: #selector(addIngredientTapped(_:)), for: .touchUpInside)
+            sender.addTarget(self, action: #selector(removeIngredientTapped(_:)), for: .touchUpInside)
+            
+            nameField?.isEnabled = false
+            quantityField?.isEnabled = false
+            nameField?.backgroundColor = UIColor.systemGray6
+            quantityField?.backgroundColor = UIColor.systemGray6
         } else {
-            loadingIndicator.stopAnimating()
+            let alert = UIAlertController(title: "Empty Fields", message: "Please fill in ingredient name and quantity", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
         }
     }
     
-    @MainActor
-    private func createRecipe() async {
-        setLoading(true)
+    @objc private func removeIngredientTapped(_ sender: UIButton) {
+        guard let ingredientRow = sender.superview else { return }
+        ingredientRow.removeFromSuperview()
+    }
+    
+    @objc private func createTapped() {
+        // Validate title field
+        if titleField.text?.isEmpty ?? true {
+            titleField.layer.borderColor = UIColor.systemRed.cgColor
+            return
+        } else {
+            titleField.layer.borderColor = UIColor.systemGray4.cgColor
+        }
         
-        do {
-            _ = try await viewModel.createRecipe()
-            setLoading(false)
-            showSuccessPopup()
+        createRecipe()
+    }
+    
+    private func createRecipe() {
+        // Collect recipe data
+        let title = titleField.text ?? ""
+        let servesText = servesValueLabel.text ?? "2 people"
+        let serves = Int(servesText.components(separatedBy: .whitespaces).first ?? "2") ?? 2
+        
+        let cookTimeText = cookTimeValueLabel.text ?? "10 min"
+        let cookTime = Int(cookTimeText.components(separatedBy: .whitespaces).first ?? "10") ?? 10
+        
+        // Collect ingredients
+        var ingredients: [Ingredient] = []
+        for arrangedSubview in ingredientsStackView.arrangedSubviews {
+            let ingredientRow = arrangedSubview
+            let textFields = ingredientRow.subviews.compactMap { $0 as? UITextField }
+            if textFields.count >= 2 {
+                let nameField = textFields[0]
+                let quantityField = textFields[1]
+                
+                if !(nameField.text?.isEmpty ?? true) && !(quantityField.text?.isEmpty ?? true) {
+                    let ingredient = Ingredient(
+                        name: nameField.text ?? "",
+                        quantity: quantityField.text ?? ""
+                    )
+                    ingredients.append(ingredient)
+                }
+            }
+        }
+        
+        // Convert image to data
+        var imageData: Data? = nil
+        if let image = imageView.image {
+            imageData = image.jpegData(compressionQuality: 0.8)
+        }
+        
+        // Create recipe
+        let recipe = Recipe(
+            title: title,
+            serves: serves,
+            cookTimeMinutes: cookTime,
+            ingredients: ingredients,
+            imageData: imageData
+        )
+        
+        // Save recipe
+        Task {
+            do {
+                try await persistenceService.save(recipe: recipe)
+                await MainActor.run {
+                    self.showSuccessPopup()
+                }
         } catch {
-            setLoading(false)
-            showError(error.localizedDescription)
+                await MainActor.run {
+                    let alert = UIAlertController(title: "Error", message: "Failed to save recipe: \(error.localizedDescription)", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alert, animated: true)
+                }
+            }
         }
     }
     
     private func showSuccessPopup() {
-        let popup = SuccessPopupView()
-        popup.onViewRecipesTapped = { [weak self] in
-            popup.hide()
-            self?.navigateToProfile()
+        let alert = UIAlertController(
+            title: "Recipe Created Successfully!",
+            message: "Your recipe has been saved to your collection.",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "View My Recipes", style: .default) { _ in
+            self.navigateToProfile()
+        })
+        
+        alert.addAction(UIAlertAction(title: "Create Another", style: .cancel) { _ in
+            self.clearForm()
+        })
+        
+        present(alert, animated: true)
+    }
+    
+    private func clearForm() {
+        // Clear all fields
+        titleField.text = ""
+        imageView.image = nil
+        imageEditButton.isHidden = false
+        
+        // Clear all ingredient fields
+        for arrangedSubview in ingredientsStackView.arrangedSubviews {
+            arrangedSubview.removeFromSuperview()
         }
-        popup.show(in: view)
+        
+        // Add default empty fields
+        addDefaultIngredientFields()
     }
     
     private func navigateToProfile() {
-        // Navigate to profile tab
-        if let tabBarController = tabBarController {
-            tabBarController.selectedIndex = 2 // Profile tab index
-        }
-    }
-    
-    private func showError(_ message: String) {
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
+        // Navigate to Profile tab using notification or delegate pattern
+        NotificationCenter.default.post(name: NSNotification.Name("NavigateToProfile"), object: nil)
+        dismiss(animated: true)
     }
 }
 
@@ -397,58 +650,9 @@ extension CreateRecipeViewController: PHPickerViewControllerDelegate {
                 
                 DispatchQueue.main.async {
                     self.imageView.image = image
-                    self.viewModel.updateImage(image.jpegData(compressionQuality: 0.8))
+                    self.imageEditButton.isHidden = true
                 }
             }
         }
-    }
-}
-
-extension CreateRecipeViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let ingredientsCount = viewModel.inputs.ingredients.count
-        let addNewRowCount = viewModel.inputs.isAddingNewIngredient ? 1 : 0
-        let addButtonRowCount = 1
-        return ingredientsCount + addNewRowCount + addButtonRowCount
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let ingredientsCount = viewModel.inputs.ingredients.count
-        
-        if indexPath.row < ingredientsCount {
-            // Existing ingredient
-            let cell = tableView.dequeueReusableCell(withIdentifier: "IngredientCell", for: indexPath) as! IngredientCell
-            let ingredient = viewModel.inputs.ingredients[indexPath.row]
-            cell.configure(with: ingredient)
-            cell.onDelete = { [weak self] in
-                self?.viewModel.removeIngredient(id: ingredient.id)
-                self?.ingredientsTableView.reloadData()
-                self?.updateTableHeight()
-            }
-            return cell
-        } else if indexPath.row == ingredientsCount && viewModel.inputs.isAddingNewIngredient {
-            // Add new ingredient input
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AddIngredientCell", for: indexPath) as! AddIngredientCell
-            cell.onAddIngredient = { [weak self] name, quantity in
-                self?.viewModel.addIngredient(name: name, quantity: quantity)
-                self?.viewModel.cancelAddingNewIngredient()
-                self?.ingredientsTableView.reloadData()
-                self?.updateTableHeight()
-            }
-            return cell
-        } else {
-            // Add new ingredient button
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AddNewIngredientCell", for: indexPath) as! AddNewIngredientCell
-            cell.onAddNewTapped = { [weak self] in
-                self?.viewModel.toggleAddingNewIngredient()
-                self?.ingredientsTableView.reloadData()
-                self?.updateTableHeight()
-            }
-            return cell
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60 // 44 (field height) + 8 (top) + 8 (bottom)
     }
 }

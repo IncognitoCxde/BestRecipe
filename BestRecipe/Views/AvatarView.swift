@@ -29,7 +29,8 @@ final class AvatarView: UIView {
         initialsLabel.font = .preferredFont(forTextStyle: .title2)
         initialsLabel.textColor = .white
         
-
+        addSubview(imageView)
+        addSubview(initialsLabel)
     }
     
     private func setupConstraints() {

@@ -52,7 +52,7 @@ final class IngredientCell: UITableViewCell {
         
         // Name field - same style as recipe title field but regular font
         nameTextField.borderStyle = .none
-        nameTextField.font = .systemFont(ofSize: 16, weight: .regular)
+        nameTextField.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16, weight: .regular)
         nameTextField.textColor = .label
         nameTextField.backgroundColor = .systemBackground
         nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 44))
@@ -61,7 +61,7 @@ final class IngredientCell: UITableViewCell {
         
         // Quantity field - same style as recipe title field but regular font
         quantityTextField.borderStyle = .none
-        quantityTextField.font = .systemFont(ofSize: 16, weight: .regular)
+        quantityTextField.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16, weight: .regular)
         quantityTextField.textColor = .label
         quantityTextField.backgroundColor = .systemBackground
         quantityTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 44))
@@ -69,9 +69,7 @@ final class IngredientCell: UITableViewCell {
         quantityTextField.isUserInteractionEnabled = false
         
         // Delete button - minus in transparent rectangle with border
-        // Размер иконки: 8.66x1.5pt
-        let minusConfig = UIImage.SymbolConfiguration(pointSize: 8, weight: .regular)
-        deleteButton.setImage(UIImage(systemName: "minus", withConfiguration: minusConfig), for: .normal)
+        deleteButton.setImage(IconHelper.getIcon(UIImage.minusIcon, fallback: UIImage.minusIconFallback), for: .normal)
         deleteButton.tintColor = .label
         deleteButton.backgroundColor = .clear
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
@@ -184,7 +182,7 @@ final class AddIngredientCell: UITableViewCell {
         // Name field - regular font with gray placeholder
         nameTextField.borderStyle = .none
         nameTextField.placeholder = "Ingredient name"
-        nameTextField.font = .systemFont(ofSize: 16, weight: .regular)
+        nameTextField.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16, weight: .regular)
         nameTextField.textColor = .label
         nameTextField.attributedPlaceholder = NSAttributedString(
             string: "Ingredient name",
@@ -197,7 +195,7 @@ final class AddIngredientCell: UITableViewCell {
         // Quantity field - regular font with gray placeholder
         quantityTextField.borderStyle = .none
         quantityTextField.placeholder = "Quantity"
-        quantityTextField.font = .systemFont(ofSize: 16, weight: .regular)
+        quantityTextField.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16, weight: .regular)
         quantityTextField.textColor = .label
         quantityTextField.attributedPlaceholder = NSAttributedString(
             string: "Quantity",
@@ -212,9 +210,7 @@ final class AddIngredientCell: UITableViewCell {
         quantityTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         // Add button - black plus in transparent rectangle with border
-        // Размер иконки: 8.66x1.5pt + 1.5x8.66pt (крестик)
-        let plusConfig = UIImage.SymbolConfiguration(pointSize: 8, weight: .regular)
-        addButton.setImage(UIImage(systemName: "plus", withConfiguration: plusConfig), for: .normal)
+        addButton.setImage(IconHelper.getIcon(UIImage.plusIcon, fallback: UIImage.plusIconFallback), for: .normal)
         addButton.tintColor = .label
         addButton.backgroundColor = .clear
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
@@ -299,9 +295,9 @@ final class AddNewIngredientCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
         
-        addLabel.text = "+ Add New Ingredient"
+        addLabel.text = "+ Add new Ingredient"
         addLabel.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
-        addLabel.textColor = .systemBlue
+        addLabel.textColor = .black
         addLabel.textAlignment = .left
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addNewTapped))

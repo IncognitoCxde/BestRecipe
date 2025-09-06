@@ -37,7 +37,7 @@ final class SuccessPopupView: UIView {
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
         
-        viewRecipesButton.setTitle("My Recipes", for: .normal)
+        viewRecipesButton.setTitle("View My Recipes", for: .normal)
         viewRecipesButton.backgroundColor = .systemGreen
         viewRecipesButton.setTitleColor(.white, for: .normal)
         viewRecipesButton.titleLabel?.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
@@ -117,3 +117,5 @@ final class SuccessPopupView: UIView {
         }
     }
 }
+
+
