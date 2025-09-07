@@ -18,12 +18,19 @@ class LoginViewController: UIViewController {
     private let googleButton = GoogleButton()
     private let signInLabel = UILabel() // Добавляем текст с ссылкой
     
+    
+    private func autofillMockLogin() {
+        loginTextField.text = MockUser.email
+        passwordTextField.text = MockUser.password
+    }
+
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupConstraints()
         setupSignInTapGesture()
+        autofillMockLogin()
     }
     
     // MARK: - Setup
@@ -155,19 +162,22 @@ class LoginViewController: UIViewController {
                                          
     // MARK: - Actions
     @objc private func loginButtonTapped() {
-        // Обработка нажатия кнопки Log in
         guard let login = loginTextField.text, !login.isEmpty,
               let password = passwordTextField.text, !password.isEmpty else {
-            showAlert(message: "Fill in all the fields")
+            showAlert(message: "Please fill in all fields")
             return
         }
         
-        print("Логин с login: \(login), password: \(password)")
-        
-        // Переход на CustomTabBarController
-        let tabBarController = CustomTabBarController()
-        tabBarController.modalPresentationStyle = .fullScreen
-        present(tabBarController, animated: true)
+        if login == MockUser.email && password == MockUser.password {
+            print("✅ Successful login: \(login)")
+            let tabBarController = CustomTabBarController()
+            tabBarController.modalPresentationStyle = .fullScreen
+            present(tabBarController, animated: true)
+        } else if login != MockUser.email {
+            showAlert(message: "❌ Invalid email")
+        } else {
+            showAlert(message: "❌ Invalid password")
+        }
     }
     
     @objc private func googleButtonTapped() {

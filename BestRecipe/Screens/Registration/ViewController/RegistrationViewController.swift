@@ -42,12 +42,23 @@ class RegistrationViewController: UIViewController {
                                 keyboardType: .default)
     ]
     
+    // Autofill полей для теста
+    private func autofillMockUser() {
+        guard textFields.count == fieldConfigs.count else { return }
+        textFields[0].text = MockUser.firstName
+        textFields[1].text = MockUser.lastName
+        textFields[2].text = MockUser.email
+        textFields[3].text = MockUser.password
+        textFields[4].text = MockUser.password // confirm
+    }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupConstraints()
         setupLoginTapGesture()
+        autofillMockUser()
     }
     
     // MARK: - Setup UI
