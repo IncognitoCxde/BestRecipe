@@ -2,7 +2,7 @@
 //  RecipeCell.swift
 //  BestRecipe
 //
-//  Created by Administration  on 22/08/25.
+//  Created by Irina  on 22/08/25.
 //
 
 import UIKit
@@ -26,7 +26,9 @@ class RecipeCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont(name: AppFont.SemiBold, size: 18)
         label.textColor = .neutral100
-        label.numberOfLines = 0
+        label.textAlignment = .left
+        label.numberOfLines = 2
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
     
@@ -56,8 +58,8 @@ class RecipeCell: UITableViewCell {
         return label
     }()
     
-    private let saveButton: UIButton = UIButton.configureSaveButton()
-    
+    let saveButton = SaveButton()
+
     private let timeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.SemiBold, size: 14)
@@ -107,7 +109,8 @@ class RecipeCell: UITableViewCell {
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(recipeImageView.snp.bottom).offset(10)
-            make.leading.equalToSuperview().offset(35)
+            make.leading.equalToSuperview().offset(25)
+            make.trailing.equalToSuperview().offset(25)
             make.bottom.equalToSuperview().offset(-15)
         }
         
@@ -135,7 +138,15 @@ class RecipeCell: UITableViewCell {
     
     func configure(with recipe: Recipe) {
         self.recipeID = recipe.id
+        saveButton.recipeID = recipe.id
+        saveButton.onToggle = { [weak self] in
+            guard let self = self else { return }
+            self.onSaveTapped?(recipe.id)
+        }
+
+        saveButton.updateAppearance()
         titleLabel.text = recipe.title
+
         if let time = recipe.readyInMinutes {
             timeLabel.text = "\(time) min"
         } else {
@@ -143,7 +154,6 @@ class RecipeCell: UITableViewCell {
         }
 
         recipeImageView.image = UIImage(named: "placeholderImage")
-
         if let url = URL(string: recipe.image) {
             ImageLoader.shared.loadImage(from: url) { [weak self] image in
                 DispatchQueue.main.async {
@@ -153,12 +163,20 @@ class RecipeCell: UITableViewCell {
                 }
             }
         }
-        
-        
     }
+
     
     @objc private func saveButtonPressed() {
         guard let id = recipeID else { return }
         onSaveTapped?(id)
     }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let buttonPoint = convert(point, to: saveButton)
+        if saveButton.bounds.contains(buttonPoint) {
+            return saveButton
+        }
+        return super.hitTest(point, with: event)
+    }
+
 }

@@ -15,7 +15,7 @@ class PopularCollectionViewCell: UICollectionViewCell {
     private let rectangularBackground = UIView()
     private let timeLabel = UILabel()
     private let timeCount = UILabel()
-    private let saveButton = UIButton.configureSaveButton()
+    private let saveButton = SaveButton()
 
     
     override init(frame: CGRect) {
@@ -68,6 +68,8 @@ class PopularCollectionViewCell: UICollectionViewCell {
     }
     
     func  configure(with recipe: Recipe) {
+        saveButton.recipeID = recipe.id
+        saveButton.updateAppearance()
         rectangularBackground.backgroundColor = .neutral40
         rectangularBackground.layer.cornerRadius = 12
         rectangularBackground.clipsToBounds = true

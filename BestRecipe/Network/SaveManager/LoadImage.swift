@@ -1,8 +1,8 @@
 //
-//  ImageLoader.swift
+//  LoadImage.swift
 //  BestRecipe
 //
-//  Created by Administration  on 07/09/25.
+//  Created by Irina  on 07/09/25.
 //
 
 import Foundation

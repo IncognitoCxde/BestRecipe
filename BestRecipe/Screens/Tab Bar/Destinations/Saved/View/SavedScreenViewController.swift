@@ -2,7 +2,7 @@
 //  SavedScreenViewController.swift
 //  BestRecipe
 //
-//  Created by Administration  on 21/08/25.
+//  Created by Irina  on 21/08/25.
 //
 
 import UIKit
@@ -12,10 +12,8 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
     
     // MARK: Properties
     
-    // ViewModel
     private let viewModel = SavedRecipesViewModel()
     
-    // UI Elements
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Saved Recipes"
@@ -42,7 +40,6 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
         setupConstraints()
         bindViewModel()
         
-//        viewModel.loadSavedRecipes()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -98,13 +95,17 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
 
         let recipe = viewModel.recipes[indexPath.row]
         cell.configure(with: recipe)
-
-        cell.onSaveTapped = { [weak self] _ in
-            self?.viewModel.loadSavedRecipes()
+        cell.saveButton.recipeID = recipe.id
+        cell.saveButton.onToggle = { [weak self] in
+            guard let self = self else { return }
+            if let index = self.viewModel.recipes.firstIndex(where: { $0.id == recipe.id }) {
+                self.viewModel.recipes.remove(at: index)
+                self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+            }
         }
-
         return cell
     }
+
 
     
     // MARK: - UITableViewDelegate

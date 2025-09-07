@@ -2,7 +2,7 @@
 //  SaveManager.swift
 //  BestRecipe
 //
-//  Created by Administration  on 06/09/25.
+//  Created by Irina  on 06/09/25.
 //
 
 import Foundation

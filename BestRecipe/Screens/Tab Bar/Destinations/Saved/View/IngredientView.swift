@@ -2,7 +2,7 @@
 //  IngredientView.swift
 //  BestRecipe
 //
-//  Created by Administration  on 26/08/25.
+//  Created by Irina  on 26/08/25.
 //
 
 import UIKit

@@ -2,7 +2,7 @@
 //  RecipeDetailsViewController.swift
 //  BestRecipe
 //
-//  Created by Administration  on 24/08/25.
+//  Created by Irina  on 24/08/25.
 //
 
 import UIKit
