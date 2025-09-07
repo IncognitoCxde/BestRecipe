@@ -48,7 +48,7 @@ class GoogleButton: UIButton {
         // Текст
         let label = UILabel()
         label.text = "Continue with Google"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.font = UIFont(name: AppFont.Medium, size: 16)
         label.textColor = .black
         
         // Добавляем элементы в stack view

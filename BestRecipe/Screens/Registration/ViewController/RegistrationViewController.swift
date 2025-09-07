@@ -7,7 +7,6 @@
 import UIKit
 import SnapKit
 
-
 class RegistrationViewController: UIViewController {
     
     // MARK: - UI Elements
@@ -73,7 +72,7 @@ class RegistrationViewController: UIViewController {
         // Текст
         fullTextLabel.text = "Create your account\nexplore best recipes"
         fullTextLabel.textColor = .white
-        fullTextLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        fullTextLabel.font = UIFont(name: AppFont.Bold, size: 28)
         fullTextLabel.numberOfLines = 2
         spoonsImageView.addSubview(fullTextLabel)
         
@@ -107,10 +106,10 @@ class RegistrationViewController: UIViewController {
         if let loginRange = fullText.range(of: "Login") {
             let nsRange = NSRange(loginRange, in: fullText)
             attributedString.addAttribute(.foregroundColor, value: UIColor.success100, range: nsRange)
-            attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 18, weight: .bold), range: nsRange)
+            attributedString.addAttribute(.font, value: UIFont(name: AppFont.Regular, size: 14)!, range: nsRange)
         }
         
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 14), range: NSRange(location: 0, length: fullText.count))
+        attributedString.addAttribute(.font, value: UIFont(name: AppFont.Regular, size: 14)!, range: NSRange(location: 0, length: fullText.count))
         attributedString.addAttribute(.foregroundColor, value: UIColor.gray, range: NSRange(location: 0, length: fullText.count - 5))
         
         alreadyHaveAccountLabel.attributedText = attributedString
@@ -164,8 +163,6 @@ class RegistrationViewController: UIViewController {
         }
     }
     
-    
-    
     private func resetFieldBorders() {
         textFields.forEach { $0.outlineColor = .systemGray4 }
     }
@@ -184,10 +181,24 @@ class RegistrationViewController: UIViewController {
             showAlert(message: error.localizedDescription)
             return
         }
-
-        let tabBarController = CustomTabBarController()
-        tabBarController.modalPresentationStyle = .fullScreen
-        present(tabBarController, animated: true)
+        
+        // Показываем успешное сообщение и переходим на логин
+        showSuccessAlertAndGoToLogin()
+    }
+    
+    private func showSuccessAlertAndGoToLogin() {
+        let alert = UIAlertController(
+            title: "Success!",
+            message: "Account created successfully!\nPlease log in with your credentials.",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            // Закрываем текущий экран регистрации и возвращаемся на логин
+            self?.dismiss(animated: true)
+        })
+        
+        present(alert, animated: true)
     }
     
     @objc private func loginTapped() {

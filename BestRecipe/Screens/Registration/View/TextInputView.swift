@@ -98,7 +98,7 @@ class TextInputView: UIView {
     // MARK: - Setup Methods
     private func setupView() {
         // Настройка заголовка (справа над полем)
-        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        titleLabel.font = UIFont(name: AppFont.Medium, size: 14)
         titleLabel.textColor = .darkGray
         titleLabel.textAlignment = .right
         titleLabel.isHidden = true
@@ -111,7 +111,7 @@ class TextInputView: UIView {
         
         // Настройка текстового поля
         textField.borderStyle = .none
-        textField.font = UIFont.systemFont(ofSize: 16)
+        textField.font = UIFont(name: AppFont.Regular, size: 16)
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         containerView.addSubview(textField)
