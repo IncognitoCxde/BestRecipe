@@ -9,8 +9,8 @@
 import Foundation
 
 struct MockUser {
-    static let firstName = "Hanna"
+    static let firstName = "Shirin"
     static let lastName = "Shekerberg"
-    static let email = "hannaS@icloud.com"
+    static let email = "shirin_shekerberg@icloud.com"
     static let password = "000!0001"
 }
