@@ -11,7 +11,7 @@ class PopularCategoryCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "PopularCategoryCollectionViewCell"
     
-    private let label: UILabel = {
+    let label: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.SemiBold, size: 15)
         label.textColor = .primary30

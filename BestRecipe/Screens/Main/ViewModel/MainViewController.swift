@@ -130,7 +130,6 @@ class MainViewController: UIViewController, UISearchBarDelegate {
                 self?.ultimateCollectionView.reloadData()
             }
         }
-//        viewModel.loadMockData()
         viewModel.fetchData {
             self.ultimateCollectionView.reloadData()
         }
@@ -305,7 +304,17 @@ extension MainViewController: UICollectionViewDataSource, SectionHeaderReusableV
         case .popularCategories:
             let categories = viewModel.categories[indexPath.item].name
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularCategoryCollectionViewCell.identifier, for: indexPath) as! PopularCategoryCollectionViewCell
+            
             let isSelected = indexPath == selectedIndexPath
+            
+            if indexPath == selectedIndexPath {
+                cell.label.font = UIFont(name: AppFont.SemiBold, size: 17)
+                cell.label.textColor = .primary60
+            } else {
+                cell.label.font = UIFont(name: AppFont.SemiBold, size: 15)
+                cell.label.textColor = .primary30
+            }
+            
             cell.configure(with: categories, isSelected: isSelected)
             return cell
         case .recent:
@@ -367,13 +376,14 @@ extension MainViewController: UICollectionViewDelegate {
 
             let previousIndexPath = selectedIndexPath
             selectedIndexPath = indexPath
-
+            
             var indexPathsToReload = [indexPath]
             if let previous = previousIndexPath, previous != indexPath {
                 indexPathsToReload.append(previous)
             }
+            
             collectionView.reloadItems(at: indexPathsToReload)
-
+            
         case .trending, .popular:
             let recipe = (section == .trending) ?
                 viewModel.trendingRecipes[indexPath.item] :
