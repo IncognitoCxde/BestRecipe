@@ -28,16 +28,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         coordinator?.start()
         print("SceneDelegate: coordinator?.start() вызван. Окно должно быть видно.")
-        
-        // УДАЛИТЕ этот блок кода - логика уже в AppCoordinator
-        // let helloViewModel = HelloViewModel()
-        // let helloViewController = HelloViewController(viewModel: helloViewModel)
-        // let registrationViewController = RegistrationViewController()
-        // if storage.hasSeenOnboarding == true {
-        //     window.rootViewController = UINavigationController(rootViewController: registrationViewController)
-        // } else if storage.hasSeenOnboarding == false {
-        //     window.rootViewController = helloViewController
-        // }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
