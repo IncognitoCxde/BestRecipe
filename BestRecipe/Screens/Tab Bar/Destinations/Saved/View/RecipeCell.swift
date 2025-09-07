@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 
 class RecipeCell: UITableViewCell {
+    var onSaveTapped: ((Int) -> Void)?
+    private var recipeID: Int?
 
     // MARK: - UI Elements
     
@@ -54,14 +56,7 @@ class RecipeCell: UITableViewCell {
         return label
     }()
     
-    
-    private let saveButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "BookmarkSelected"), for: .normal)
-        button.contentVerticalAlignment = .fill
-        button.contentHorizontalAlignment = .fill
-        return button
-    }()
+    private let saveButton: UIButton = UIButton.configureSaveButton()
     
     private let timeLabel: UILabel = {
         let label = UILabel()
@@ -82,6 +77,7 @@ class RecipeCell: UITableViewCell {
         self.selectionStyle = .none
         setupViews()
         setupConstraints()
+        setupActions()
     }
     
     required init?(coder: NSCoder) {
@@ -131,12 +127,38 @@ class RecipeCell: UITableViewCell {
         }
     }
     
-    // MARK: - Public Methods
+    private func setupActions() {
+        saveButton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
+    }
     
-    func configure(with recipe: RecipeDetails) {
-        recipeImageView.image = UIImage(named: recipe.imageName)
+    // MARK: - Methods
+    
+    func configure(with recipe: Recipe) {
+        self.recipeID = recipe.id
         titleLabel.text = recipe.title
-        ratingLabel.text = "\(recipe.rating)"
-        timeLabel.text = recipe.time
+        if let time = recipe.readyInMinutes {
+            timeLabel.text = "\(time) min"
+        } else {
+            timeLabel.text = ""
+        }
+
+        recipeImageView.image = UIImage(named: "placeholderImage")
+
+        if let url = URL(string: recipe.image) {
+            ImageLoader.shared.loadImage(from: url) { [weak self] image in
+                DispatchQueue.main.async {
+                    if self?.recipeID == recipe.id {
+                        self?.recipeImageView.image = image ?? UIImage(named: "placeholderImage")
+                    }
+                }
+            }
+        }
+        
+        
+    }
+    
+    @objc private func saveButtonPressed() {
+        guard let id = recipeID else { return }
+        onSaveTapped?(id)
     }
 }

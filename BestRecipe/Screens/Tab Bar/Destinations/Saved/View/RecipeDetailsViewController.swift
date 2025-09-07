@@ -11,7 +11,7 @@ import SnapKit
 class RecipeDetailsViewController: UIViewController {
 
     // MARK: - Properties
-    
+    var recipeIngredients: [ingredient] = []
     var viewModel: RecipeDetailViewModel!
 
     // MARK: - UI Elements
@@ -172,12 +172,19 @@ class RecipeDetailsViewController: UIViewController {
         }
 
 
-        if let image = UIImage(named: viewModel.recipe.imageName) {
-            recipeImageView.image = image
+        if let imageUrlString = viewModel.recipe.image,
+           let url = URL(string: imageUrlString) {
+            ImageLoader.shared.loadImage(from: url) { [weak self] image in
+                DispatchQueue.main.async {
+                    self?.recipeImageView.image = image ?? UIImage(systemName: "square.dashed")
+                    self?.recipeImageView.tintColor = image == nil ? .neutral60 : nil
+                }
+            }
         } else {
             recipeImageView.image = UIImage(systemName: "square.dashed")
             recipeImageView.tintColor = .neutral60
         }
+
         
         for (index, instruction) in viewModel.recipeInstructions.enumerated() {
             let instructionLabel = UILabel()
@@ -191,5 +198,6 @@ class RecipeDetailsViewController: UIViewController {
             let ingredientView = IngredientView(ingredient: ingredient)
             ingredientsStackView.addArrangedSubview(ingredientView)
         }
+
     }
 }

@@ -20,7 +20,7 @@ class IngredientView: UIView {
         }
     }
 
-    init(ingredient: Ingredient) {
+    init(ingredient: ingredient) {
         super.init(frame: .zero)
         setupUI(ingredient: ingredient)
     }
@@ -29,26 +29,37 @@ class IngredientView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupUI(ingredient: Ingredient) {
+    private func setupUI(ingredient: ingredient) {
         backgroundColor = .neutral40
         layer.cornerRadius = 10
         clipsToBounds = true
 
-        imageView.image = UIImage(named: ingredient.imageName) ?? UIImage(systemName: "square.dashed")
+        if let imageName = ingredient.image {
+            imageView.image = UIImage(named: imageName) ?? UIImage(systemName: "square.dashed")
+        } else {
+            imageView.image = UIImage(systemName: "square.dashed")
+        }
         imageView.tintColor = .neutral60
         imageView.contentMode = .scaleAspectFit
         imageView.snp.makeConstraints { $0.size.equalTo(40) }
 
-        nameLabel.text = ingredient.name
+        nameLabel.text = ingredient.name ?? "No name"
         nameLabel.font = UIFont(name: AppFont.SemiBold, size: 16)
         nameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
 
-        quantityLabel.text = ingredient.quantity
+        let amountText: String
+        if let amount = ingredient.amount, let unit = ingredient.unit {
+            amountText = "\(amount) \(unit)"
+        } else if let amount = ingredient.amount {
+            amountText = "\(amount)"
+        } else {
+            amountText = "-"
+        }
+        quantityLabel.text = amountText
         quantityLabel.font = UIFont(name: AppFont.Regular, size: 14)
         quantityLabel.textColor = .neutral60
         quantityLabel.setContentHuggingPriority(.required, for: .horizontal)
 
-        // MARK: - Initial Checkbox Setup
         checkboxButton.layer.cornerRadius = 11.5
         checkboxButton.layer.borderWidth = 2
         checkboxButton.layer.borderColor = UIColor.neutral100.cgColor
@@ -56,7 +67,6 @@ class IngredientView: UIView {
         checkboxButton.tintColor = .white
         checkboxButton.setImage(nil, for: .normal)
         checkboxButton.snp.makeConstraints { $0.size.equalTo(23) }
-
 
         checkboxButton.addTarget(self, action: #selector(checkboxTapped), for: .touchUpInside)
 
@@ -74,6 +84,7 @@ class IngredientView: UIView {
         mainStack.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(12)
         }
+
         updateCheckboxAppearance()
     }
 
@@ -91,10 +102,7 @@ class IngredientView: UIView {
         } else {
             checkboxButton.backgroundColor = .neutral100
             checkboxButton.layer.borderColor = UIColor.neutral100.cgColor
-            let checkmark = UIImage(systemName: "checkmark")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .bold))
-            checkboxButton.setImage(checkmark, for: .normal)
-            checkboxButton.tintColor = .white
-
+            checkboxButton.setImage(nil, for: .normal)
         }
     }
 }

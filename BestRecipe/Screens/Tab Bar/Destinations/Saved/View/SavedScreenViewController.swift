@@ -42,16 +42,12 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
         setupConstraints()
         bindViewModel()
         
+//        viewModel.loadSavedRecipes()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         viewModel.loadSavedRecipes()
-        
-        let savedViewModel = SavedRecipesViewModel()
-        savedViewModel.loadSavedRecipes()
-
-        if let firstRecipe = savedViewModel.recipes.first {
-            let detailViewModel = RecipeDetailViewModel(recipe: firstRecipe)
-            print(detailViewModel.recipeTitle) 
-        }
-
     }
     
     // MARK: UI Setup
@@ -85,8 +81,7 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
     private func bindViewModel() {
         viewModel.onRecipesUpdated = { [weak self] in
             DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
+                self?.tableView.reloadData()            }
         }
     }
 
@@ -100,20 +95,33 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecipeCell", for: indexPath) as? RecipeCell else {
             return UITableViewCell()
         }
-        
+
         let recipe = viewModel.recipes[indexPath.row]
         cell.configure(with: recipe)
-        
+
+        cell.onSaveTapped = { [weak self] _ in
+            self?.viewModel.loadSavedRecipes()
+        }
+
         return cell
     }
+
     
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedRecipe = viewModel.recipes[indexPath.row]
-        let viewModel = RecipeDetailViewModel(recipe: selectedRecipe)
-        let detailsVC = RecipeDetailsViewController()
-        detailsVC.viewModel = viewModel
-        navigationController?.pushViewController(detailsVC, animated: true)
-
+        viewModel.fetchRecipeDetail(for: selectedRecipe.id) { [weak self] detail in
+            guard let detail = detail else {
+                return
+            }
+            let detailViewModel = RecipeDetailViewModel(recipe: detail)
+            let detailsVC = RecipeDetailsViewController()
+            detailsVC.viewModel = detailViewModel
+            DispatchQueue.main.async {
+                self?.navigationController?.pushViewController(detailsVC, animated: true)
+            }
+        }
     }
+
+
 }
