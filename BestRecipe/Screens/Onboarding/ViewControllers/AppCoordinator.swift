@@ -4,6 +4,7 @@
 //
 //  Created by Zarina Sadykova on 23.08.25.
 //
+
 import UIKit
 
 final class AppCoordinator {
@@ -22,8 +23,8 @@ final class AppCoordinator {
         print("🔍 Текущее значение hasSeenOnboarding: \(storage.hasSeenOnboarding)")
         
         if storage.hasSeenOnboarding {
-            print("AppCoordinator: hasSeenOnboarding = true, переходим на Home")
-            showHome()
+            print("AppCoordinator: hasSeenOnboarding = true, переходим на Registration")
+            showRegistration()
         } else {
             print("AppCoordinator: hasSeenOnboarding = false, показываем Hello")
             showHello()
@@ -52,27 +53,27 @@ final class AppCoordinator {
         print("Coordinator: showOnboarding()")
         let onboardingViewModel = OnboardingViewModel(storage: storage)
         
-        // ✅ Используем правильный OnboardingViewController
         let onboardingViewController = OnboardingViewController(viewModel: onboardingViewModel)
         
         onboardingViewModel.onFinish = { [weak self] in
             print("Coordinator: Замыкание onboardingViewModel.onFinish вызвано")
-            self?.showHome()
+            self?.showRegistration()
         }
 
-        // ✅ Просто заменяем rootViewController
         window.rootViewController = onboardingViewController
     }
 
-    private func showHome() {
-        print("Coordinator: showHome()")
-        let CustomTabBar = CustomTabBarController()
-        let navController = UINavigationController(rootViewController: CustomTabBar)
+    private func showRegistration() {
+        print("Coordinator: showRegistration()")
+        let registrationViewController = LoginViewController()
+        let navController = UINavigationController(rootViewController: registrationViewController)
+        navController.isNavigationBarHidden = true
 
         UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {
             self.window.rootViewController = navController
         }, completion: { _ in
-            print("Coordinator: Успешно перешли на MainViewController.")
+            print("Coordinator: Успешно перешли на RegistrationViewController.")
         })
     }
 }
+
