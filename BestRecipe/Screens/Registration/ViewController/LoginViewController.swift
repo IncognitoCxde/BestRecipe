@@ -170,7 +170,7 @@ class LoginViewController: UIViewController {
         
         if login == MockUser.email && password == MockUser.password {
             print("✅ Successful login: \(login)")
-            let tabBarController = CustomTabBarController()
+            let tabBarController = UINavigationController(rootViewController: CustomTabBarController())
             tabBarController.modalPresentationStyle = .fullScreen
             present(tabBarController, animated: true)
         } else if login != MockUser.email {
