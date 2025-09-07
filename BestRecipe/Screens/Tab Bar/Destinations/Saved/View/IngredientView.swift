@@ -35,7 +35,7 @@ class IngredientView: UIView {
         clipsToBounds = true
 
         if let imageName = ingredient.image {
-            imageView.image = UIImage(named: imageName) ?? UIImage(systemName: "square.dashed")
+            imageView.loadImage(from: ingredient.image ?? "")
         } else {
             imageView.image = UIImage(systemName: "square.dashed")
         }
@@ -44,7 +44,7 @@ class IngredientView: UIView {
         imageView.snp.makeConstraints { $0.size.equalTo(40) }
 
         nameLabel.text = ingredient.name ?? "No name"
-        nameLabel.font = UIFont(name: AppFont.SemiBold, size: 16)
+        nameLabel.font = UIFont(name: AppFont.Regular, size: 16)
         nameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
 
         let amountText: String
@@ -94,7 +94,7 @@ class IngredientView: UIView {
 
     private func updateCheckboxAppearance() {
         if isChecked {
-            checkboxButton.backgroundColor = .systemRed
+            checkboxButton.backgroundColor = .primary50
             checkboxButton.layer.borderColor = UIColor.primary50.cgColor
             let checkmark = UIImage(systemName: "checkmark")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .bold))
             checkboxButton.setImage(checkmark, for: .normal)
