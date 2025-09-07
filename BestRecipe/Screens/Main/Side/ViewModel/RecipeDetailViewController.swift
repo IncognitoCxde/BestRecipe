@@ -63,7 +63,7 @@ class RecipeDetailViewController: UIViewController {
         instructionsTitle.text = "Instructions"
         instructionsTitle.font = UIFont(name: AppFont.SemiBold, size: 20)
         
-        instructionsLabel.text = recipe.instructions?.htmlStripped ?? "No instructions available."
+        instructionsLabel.text = recipe.instructions?.htmlStripped ?? "No instructions available"
         instructionsLabel.numberOfLines = 0
         instructionsLabel.lineBreakMode = .byWordWrapping
         instructionsLabel.font = UIFont(name: AppFont.Regular, size: 16)

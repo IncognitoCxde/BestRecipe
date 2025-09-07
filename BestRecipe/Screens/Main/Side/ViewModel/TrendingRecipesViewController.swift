@@ -30,8 +30,8 @@ class TrendingRecipesViewController: UIViewController {
     private func setUpUI() {
         setupCustomBackButton()
         setUpTitle()
-        setUpTrendingTableView()
         bindViewModel()
+        setUpTrendingTableView()
         configureConstraints()
         
     }

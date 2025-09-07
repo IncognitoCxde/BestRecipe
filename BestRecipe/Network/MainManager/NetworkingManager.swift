@@ -28,6 +28,9 @@ struct NetworkingManager {
         case .trending:
             parameters["number"] = "10"
             parameters["sort"] = "healthiness"
+        case .fullTrending:
+            parameters["number"] = "20"
+            parameters["sort"] = "healthiness"
         case .popularRecipes:
             parameters["number"] = "10"
             parameters["sort"] = "popularity"

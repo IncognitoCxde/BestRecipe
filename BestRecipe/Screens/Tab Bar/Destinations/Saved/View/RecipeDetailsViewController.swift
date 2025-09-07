@@ -189,7 +189,7 @@ class RecipeDetailsViewController: UIViewController {
         for (index, instruction) in viewModel.recipeInstructions.enumerated() {
             let instructionLabel = UILabel()
             instructionLabel.font = UIFont(name: AppFont.Regular, size: 16)
-            instructionLabel.text = "\(index + 1). \(instruction)".htmlStripped
+            instructionLabel.text = "\(index + 1) \(instruction)".htmlStripped
             instructionLabel.numberOfLines = 0
             instructionsStackView.addArrangedSubview(instructionLabel)
         }

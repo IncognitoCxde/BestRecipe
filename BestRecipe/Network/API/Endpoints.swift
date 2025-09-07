@@ -13,6 +13,7 @@ enum Endpoint {
     static let baseURL = "https://spoonacular.com/food-api"
 
     case trending
+    case fullTrending
     case popularCategories(category: String)
     case popularRecipes
     case search(query: String)
@@ -21,7 +22,7 @@ enum Endpoint {
 
     var path: String {
         switch self {
-        case .trending, .popularRecipes, .popularCategories, .search:
+        case .trending, .fullTrending, .popularRecipes, .popularCategories, .search:
             return "/recipes/complexSearch"
         case .details(let id):
             return "/recipes/\(id)/information"

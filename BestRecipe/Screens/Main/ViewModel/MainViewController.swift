@@ -42,8 +42,8 @@ class MainViewController: UIViewController, UISearchBarDelegate {
         view.backgroundColor = .white
         configureNavTitle()
         configureSearchBar()
-        configureUltimateCollectionView()
         bindViewModel()
+        configureUltimateCollectionView()
     }
     
     // MARK: - Navigation

@@ -43,7 +43,7 @@ final class HomeNetworkingManager: HomeNetworkingProtocol {
     }
     
     func fetchFullTrending(completion: @escaping (Result<FullRecipeResponse, NetworkError>) -> Void) {
-        guard let url = manager.createURL(for: .trending) else { return }
+        guard let url = manager.createURL(for: .fullTrending) else { return }
         manager.makeTask(for: url, apiKey: API.apiKey, completion: completion)
     }
     
