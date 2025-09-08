@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class SaveManager {
     
@@ -34,7 +35,7 @@ final class SaveManager {
     func toggle(id: Int) {
         if isFavorite(id: id) {
             print("Removing recipe \(id)")
-        
+            
             remove(id: id)
         } else {
             print("Adding recipe \(id)")
