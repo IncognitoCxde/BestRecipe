@@ -413,7 +413,6 @@ extension MainViewController: UICollectionViewDelegate {
             let recipe = (section == .recent) ?
             viewModel.recentRecipes[indexPath.item]:
             viewModel.trendingRecipes[indexPath.item]
-            viewModel.allPopularRecipes[indexPath.item]
             
             let recipeId = recipe.id
             networkingManager.fetchRecipeDetail(id: recipeId) { [weak self] result in

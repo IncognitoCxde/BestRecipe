@@ -34,7 +34,7 @@ class IngredientView: UIView {
         layer.cornerRadius = 10
         clipsToBounds = true
 
-        if let imageName = ingredient.image {
+        if ingredient.image != nil {
             imageView.loadImage(from: ingredient.image ?? "")
         } else {
             imageView.image = UIImage(systemName: "square.dashed")
