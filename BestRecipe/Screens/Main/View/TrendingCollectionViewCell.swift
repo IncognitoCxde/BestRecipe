@@ -92,4 +92,23 @@ class TrendingCollectionViewCell: UICollectionViewCell {
         print("saved!")
     }
     
+    var recipeID: Int? {
+        didSet {
+            saveButton.recipeID = recipeID
+            saveButton.updateAppearance()
+        }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        recipeID = nil
+    }
+    
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        if window != nil {
+            saveButton.updateAppearance()
+        }
+    }
+    
 }

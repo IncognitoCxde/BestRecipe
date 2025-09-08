@@ -122,4 +122,19 @@ extension TrendingRecipesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 240
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let recipeId = viewModel.trendingRecipes[indexPath.row].id ?? 0
+        networkingManager.fetchRecipeDetail(id: recipeId) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let detail):
+                    let detailVC = RecipeDetailViewController(recipe: detail)
+                    self?.navigationController?.pushViewController(detailVC, animated: true)
+                case .failure(let error):
+                    print("Failed to fetch recipe details:", error)
+                }
+            }
+        }
+    }
 }

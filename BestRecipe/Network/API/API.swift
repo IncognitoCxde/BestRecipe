@@ -11,7 +11,7 @@ import UIKit
 struct API {
     static let scheme = "https"
     static let host = "api.spoonacular.com"
-    static let apiKey = Token.third
+    static let apiKey = Token.second
 }
 
 struct Token {

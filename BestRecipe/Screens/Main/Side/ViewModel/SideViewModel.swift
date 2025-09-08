@@ -16,17 +16,6 @@ class SideViewModel {
     
     
     func loadMockTrendingData() {
-//        trendingRecipes = [
-//            SideRecipe(id: 1, title: "Spicy Salmon with edamame", image: "salmon", timeTaken: 60, rating: 5.0, numberOfIngredients: 9),
-//            SideRecipe(id: 2, title: "The Perfect Filet Mignon", image: "steak", timeTaken: 45, rating: 5.0, numberOfIngredients: 4),
-//            SideRecipe(id: 3, title: "Authentic Fettuccine Alfredo", image: "spaghetti", timeTaken: 30, rating: 5.0, numberOfIngredients: 6)
-//        ]
-        recentRecipes = [
-            SideRecipe(id: 1, title: "NYC Ribeye Steak", image: "meat", timeTaken: 45, rating: 5.0, numberOfIngredients: 4),
-            SideRecipe(id: 2, title: "Veggie Cutlets", image: "egg", timeTaken: 20, rating: 5.0, numberOfIngredients: 5),
-            SideRecipe(id: 3, title: "Belgian Vanilla Waffles", image: "waffle", timeTaken: 15, rating: 5.0, numberOfIngredients: 6)
-        ]
-        onDataUpdated?()
     }
     
     var onDataUpdated: (() -> Void)?
@@ -48,6 +37,18 @@ class SideViewModel {
         group.notify(queue: .main) {
             completion()
             self.onDataUpdated?()
+        }
+    }
+    
+    func fetchRecipeDetail(for id: Int, completion: @escaping (RecipeDetail?) -> Void) {
+        networkingManager.fetchRecipeDetail(id: id) { result in
+            switch result {
+            case .success(let detail):
+                completion(detail)
+            case .failure(let error):
+                print("Failed to fetch detail: \(error)")
+                completion(nil)
+            }
         }
     }
 }
