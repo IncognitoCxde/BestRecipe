@@ -107,7 +107,7 @@ final class IngredientCell: UITableViewCell {
         ])
     }
     
-    func configure(with ingredient: Ingredient) {
+    func configure(with ingredient: CreatedIngredient) {
         nameTextField.text = ingredient.name
         quantityTextField.text = ingredient.quantity
     }

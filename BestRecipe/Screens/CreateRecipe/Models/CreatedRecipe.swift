@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-struct Ingredient: Hashable, Codable, Sendable {
+struct CreatedIngredient: Hashable, Codable, Sendable {
     let id: UUID
     var name: String
     var quantity: String
@@ -13,15 +13,15 @@ struct Ingredient: Hashable, Codable, Sendable {
     }
 }
 
-struct Recipe: Hashable, Codable, Sendable {
+struct CreatedRecipe: Hashable, Codable, Sendable {
     let id: UUID
     var title: String
     var serves: Int
     var cookTimeMinutes: Int
-    var ingredients: [Ingredient]
+    var ingredients: [CreatedIngredient]
     var imageData: Data?
     
-    init(title: String, serves: Int, cookTimeMinutes: Int, ingredients: [Ingredient], imageData: Data? = nil) {
+    init(title: String, serves: Int, cookTimeMinutes: Int, ingredients: [CreatedIngredient], imageData: Data? = nil) {
         self.id = UUID()
         self.title = title
         self.serves = serves
@@ -31,7 +31,7 @@ struct Recipe: Hashable, Codable, Sendable {
     }
 }
 
-extension Recipe {
+extension CreatedRecipe {
     var ingredientsCount: Int {
         ingredients.count
     }

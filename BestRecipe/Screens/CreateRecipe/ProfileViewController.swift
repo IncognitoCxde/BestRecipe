@@ -204,7 +204,7 @@ final class ProfileViewController: UIViewController {
         updateSnapshot(with: recipes)
     }
     
-    private func updateSnapshot(with recipes: [Recipe]) {
+    private func updateSnapshot(with recipes: [CreatedRecipe]) {
         var snapshot = Snapshot()
         snapshot.appendSections([.recipes])
         
@@ -248,7 +248,7 @@ final class ProfileViewModel {
         self.persistence = persistence
     }
     
-    func loadRecipes() async -> [Recipe] {
+    func loadRecipes() async -> [CreatedRecipe] {
         do {
             return try await persistence.loadRecipes()
         } catch {

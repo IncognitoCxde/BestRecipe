@@ -6,7 +6,7 @@ final class CreateRecipeViewModel {
         var title: String = ""
         var serves: Int = 1
         var cookTimeMinutes: Int = 10
-        var ingredients: [Ingredient] = []
+        var ingredients: [CreatedIngredient] = []
         var imageData: Data? = nil
         var isAddingNewIngredient: Bool = false
     }
@@ -35,7 +35,7 @@ final class CreateRecipeViewModel {
     }
     
     func addIngredient(name: String, quantity: String) {
-        let ingredient = Ingredient(name: name, quantity: quantity)
+        let ingredient = CreatedIngredient(name: name, quantity: quantity)
         inputs.ingredients.append(ingredient)
     }
     
@@ -56,13 +56,13 @@ final class CreateRecipeViewModel {
         return (isValid, isValid ? nil : "Recipe title is required")
     }
     
-    func createRecipe() async throws -> Recipe {
+    func createRecipe() async throws -> CreatedRecipe {
         let validation = validate()
         guard validation.isValid else {
             throw RecipeError.invalidData(validation.message ?? "Invalid recipe data")
         }
         
-        let recipe = Recipe(
+        let recipe = CreatedRecipe(
             title: inputs.title,
             serves: inputs.serves,
             cookTimeMinutes: inputs.cookTimeMinutes,

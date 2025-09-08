@@ -548,7 +548,7 @@ final class CreateRecipeViewController: UIViewController {
         let cookTime = Int(cookTimeText.components(separatedBy: .whitespaces).first ?? "10") ?? 10
         
         // Collect ingredients
-        var ingredients: [Ingredient] = []
+        var ingredients: [CreatedIngredient] = []
         for arrangedSubview in ingredientsStackView.arrangedSubviews {
             let ingredientRow = arrangedSubview
             let textFields = ingredientRow.subviews.compactMap { $0 as? UITextField }
@@ -557,7 +557,7 @@ final class CreateRecipeViewController: UIViewController {
                 let quantityField = textFields[1]
                 
                 if !(nameField.text?.isEmpty ?? true) && !(quantityField.text?.isEmpty ?? true) {
-                    let ingredient = Ingredient(
+                    let ingredient = CreatedIngredient(
                         name: nameField.text ?? "",
                         quantity: quantityField.text ?? ""
                     )
@@ -573,7 +573,7 @@ final class CreateRecipeViewController: UIViewController {
         }
         
         // Create recipe
-        let recipe = Recipe(
+        let recipe = CreatedRecipe(
             title: title,
             serves: serves,
             cookTimeMinutes: cookTime,

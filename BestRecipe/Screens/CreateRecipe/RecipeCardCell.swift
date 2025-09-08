@@ -9,7 +9,7 @@ final class RecipeCardCell: UICollectionViewCell {
         let ingredientsCountText: String
         let imageData: Data?
         
-        init(recipe: Recipe) {
+        init(recipe: CreatedRecipe) {
             self.id = recipe.id
             self.title = recipe.title
             self.cookTimeText = recipe.cookTimeText
