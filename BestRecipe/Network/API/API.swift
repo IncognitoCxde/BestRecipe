@@ -11,12 +11,12 @@ import UIKit
 struct API {
     static let scheme = "https"
     static let host = "api.spoonacular.com"
-    static let apiKey = Token.first
+    static let apiKey = Token.third
 }
 
 struct Token {
     static let first = "2c3d6fb8e3a4445883fbf80d4d9cadee"
     static let second = "952db1e593eb49fabc3c7db2bbf382f3"
-    static let third = "651ec0da730e44c6a02c07e9abb888c3"
+    static let third = "68711ec5f107405ea92429db31d7700c"
     static let fourth = "2415ef7c13274f62940b3053e241d579"
 }

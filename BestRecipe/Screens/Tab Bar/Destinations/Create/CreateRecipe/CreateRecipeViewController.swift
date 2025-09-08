@@ -1,6 +1,7 @@
 import UIKit
 import PhotosUI
 
+
 final class CreateRecipeViewController: UIViewController {
     
     private let viewModel: CreateRecipeViewModel
@@ -10,8 +11,6 @@ final class CreateRecipeViewController: UIViewController {
     private let contentView = UIView()
     
     // Navigation
-    private let backButton = UIButton(type: .system)
-    private let optionsButton = UIButton(type: .system)
     private let titleLabel = UILabel()
     
     // Image section
@@ -67,6 +66,7 @@ final class CreateRecipeViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = .systemBackground
+        setupCustomBackButton()
         setupScrollView()
         setupNavigation()
         setupImageSection()
@@ -97,38 +97,30 @@ final class CreateRecipeViewController: UIViewController {
         ])
     }
     
-    private func setupNavigation() {
-        backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-        backButton.tintColor = .label
+    private func setupCustomBackButton() {
+        let backButton = UIButton(type: .system)
+        let icon = UIImage(systemName: "arrow.left")?.withRenderingMode(.alwaysTemplate)
+        backButton.setImage(icon, for: .normal)
+        backButton.tintColor = .neutral100
         backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
-        
-        optionsButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-        optionsButton.tintColor = .label
-        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+    }
+    
+    @objc private func backTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    private func setupNavigation() {
         titleLabel.text = "Create Recipe"
         titleLabel.font = UIFont(name: AppFont.SemiBold, size: 24) ?? .systemFont(ofSize: 24, weight: .semibold)
         titleLabel.textColor = .label
         
-        contentView.addSubview(backButton)
-        contentView.addSubview(optionsButton)
         contentView.addSubview(titleLabel)
         
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        optionsButton.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            backButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            backButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            backButton.widthAnchor.constraint(equalToConstant: 44),
-            backButton.heightAnchor.constraint(equalToConstant: 44),
-            
-            optionsButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            optionsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            optionsButton.widthAnchor.constraint(equalToConstant: 44),
-            optionsButton.heightAnchor.constraint(equalToConstant: 44),
-            
-            titleLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 24),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 144),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
@@ -446,10 +438,6 @@ final class CreateRecipeViewController: UIViewController {
     }
     
     // MARK: - Actions
-        
-    @objc private func backTapped() {
-        dismiss(animated: true)
-    }
     
     @objc private func imageEditTapped() {
         var config = PHPickerConfiguration()

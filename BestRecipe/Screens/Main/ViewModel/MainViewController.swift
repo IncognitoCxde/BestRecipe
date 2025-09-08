@@ -388,6 +388,10 @@ extension MainViewController: UICollectionViewDelegate {
             let recipe = (section == .trending) ?
                 viewModel.trendingRecipes[indexPath.item] :
                 viewModel.allPopularRecipes[indexPath.item]
+            
+            if let existingIndex = viewModel.recentRecipes.firstIndex(where: { $0.id == recipe.id }) {
+                viewModel.recentRecipes.remove(at: existingIndex)
+            }
 
             viewModel.recentRecipes.insert(recipe, at: 0)
             collectionView.reloadSections(IndexSet(integer: RecipeSectionType.recent.rawValue))

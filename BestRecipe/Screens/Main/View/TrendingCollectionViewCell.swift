@@ -18,6 +18,12 @@ class TrendingCollectionViewCell: UICollectionViewCell {
     private let saveButton = SaveButton()
     private var toggleState = 0
     
+//    override var isSelected: Bool {
+//        didSet {
+//            saveButton.setImage(.bookmarkActive, for: .normal)
+//        }
+//    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(titleLabel)
@@ -70,6 +76,7 @@ class TrendingCollectionViewCell: UICollectionViewCell {
     func  configure(with recipe: Recipe) {
         saveButton.recipeID = recipe.id
         saveButton.updateAppearance()
+        
         titleLabel.text = recipe.title
         titleLabel.font = UIFont(name: AppFont.SemiBold, size: 17)
         titleLabel.textColor = .neutral100
@@ -83,19 +90,6 @@ class TrendingCollectionViewCell: UICollectionViewCell {
     
     @objc func saveButtonTapped() {
         print("saved!")
-        saveButton.setImage(UIImage.bookmarkSelected, for: .normal)
     }
     
 }
-
-
-//public extension UIButton {
-//    static func configureSaveButton() -> UIButton {
-//        let savebutton = UIButton()
-//        savebutton.setImage(UIImage.bookmark, for: .normal)
-//        savebutton.contentVerticalAlignment = .fill
-//        savebutton.contentHorizontalAlignment = .fill
-//        return savebutton
-//    }
-//}
-
