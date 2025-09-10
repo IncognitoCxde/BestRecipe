@@ -73,14 +73,14 @@ final class RecipeCardCell: UICollectionViewCell {
     }
     
     private func setupLabels() {
-        titleLabel.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
+        titleLabel.font = UIFont(name: AppFont.semiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
         titleLabel.textColor = .white
         titleLabel.numberOfLines = 2
         
-        ingredientsLabel.font = UIFont(name: AppFont.Regular, size: 12) ?? .systemFont(ofSize: 12)
+        ingredientsLabel.font = UIFont(name: AppFont.regular, size: 12) ?? .systemFont(ofSize: 12)
         ingredientsLabel.textColor = .white
         
-        timeLabel.font = UIFont(name: AppFont.Regular, size: 12) ?? .systemFont(ofSize: 12)
+        timeLabel.font = UIFont(name: AppFont.regular, size: 12) ?? .systemFont(ofSize: 12)
         timeLabel.textColor = .white
         
         metaStackView.axis = .horizontal
@@ -110,7 +110,7 @@ final class RecipeCardCell: UICollectionViewCell {
         
         ratingLabel.text = "5,0"
         ratingLabel.textColor = .white
-        ratingLabel.font = UIFont(name: AppFont.SemiBold, size: 12) ?? .systemFont(ofSize: 12, weight: .semibold)
+        ratingLabel.font = UIFont(name: AppFont.semiBold, size: 12) ?? .systemFont(ofSize: 12, weight: .semibold)
         
         let ratingStack = UIStackView(arrangedSubviews: [starImageView, ratingLabel])
         ratingStack.axis = .horizontal
@@ -193,7 +193,7 @@ final class PlaceholderCell: UICollectionViewCell {
         contentView.backgroundColor = .clear
         
         titleLabel.textAlignment = .center
-        titleLabel.font = UIFont(name: AppFont.Regular, size: 20) ?? .preferredFont(forTextStyle: .title3)
+        titleLabel.font = UIFont(name: AppFont.regular, size: 20) ?? .preferredFont(forTextStyle: .title3)
         titleLabel.textColor = .secondaryLabel
         titleLabel.numberOfLines = 0
         

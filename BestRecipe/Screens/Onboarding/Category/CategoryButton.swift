@@ -36,7 +36,7 @@ class CustomButton: UIButton {
     // MARK: - Configuration
     private func setupButton() {
         setTitleColor(.white, for: .normal)
-        titleLabel?.font = UIFont(name: AppFont.SemiBold, size: 20)
+        titleLabel?.font = UIFont(name: AppFont.semiBold, size: 20)
         titleLabel?.adjustsFontSizeToFitWidth = false
         titleLabel?.minimumScaleFactor = 1.0
         titleLabel?.lineBreakMode = .byClipping

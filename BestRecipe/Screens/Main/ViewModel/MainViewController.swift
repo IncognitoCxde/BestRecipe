@@ -51,7 +51,7 @@ class MainViewController: UIViewController, UISearchBarDelegate {
     func configureNavTitle() {
         titleLabel.text = "Get amazing recipes \nfor cooking"
         titleLabel.textColor = UIColor(named: "Neutal 100")
-        titleLabel.font = UIFont(name: AppFont.SemiBold, size: 27)
+        titleLabel.font = UIFont(name: AppFont.semiBold, size: 27)
         titleLabel.textAlignment = .left
         titleLabel.numberOfLines = 2
         view.addSubview(titleLabel)
@@ -69,7 +69,7 @@ class MainViewController: UIViewController, UISearchBarDelegate {
         searchBar.delegate = self
         searchBar.placeholder = " Search recipes"
         searchBar.layer.borderWidth = 1
-        searchBar.searchTextField.font = UIFont(name: AppFont.Regular, size: 17)
+        searchBar.searchTextField.font = UIFont(name: AppFont.regular, size: 17)
         
         searchBar.layer.borderColor = UIColor.neutral50.cgColor
         searchBar.layer.cornerRadius = 12
@@ -308,10 +308,10 @@ extension MainViewController: UICollectionViewDataSource, SectionHeaderReusableV
             let isSelected = indexPath == selectedIndexPath
             
             if indexPath == selectedIndexPath {
-                cell.label.font = UIFont(name: AppFont.SemiBold, size: 17)
+                cell.label.font = UIFont(name: AppFont.semiBold, size: 17)
                 cell.label.textColor = .primary60
             } else {
-                cell.label.font = UIFont(name: AppFont.SemiBold, size: 15)
+                cell.label.font = UIFont(name: AppFont.semiBold, size: 15)
                 cell.label.textColor = .primary30
             }
             

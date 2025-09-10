@@ -42,7 +42,7 @@ class TrendingTableViewCell: UITableViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.SemiBold, size: 18)
+        label.font = UIFont(name: AppFont.semiBold, size: 18)
         label.textColor = .white
         label.numberOfLines = 2
         return label
@@ -69,21 +69,21 @@ class TrendingTableViewCell: UITableViewCell {
     
     private let ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.Regular, size: 14)
+        label.font = UIFont(name: AppFont.regular, size: 14)
         label.textColor = .white
         return label
     }()
     
     let numOfIngredients: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.Regular, size: 14)
+        label.font = UIFont(name: AppFont.regular, size: 14)
         label.textColor = .white
         return label
     }()
     
    let timeTaken: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.Regular, size: 14)
+        label.font = UIFont(name: AppFont.regular, size: 14)
         label.textColor = .white
         return label
     }()

@@ -78,13 +78,13 @@ class TrendingCollectionViewCell: UICollectionViewCell {
         saveButton.updateAppearance()
         
         titleLabel.text = recipe.title
-        titleLabel.font = UIFont(name: AppFont.SemiBold, size: 17)
+        titleLabel.font = UIFont(name: AppFont.semiBold, size: 17)
         titleLabel.textColor = .neutral100
         imageView.setImage(from: recipe.image)
         creatorImage.image = UIImage(named: recipe.author?.profileImageUrl ?? "chef")
         creatorLabel.text = "By \(recipe.author?.name ?? "Zeelicious Recipes")"
         creatorLabel.textColor = .neutral60
-        creatorLabel.font = UIFont(name: AppFont.Regular, size: 14)
+        creatorLabel.font = UIFont(name: AppFont.regular, size: 14)
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
     }
     

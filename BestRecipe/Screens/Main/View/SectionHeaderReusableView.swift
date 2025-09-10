@@ -20,7 +20,7 @@ class SectionHeaderReusableView: UICollectionReusableView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.SemiBold, size: 21)
+        label.font = UIFont(name: AppFont.semiBold, size: 21)
         label.textColor = .neutral100
         return label
     }()
@@ -29,7 +29,7 @@ class SectionHeaderReusableView: UICollectionReusableView {
         let button = UIButton()
         button.setTitle("See all", for: .normal)
         button.setTitleColor(.primary50, for: .normal)
-        button.titleLabel?.font = UIFont(name: AppFont.SemiBold, size: 17)
+        button.titleLabel?.font = UIFont(name: AppFont.semiBold, size: 17)
         return button
     }()
     

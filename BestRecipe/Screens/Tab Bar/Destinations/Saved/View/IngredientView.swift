@@ -44,7 +44,7 @@ class IngredientView: UIView {
         imageView.snp.makeConstraints { $0.size.equalTo(40) }
 
         nameLabel.text = ingredient.name ?? "No name"
-        nameLabel.font = UIFont(name: AppFont.Regular, size: 16)
+        nameLabel.font = UIFont(name: AppFont.regular, size: 16)
         nameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
 
         let amountText: String
@@ -56,7 +56,7 @@ class IngredientView: UIView {
             amountText = "-"
         }
         quantityLabel.text = amountText
-        quantityLabel.font = UIFont(name: AppFont.Regular, size: 14)
+        quantityLabel.font = UIFont(name: AppFont.regular, size: 14)
         quantityLabel.textColor = .neutral60
         quantityLabel.setContentHuggingPriority(.required, for: .horizontal)
 

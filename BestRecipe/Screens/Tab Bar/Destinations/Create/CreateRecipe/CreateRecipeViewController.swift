@@ -112,7 +112,7 @@ final class CreateRecipeViewController: UIViewController {
     
     private func setupNavigation() {
         titleLabel.text = "Create Recipe"
-        titleLabel.font = UIFont(name: AppFont.SemiBold, size: 24) ?? .systemFont(ofSize: 24, weight: .semibold)
+        titleLabel.font = UIFont(name: AppFont.semiBold, size: 24) ?? .systemFont(ofSize: 24, weight: .semibold)
         titleLabel.textColor = .label
         
         contentView.addSubview(titleLabel)
@@ -173,7 +173,7 @@ final class CreateRecipeViewController: UIViewController {
     
     private func setupTitleField() {
         titleField.placeholder = "Recipe title"
-        titleField.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16)
+        titleField.font = UIFont(name: AppFont.regular, size: 16) ?? .systemFont(ofSize: 16)
         titleField.borderStyle = .none
         titleField.backgroundColor = .clear
         titleField.layer.cornerRadius = 10
@@ -203,11 +203,11 @@ final class CreateRecipeViewController: UIViewController {
         servesIcon.tintColor = .systemGray
         
         servesTitleLabel.text = "Serves"
-        servesTitleLabel.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
+        servesTitleLabel.font = UIFont(name: AppFont.semiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
         servesTitleLabel.textColor = .label
         
         servesValueLabel.text = "2 people"
-        servesValueLabel.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16)
+        servesValueLabel.font = UIFont(name: AppFont.regular, size: 16) ?? .systemFont(ofSize: 16)
         servesValueLabel.textColor = .secondaryLabel
         
         servesChevron.tintColor = .systemGray
@@ -225,11 +225,11 @@ final class CreateRecipeViewController: UIViewController {
         cookTimeIcon.tintColor = .systemGray
         
         cookTimeTitleLabel.text = "Cook Time"
-        cookTimeTitleLabel.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
+        cookTimeTitleLabel.font = UIFont(name: AppFont.semiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
         cookTimeTitleLabel.textColor = .label
         
         cookTimeValueLabel.text = "10 min"
-        cookTimeValueLabel.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16)
+        cookTimeValueLabel.font = UIFont(name: AppFont.regular, size: 16) ?? .systemFont(ofSize: 16)
         cookTimeValueLabel.textColor = .secondaryLabel
         
         cookTimeChevron.tintColor = .systemGray
@@ -310,14 +310,14 @@ final class CreateRecipeViewController: UIViewController {
     
     private func setupIngredientsSection() {
         ingredientsTitleLabel.text = "Ingredients"
-        ingredientsTitleLabel.font = UIFont(name: AppFont.SemiBold, size: 20) ?? .systemFont(ofSize: 20, weight: .semibold)
+        ingredientsTitleLabel.font = UIFont(name: AppFont.semiBold, size: 20) ?? .systemFont(ofSize: 20, weight: .semibold)
         ingredientsTitleLabel.textColor = UIColor(red: 0.094, green: 0.094, blue: 0.094, alpha: 1.0) // #181818
         
         ingredientsStackView.axis = .vertical
         ingredientsStackView.spacing = 16
         
         addIngredientButton.setTitle("+ Add new Ingredient", for: .normal)
-        addIngredientButton.titleLabel?.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
+        addIngredientButton.titleLabel?.font = UIFont(name: AppFont.semiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
         addIngredientButton.setTitleColor(UIColor(red: 0.094, green: 0.094, blue: 0.094, alpha: 1.0), for: .normal)
         addIngredientButton.addTarget(self, action: #selector(addNewIngredientTapped), for: .touchUpInside)
         
@@ -356,7 +356,7 @@ final class CreateRecipeViewController: UIViewController {
         // Ingredient name field
         let nameField = UITextField()
         nameField.placeholder = "Item name"
-        nameField.font = UIFont(name: AppFont.Regular, size: 14) ?? .systemFont(ofSize: 14)
+        nameField.font = UIFont(name: AppFont.regular, size: 14) ?? .systemFont(ofSize: 14)
         nameField.borderStyle = .none
         nameField.backgroundColor = .clear
         nameField.layer.cornerRadius = 10
@@ -368,7 +368,7 @@ final class CreateRecipeViewController: UIViewController {
         // Quantity field
         let quantityField = UITextField()
         quantityField.placeholder = "Quantity"
-        quantityField.font = UIFont(name: AppFont.Regular, size: 14) ?? .systemFont(ofSize: 14)
+        quantityField.font = UIFont(name: AppFont.regular, size: 14) ?? .systemFont(ofSize: 14)
         quantityField.borderStyle = .none
         quantityField.backgroundColor = .clear
         quantityField.layer.cornerRadius = 10
@@ -418,7 +418,7 @@ final class CreateRecipeViewController: UIViewController {
     
     private func setupCreateButton() {
         createButton.setTitle("Create Recipe", for: .normal)
-        createButton.titleLabel?.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
+        createButton.titleLabel?.font = UIFont(name: AppFont.semiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
         createButton.backgroundColor = UIColor(red: 0.886, green: 0.243, blue: 0.243, alpha: 1.0) // #E23E3E
         createButton.setTitleColor(.white, for: .normal)
         createButton.layer.cornerRadius = 8

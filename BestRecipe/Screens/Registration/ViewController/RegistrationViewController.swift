@@ -72,7 +72,7 @@ class RegistrationViewController: UIViewController {
         // Текст
         fullTextLabel.text = "Create your account\nexplore best recipes"
         fullTextLabel.textColor = .white
-        fullTextLabel.font = UIFont(name: AppFont.Bold, size: 28)
+        fullTextLabel.font = UIFont(name: AppFont.bold, size: 28)
         fullTextLabel.numberOfLines = 2
         spoonsImageView.addSubview(fullTextLabel)
         
@@ -106,10 +106,10 @@ class RegistrationViewController: UIViewController {
         if let loginRange = fullText.range(of: "Login") {
             let nsRange = NSRange(loginRange, in: fullText)
             attributedString.addAttribute(.foregroundColor, value: UIColor.success100, range: nsRange)
-            attributedString.addAttribute(.font, value: UIFont(name: AppFont.Regular, size: 14)!, range: nsRange)
+            attributedString.addAttribute(.font, value: UIFont(name: AppFont.regular, size: 14)!, range: nsRange)
         }
         
-        attributedString.addAttribute(.font, value: UIFont(name: AppFont.Regular, size: 14)!, range: NSRange(location: 0, length: fullText.count))
+        attributedString.addAttribute(.font, value: UIFont(name: AppFont.regular, size: 14)!, range: NSRange(location: 0, length: fullText.count))
         attributedString.addAttribute(.foregroundColor, value: UIColor.gray, range: NSRange(location: 0, length: fullText.count - 5))
         
         alreadyHaveAccountLabel.attributedText = attributedString

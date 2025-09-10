@@ -57,16 +57,16 @@ class RecipeDetailViewController: UIViewController {
         }
         
         titleLabel.text = recipe.title
-        titleLabel.font = UIFont(name: AppFont.SemiBold, size: 20)
+        titleLabel.font = UIFont(name: AppFont.semiBold, size: 20)
         titleLabel.numberOfLines = 0
         
         instructionsTitle.text = "Instructions"
-        instructionsTitle.font = UIFont(name: AppFont.SemiBold, size: 20)
+        instructionsTitle.font = UIFont(name: AppFont.semiBold, size: 20)
         
         instructionsLabel.text = recipe.instructions?.htmlStripped ?? "No instructions available"
         instructionsLabel.numberOfLines = 0
         instructionsLabel.lineBreakMode = .byWordWrapping
-        instructionsLabel.font = UIFont(name: AppFont.Regular, size: 16)
+        instructionsLabel.font = UIFont(name: AppFont.regular, size: 16)
 
         imageView.setImage(from: recipe.image)
         imageView.layer.cornerRadius = 8
@@ -78,7 +78,7 @@ class RecipeDetailViewController: UIViewController {
         }
         
         ingredientsTitle.text = "Ingredients"
-        ingredientsTitle.font = UIFont(name: AppFont.SemiBold, size: 20)
+        ingredientsTitle.font = UIFont(name: AppFont.semiBold, size: 20)
         
         for ingredient in recipe.extendedIngredients {
             let ingredientView = IngredientCustomView(ingredient: ingredient)

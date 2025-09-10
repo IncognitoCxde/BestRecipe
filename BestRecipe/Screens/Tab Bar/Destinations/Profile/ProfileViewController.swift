@@ -77,11 +77,11 @@ final class ProfileViewController: UIViewController {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         profileTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        profileTitleLabel.font = UIFont(name: AppFont.SemiBold, size: 24) ?? .systemFont(ofSize: 24, weight: .semibold)
+        profileTitleLabel.font = UIFont(name: AppFont.semiBold, size: 24) ?? .systemFont(ofSize: 24, weight: .semibold)
         profileTitleLabel.text = "My Profile"
         profileTitleLabel.textColor = .label
         
-        nameLabel.font = UIFont(name: AppFont.SemiBold, size: 24) ?? .systemFont(ofSize: 24, weight: .semibold)
+        nameLabel.font = UIFont(name: AppFont.semiBold, size: 24) ?? .systemFont(ofSize: 24, weight: .semibold)
         nameLabel.text = "My recipes"
         nameLabel.textColor = .label
         

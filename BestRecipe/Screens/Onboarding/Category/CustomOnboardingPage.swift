@@ -25,7 +25,7 @@ final class OnboardingPageViewController: UIViewController {
     private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont(name: AppFont.Regular, size: 30)
+        label.font = UIFont(name: AppFont.regular, size: 30)
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -41,7 +41,7 @@ final class OnboardingPageViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("Skip", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont(name: AppFont.Medium, size: 14)
+        button.titleLabel?.font = UIFont(name: AppFont.medium, size: 14)
         return button
     }()
     

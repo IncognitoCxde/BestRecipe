@@ -17,7 +17,7 @@ final class HelloViewController: UIViewController {
         let label = UILabel()
         label.text = "⭐ 100k+ Premium recipes"
         label.textColor = .white
-        label.font = UIFont(name: AppFont.Medium, size: 16)
+        label.font = UIFont(name: AppFont.medium, size: 16)
         label.textAlignment = .center
         return label
     }()
@@ -26,7 +26,7 @@ final class HelloViewController: UIViewController {
         let label = UILabel()
         label.text = "BEST \nRECIPE"
         label.textColor = .white
-        label.font = UIFont(name: AppFont.Bold, size: 50)
+        label.font = UIFont(name: AppFont.bold, size: 50)
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -35,7 +35,7 @@ final class HelloViewController: UIViewController {
     private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont(name: AppFont.Medium, size: 17)
+        label.font = UIFont(name: AppFont.medium, size: 17)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.text = "Find best recipes for cooking"

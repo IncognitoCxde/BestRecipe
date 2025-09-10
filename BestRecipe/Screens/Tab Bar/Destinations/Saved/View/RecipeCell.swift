@@ -24,7 +24,7 @@ class RecipeCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.SemiBold, size: 18)
+        label.font = UIFont(name: AppFont.semiBold, size: 18)
         label.textColor = .neutral100
         label.textAlignment = .left
         label.numberOfLines = 2
@@ -53,7 +53,7 @@ class RecipeCell: UITableViewCell {
     
     private let ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.Regular, size: 14)
+        label.font = UIFont(name: AppFont.regular, size: 14)
         label.textColor = .white
         return label
     }()
@@ -62,7 +62,7 @@ class RecipeCell: UITableViewCell {
 
     private let timeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.SemiBold, size: 14)
+        label.font = UIFont(name: AppFont.semiBold, size: 14)
         label.textColor = .white
         label.backgroundColor = UIColor(white: 0, alpha: 0.5)
         label.layer.cornerRadius = 8

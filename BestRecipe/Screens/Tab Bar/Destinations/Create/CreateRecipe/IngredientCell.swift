@@ -52,7 +52,7 @@ final class IngredientCell: UITableViewCell {
         
         // Name field - same style as recipe title field but regular font
         nameTextField.borderStyle = .none
-        nameTextField.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16, weight: .regular)
+        nameTextField.font = UIFont(name: AppFont.regular, size: 16) ?? .systemFont(ofSize: 16, weight: .regular)
         nameTextField.textColor = .label
         nameTextField.backgroundColor = .systemBackground
         nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 44))
@@ -61,7 +61,7 @@ final class IngredientCell: UITableViewCell {
         
         // Quantity field - same style as recipe title field but regular font
         quantityTextField.borderStyle = .none
-        quantityTextField.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16, weight: .regular)
+        quantityTextField.font = UIFont(name: AppFont.regular, size: 16) ?? .systemFont(ofSize: 16, weight: .regular)
         quantityTextField.textColor = .label
         quantityTextField.backgroundColor = .systemBackground
         quantityTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 44))
@@ -182,7 +182,7 @@ final class AddIngredientCell: UITableViewCell {
         // Name field - regular font with gray placeholder
         nameTextField.borderStyle = .none
         nameTextField.placeholder = "Ingredient name"
-        nameTextField.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16, weight: .regular)
+        nameTextField.font = UIFont(name: AppFont.regular, size: 16) ?? .systemFont(ofSize: 16, weight: .regular)
         nameTextField.textColor = .label
         nameTextField.attributedPlaceholder = NSAttributedString(
             string: "Ingredient name",
@@ -195,7 +195,7 @@ final class AddIngredientCell: UITableViewCell {
         // Quantity field - regular font with gray placeholder
         quantityTextField.borderStyle = .none
         quantityTextField.placeholder = "Quantity"
-        quantityTextField.font = UIFont(name: AppFont.Regular, size: 16) ?? .systemFont(ofSize: 16, weight: .regular)
+        quantityTextField.font = UIFont(name: AppFont.regular, size: 16) ?? .systemFont(ofSize: 16, weight: .regular)
         quantityTextField.textColor = .label
         quantityTextField.attributedPlaceholder = NSAttributedString(
             string: "Quantity",
@@ -296,7 +296,7 @@ final class AddNewIngredientCell: UITableViewCell {
         selectionStyle = .none
         
         addLabel.text = "+ Add new Ingredient"
-        addLabel.font = UIFont(name: AppFont.SemiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
+        addLabel.font = UIFont(name: AppFont.semiBold, size: 16) ?? .systemFont(ofSize: 16, weight: .semibold)
         addLabel.textColor = .black
         addLabel.textAlignment = .left
         

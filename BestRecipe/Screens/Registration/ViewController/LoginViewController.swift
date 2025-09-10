@@ -68,7 +68,7 @@ class LoginViewController: UIViewController {
         // Настройка текста "Or"
         orContinueLabel.text = "───────  or  ───────"
         orContinueLabel.textColor = .gray
-        orContinueLabel.font = UIFont(name: AppFont.Regular, size: 16)
+        orContinueLabel.font = UIFont(name: AppFont.regular, size: 16)
         orContinueLabel.textAlignment = .center
         view.addSubview(orContinueLabel)
         
@@ -89,11 +89,11 @@ class LoginViewController: UIViewController {
             let nsRange = NSRange(signInRange, in: fullText)
 
             attributedString.addAttribute(.foregroundColor, value: UIColor.success100, range: nsRange)
-            attributedString.addAttribute(.font, value: UIFont(name: AppFont.Regular, size: 28)!, range: nsRange)
+            attributedString.addAttribute(.font, value: UIFont(name: AppFont.regular, size: 28)!, range: nsRange)
         }
         
         // Устанавливаем обычный стиль для остального текста
-        attributedString.addAttribute(.font, value: UIFont(name: AppFont.Regular, size: 14)!, range: NSRange(location: 0, length: fullText.count))
+        attributedString.addAttribute(.font, value: UIFont(name: AppFont.regular, size: 14)!, range: NSRange(location: 0, length: fullText.count))
         attributedString.addAttribute(.foregroundColor, value: UIColor.gray, range: NSRange(location: 0, length: fullText.count - 7))
         
         signInLabel.attributedText = attributedString

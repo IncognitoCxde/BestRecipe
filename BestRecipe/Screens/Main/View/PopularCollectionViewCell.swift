@@ -74,7 +74,7 @@ class PopularCollectionViewCell: UICollectionViewCell {
         rectangularBackground.layer.cornerRadius = 12
         rectangularBackground.clipsToBounds = true
         titleLabel.text = recipe.title
-        titleLabel.font = UIFont(name: AppFont.SemiBold, size: 15)
+        titleLabel.font = UIFont(name: AppFont.semiBold, size: 15)
         titleLabel.numberOfLines = 2
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.adjustsFontSizeToFitWidth = true
@@ -85,9 +85,9 @@ class PopularCollectionViewCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         timeLabel.text = "Time"
         timeLabel.textColor = .neutral60
-        timeLabel.font = UIFont(name: AppFont.Regular, size: 13)
+        timeLabel.font = UIFont(name: AppFont.regular, size: 13)
         timeCount.text = "\(recipe.readyInMinutes ?? 15) mins"
-        timeCount.font = UIFont(name: AppFont.SemiBold, size: 14)
+        timeCount.font = UIFont(name: AppFont.semiBold, size: 14)
         timeCount.textColor = .neutral100
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
 

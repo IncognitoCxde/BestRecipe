@@ -60,7 +60,7 @@ class TrendingRecipesViewController: UIViewController {
     
     func setUpTitle() {
         trendingTitle.text = "Trending Now"
-        trendingTitle.font = UIFont(name: AppFont.SemiBold, size: 25)
+        trendingTitle.font = UIFont(name: AppFont.semiBold, size: 25)
         trendingTitle.textColor = .neutral100
         trendingTitle.textAlignment = .center
         view.addSubview(trendingTitle)

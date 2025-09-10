@@ -48,7 +48,7 @@ class RecentCollectionViewCell: UICollectionViewCell {
     
     func  configure(with recipe: Recipe) {
         titleLabel.text = recipe.title
-        titleLabel.font = UIFont(name: AppFont.SemiBold, size: 15)
+        titleLabel.font = UIFont(name: AppFont.semiBold, size: 15)
         titleLabel.textColor = .neutral100
         titleLabel.numberOfLines = 2
         titleLabel.lineBreakMode = .byWordWrapping
@@ -56,6 +56,6 @@ class RecentCollectionViewCell: UICollectionViewCell {
         imageView.setImage(from: recipe.image)
         creatorLabel.text = "By \(recipe.author?.name ?? "Zeelicious Recipes")"
         creatorLabel.textColor = .neutral60
-        creatorLabel.font = UIFont(name: AppFont.Regular, size: 13)
+        creatorLabel.font = UIFont(name: AppFont.regular, size: 13)
     }
 }

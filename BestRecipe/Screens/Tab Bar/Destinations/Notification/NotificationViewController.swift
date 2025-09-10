@@ -16,7 +16,7 @@ class NotificationViewController: UIViewController {
 
         view.backgroundColor = .systemBackground
         maintenanceLabel.text = "Under Maintenance 🛠️"
-        maintenanceLabel.font = UIFont(name: AppFont.Regular, size: 20)
+        maintenanceLabel.font = UIFont(name: AppFont.regular, size: 20)
         maintenanceLabel.textColor = .neutral60
         view.addSubview(maintenanceLabel)
         maintenanceLabel.snp.makeConstraints { make in

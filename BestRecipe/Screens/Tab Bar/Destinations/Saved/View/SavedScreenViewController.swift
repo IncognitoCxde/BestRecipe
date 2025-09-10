@@ -17,7 +17,7 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Saved Recipes"
-        label.font = UIFont(name: AppFont.SemiBold, size: 24)
+        label.font = UIFont(name: AppFont.semiBold, size: 24)
         label.textColor = .neutral100
         return label
     }()

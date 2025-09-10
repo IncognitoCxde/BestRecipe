@@ -57,7 +57,7 @@ class RecentRecipesViewController: UIViewController {
     
     func setUpTitle() {
         recentTitle.text = "Recent recipes"
-        recentTitle.font = UIFont(name: AppFont.SemiBold, size: 25)
+        recentTitle.font = UIFont(name: AppFont.semiBold, size: 25)
         recentTitle.textColor = .neutral100
         recentTitle.textAlignment = .center
         view.addSubview(recentTitle)

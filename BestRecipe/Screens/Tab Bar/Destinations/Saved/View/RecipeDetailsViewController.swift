@@ -37,7 +37,7 @@ class RecipeDetailsViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.SemiBold, size: 24)
+        label.font = UIFont(name: AppFont.semiBold, size: 24)
         label.numberOfLines = 0
         return label
     }()
@@ -52,11 +52,11 @@ class RecipeDetailsViewController: UIViewController {
         }
 
         let ratingValueLabel = UILabel()
-        ratingValueLabel.font = UIFont(name: AppFont.SemiBold, size: 16)
+        ratingValueLabel.font = UIFont(name: AppFont.semiBold, size: 16)
         ratingValueLabel.textColor = .neutral100
 
         let reviewsLabel = UILabel()
-        reviewsLabel.font = UIFont(name: AppFont.Regular, size: 16)
+        reviewsLabel.font = UIFont(name: AppFont.regular, size: 16)
         reviewsLabel.textColor = .neutral50
         reviewsLabel.text = ""
 
@@ -73,7 +73,7 @@ class RecipeDetailsViewController: UIViewController {
     private let instructionsTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Instructions"
-        label.font = UIFont(name: AppFont.SemiBold, size: 20)
+        label.font = UIFont(name: AppFont.semiBold, size: 20)
         return label
     }()
     
@@ -87,7 +87,7 @@ class RecipeDetailsViewController: UIViewController {
     private let ingredientsTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Ingredients"
-        label.font = UIFont(name: AppFont.SemiBold, size: 20)
+        label.font = UIFont(name: AppFont.semiBold, size: 20)
         return label
     }()
     
@@ -188,7 +188,7 @@ class RecipeDetailsViewController: UIViewController {
         
         for (index, instruction) in viewModel.recipeInstructions.enumerated() {
             let instructionLabel = UILabel()
-            instructionLabel.font = UIFont(name: AppFont.Regular, size: 16)
+            instructionLabel.font = UIFont(name: AppFont.regular, size: 16)
             instructionLabel.text = "\(index + 1) \(instruction)".htmlStripped
             instructionLabel.numberOfLines = 0
             instructionsStackView.addArrangedSubview(instructionLabel)

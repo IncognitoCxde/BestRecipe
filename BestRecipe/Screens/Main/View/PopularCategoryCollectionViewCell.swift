@@ -13,7 +13,7 @@ class PopularCategoryCollectionViewCell: UICollectionViewCell {
     
     let label: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.SemiBold, size: 15)
+        label.font = UIFont(name: AppFont.semiBold, size: 15)
         label.textColor = .primary30
         label.textAlignment = .center
         return label
@@ -22,7 +22,7 @@ class PopularCategoryCollectionViewCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             label.textColor = isSelected ? .primary60 : .primary30
-            label.font = isSelected ? UIFont(name: AppFont.SemiBold, size: 17) : UIFont(name: AppFont.SemiBold, size: 15)
+            label.font = isSelected ? UIFont(name: AppFont.semiBold, size: 17) : UIFont(name: AppFont.semiBold, size: 15)
         }
     }
     
