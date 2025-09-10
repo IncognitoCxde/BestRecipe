@@ -28,7 +28,18 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
         tableView.backgroundColor = .clear
         return tableView
     }()
-
+    
+    private let emptyStateLabel: UILabel = {
+            let label = UILabel()
+            label.text = "You have no saved recipes yet."
+            label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+            label.adjustsFontForContentSizeCategory = true
+            label.textColor = .neutral50
+            label.textAlignment = .center
+            label.numberOfLines = 0
+            label.isHidden = true
+            return label
+        }()
     
     // MARK: Lifecycle
     
@@ -52,6 +63,7 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
     private func setupViews() {
         view.addSubview(titleLabel)
         view.addSubview(tableView)
+        view.addSubview(emptyStateLabel)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -71,6 +83,12 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
             make.top.equalTo(titleLabel.snp.bottom).offset(16)
             make.leading.trailing.bottom.equalToSuperview()
         }
+        
+        emptyStateLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(tableView.snp.centerY)
+            make.leading.trailing.equalToSuperview().inset(20)
+        }
     }
     
     // MARK: ViewModel Binding
@@ -78,8 +96,16 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
     private func bindViewModel() {
         viewModel.onRecipesUpdated = { [weak self] in
             DispatchQueue.main.async {
-                self?.tableView.reloadData()            }
+                self?.tableView.reloadData()
+                self?.updateUIForEmptyState()
+            }
         }
+    }
+    
+    private func updateUIForEmptyState() {
+        let hasRecipes = !viewModel.recipes.isEmpty
+        tableView.isHidden = !hasRecipes
+        emptyStateLabel.isHidden = hasRecipes
     }
 
     // MARK: UITableViewDataSource
