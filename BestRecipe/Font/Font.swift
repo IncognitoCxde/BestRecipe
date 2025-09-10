@@ -5,8 +5,6 @@
 //  Created by iMacbook on 8/18/25.
 //
 
-import UIKit
-
 struct AppFont {
     static let regular: String = "Poppins-Regular"
     static let bold: String = "Poppins-Bold"

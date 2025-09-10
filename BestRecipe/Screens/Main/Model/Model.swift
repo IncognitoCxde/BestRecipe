@@ -5,8 +5,6 @@
 //  Created by iMacbook on 8/19/25.
 //
 
-import UIKit
-
 // MARK: - Recipe Model
 
 struct Recipe: Codable {

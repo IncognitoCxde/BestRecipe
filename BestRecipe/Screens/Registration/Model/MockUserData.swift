@@ -6,7 +6,6 @@
 //
 
 // MockUser.swift
-import Foundation
 
 struct MockUser {
     static let firstName = "Shirin"
