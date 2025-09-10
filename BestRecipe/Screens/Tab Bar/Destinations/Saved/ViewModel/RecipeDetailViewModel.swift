@@ -24,7 +24,7 @@ class RecipeDetailViewModel {
         return []
     }
 
-    var recipeIngredients: [ingredient] {
+    var recipeIngredients: [IngredientInfo] {
         recipe.extendedIngredients
     }
 

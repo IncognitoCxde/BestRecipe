@@ -11,7 +11,7 @@ import SnapKit
 class RecipeDetailsViewController: UIViewController {
 
     // MARK: - Properties
-    var recipeIngredients: [ingredient] = []
+    var recipeIngredients: [IngredientInfo] = []
     var viewModel: RecipeDetailViewModel!
 
     // MARK: - UI Elements

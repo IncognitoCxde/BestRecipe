@@ -13,9 +13,10 @@ class IngredientCustomView: UIView {
     private let nameLabel = UILabel()
     private let amountLabel = UILabel()
     
-    init(ingredient: ingredient) {
+    init(ingredient: IngredientInfo) {
         super.init(frame: .zero)
         setupUI(ingredient: ingredient)
+        setUpStacks()
     }
 
     required init?(coder: NSCoder) {
@@ -23,7 +24,7 @@ class IngredientCustomView: UIView {
     }
     
     
-    private func setupUI(ingredient: ingredient) {
+    private func setupUI(ingredient: IngredientInfo) {
         backgroundColor = .neutral40
         layer.cornerRadius = 10
         clipsToBounds = true
@@ -46,6 +47,9 @@ class IngredientCustomView: UIView {
         amountLabel.textColor = .neutral60
         amountLabel.setContentHuggingPriority(.required, for: .horizontal)
         
+    }
+    
+    func setUpStacks() {
         let infoStack = UIStackView(arrangedSubviews: [nameLabel, amountLabel])
         infoStack.axis = .horizontal
         infoStack.spacing = 8

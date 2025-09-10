@@ -5,7 +5,6 @@
 //  Created by Irina  on 07/09/25.
 //
 
-import Foundation
 import UIKit
 
 class ImageLoader {

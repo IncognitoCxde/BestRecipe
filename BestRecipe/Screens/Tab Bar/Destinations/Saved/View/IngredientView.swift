@@ -20,7 +20,7 @@ class IngredientView: UIView {
         }
     }
 
-    init(ingredient: ingredient) {
+    init(ingredient: IngredientInfo) {
         super.init(frame: .zero)
         setupUI(ingredient: ingredient)
     }
@@ -29,7 +29,7 @@ class IngredientView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupUI(ingredient: ingredient) {
+    private func setupUI(ingredient: IngredientInfo) {
         backgroundColor = .neutral40
         layer.cornerRadius = 10
         clipsToBounds = true

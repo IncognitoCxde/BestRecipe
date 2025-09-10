@@ -33,13 +33,14 @@ class MainViewController: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        tabBarController?.tabBar.dropShadow()        
+        self.hideKeyboardWhenTappedAround()
     }
     
     // MARK: - UI
     
     func setUpUI() {
         view.backgroundColor = .white
+        tabBarController?.tabBar.dropShadow()
         configureNavTitle()
         configureSearchBar()
         bindViewModel()
