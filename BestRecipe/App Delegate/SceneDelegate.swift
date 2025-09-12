@@ -24,14 +24,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let storage = OnboardingStorage.shared
         
         print("SceneDelegate: OnboardingStorage создан")
-        
+
         coordinator = AppCoordinator(window: window, storage: storage)
         print("SceneDelegate: AppCoordinator инициализирован")
         
         coordinator?.start()
         print("SceneDelegate: coordinator?.start() вызван. Окно должно быть видно.")
+
+        #warning("это бесполезные принты, которые выполнятся в любом случае")
     }
 
+    // это можно удалить
     func sceneDidDisconnect(_ scene: UIScene) {
     }
 

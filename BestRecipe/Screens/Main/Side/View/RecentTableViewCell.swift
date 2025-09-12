@@ -1,14 +1,11 @@
-//
-//  RecentTableViewCell.swift
-//  BestRecipe
-//
-//  Created by iMacbook on 8/31/25.
-//
+
 
 import UIKit
 
+#warning("final")
 class RecentTableViewCell: UITableViewCell {
 
+#warning("есть более элегантный способ задать identifier")
     static let identifier = "RecentTableViewCell"
     
     private let recipeImageView: UIImageView = {
@@ -67,21 +64,21 @@ class RecentTableViewCell: UITableViewCell {
     
     private let ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.Regular, size: 14)
+        label.font = UIFont(name: AppFont.regular, size: 14)
         label.textColor = .white
         return label
     }()
     
     let numOfIngredients: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.Regular, size: 14)
+        label.font = UIFont(name: AppFont.regular, size: 14)
         label.textColor = .white
         return label
     }()
     
    let timeTaken: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.Regular, size: 14)
+        label.font = UIFont(name: AppFont.regular, size: 14)
         label.textColor = .white
         return label
     }()
@@ -99,6 +96,7 @@ class RecentTableViewCell: UITableViewCell {
     }
     
     private func setupViews() {
+#warning("лучше через forEach")
         contentView.addSubview(recipeImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(numOfIngredients)

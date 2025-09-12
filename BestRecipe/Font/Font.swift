@@ -8,8 +8,9 @@
 import UIKit
 
 struct AppFont {
-    static let Regular: String = "Poppins-Regular"
-    static let Bold: String = "Poppins-Bold"
+#warning("названия свойств пишутся с маленькой буквы, lowerCamelCase")
+    static let regular: String = "Poppins-Regular"
+    static let bold: String = "Poppins-Bold"
     static let SemiBold: String = "Poppins-SemiBold"
     static let ExtraBold: String = "Poppins-ExtraBold"
     static let Light: String = "Poppins-Light"

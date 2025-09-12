@@ -1,12 +1,8 @@
-//
-//  UImageView+Remote.swift
-//  BestRecipe
-//
-//  Created by iMacbook on 9/5/25.
-//
+
 
 import UIKit
 
+#warning("в чём отличие от другого extension UIImageView ?")
 extension UIImageView {
     func setImage(from urlString: String?) {
         guard let urlString = urlString, !urlString.isEmpty else { return }

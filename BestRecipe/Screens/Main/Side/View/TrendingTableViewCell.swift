@@ -10,7 +10,8 @@ import UIKit
 class TrendingTableViewCell: UITableViewCell {
     
     static let identifier = "TrendingTableViewCell"
-    
+
+#warning("ячейка не должна иметь собственных логических компонентов типа менеджеров, но тут оно вроде и не используется")
     let networkingManager: HomeNetworkingProtocol = HomeNetworkingManager()
     
     private let recipeImageView: UIImageView = {

@@ -1,12 +1,6 @@
-//
-//  SaveButtonExtension.swift
-//  BestRecipe
-//
-//  Created by Irina  on 07/09/25.
-//
-
 import UIKit
 
+#warning("это UI элемент, ему лучше бы быть в DesignSystem")
 final class SaveButton: UIButton {
     var recipeID: Int?
     var onToggle: (() -> Void)?
@@ -22,6 +16,7 @@ final class SaveButton: UIButton {
     }
 
     private func setup() {
+    #warning("желательно избегать литералов в коде, используйте константы")
         setImage(UIImage(named: "Bookmark"), for: .normal)
         contentVerticalAlignment = .fill
         contentHorizontalAlignment = .fill

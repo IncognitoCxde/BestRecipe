@@ -1,14 +1,8 @@
 //
-//  Model.swift
-//  BestRecipe
 //
-//  Created by iMacbook on 8/19/25.
-//
-
 import UIKit
 
 // MARK: - Recipe Model
-
 struct Recipe: Codable {
     let id: Int
     let title: String
@@ -34,6 +28,7 @@ struct RecipeDetail: Codable {
     let extendedIngredients: [ingredient]
 }
 
+#warning("названия структур пишутся с большой буквы")
 struct ingredient: Codable {
     let id: Int?
     let name: String?
@@ -43,14 +38,14 @@ struct ingredient: Codable {
 }
 
 // MARK: - Creator Model
-
+#warning("аналогично")
 struct author: Codable {
     let name: String?
     let profileImageUrl: String?
 }
 
 // MARK: - Sections enum
-
+// вот это правильная вещь для модели Home
 enum RecipeSectionType: Int, CaseIterable {
     case trending
     case popularCategories
@@ -75,7 +70,7 @@ struct Category {
 }
 
 // MARK: - Categories enum
-
+#warning("лучше вынести в отдельный файл и назвать соответствующе, чтобы было проще найти в навигаторе")
 enum Categories: String, Equatable {
     case salad = "salad"
     case appetizer = "appetizer"

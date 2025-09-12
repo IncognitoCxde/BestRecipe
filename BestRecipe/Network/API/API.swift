@@ -1,12 +1,8 @@
-//
-//  API.swift
-//  BestRecipe
-//
-//  Created by iMacbook on 9/1/25.
-//
+
 // https://api.spoonacular.com
 
-import UIKit
+#warning("здесь нет UI элементов чтобы импортить UIKit")
+import Foundation
 
 struct API {
     static let scheme = "https"
@@ -15,7 +11,7 @@ struct API {
 }
 
 struct Token {
-    static let first = "cac1546933ac4f79b1ee25a908236188"
+    static let first = "977e7847d283492bb87bffe3d7256e12"
     static let second = "952db1e593eb49fabc3c7db2bbf382f3"
     static let third = "651ec0da730e44c6a02c07e9abb888c3"
     static let fourth = "2415ef7c13274f62940b3053e241d579"

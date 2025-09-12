@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+#warning("это должен быть универсальный ViewController для всех SeeAll")
 class TrendingRecipesViewController: UIViewController {
 
     // MARK: - Variables

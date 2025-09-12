@@ -1,10 +1,5 @@
-//
-//  LoadImage.swift
-//  BestRecipe
-//
-//  Created by Irina  on 07/09/25.
-//
 
+#warning("импорт Foundation входит в импорт UIKit")
 import Foundation
 import UIKit
 

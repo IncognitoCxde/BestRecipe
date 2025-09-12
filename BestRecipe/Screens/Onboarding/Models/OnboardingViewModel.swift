@@ -39,6 +39,7 @@ final class OnboardingViewModel {
                   subtitle: "",
                   imageName: "onboarding4")
         ]
+#warning("зачем нужен subtitle, если он всегда пустой?")
     }
     
     var isLastPage: Bool { currentIndex == pages.count - 1 }

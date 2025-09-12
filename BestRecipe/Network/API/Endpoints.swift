@@ -1,16 +1,10 @@
-//
-//  Endpoints.swift
-//  BestRecipe
-//
-//  Created by iMacbook on 9/1/25.
-//
 
 // Link: https://api.spoonacular.com/recipes/complexSearch
 
 import Foundation
 
 enum Endpoint {
-    static let baseURL = "https://spoonacular.com/food-api"
+    static let baseURL = "https://spoonacular.com/food-api" // это зачем?
 
     case trending
     case fullTrending

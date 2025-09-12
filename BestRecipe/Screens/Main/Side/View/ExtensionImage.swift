@@ -1,14 +1,11 @@
-//
-//  ExtensionImage.swift
-//  BestRecipe
-//
-//  Created by iMacbook on 9/6/25.
-//
+
 
 import UIKit
 
 extension UIImageView {
     func loadImage(from imageName: String, size: String = "100x100") {
+#warning("это было бы хорошо оформить внутри Networking Manager")
+#warning("в целом, extension UIImageView не очень подходит для этой логики")
         let baseURL = "https://img.spoonacular.com/ingredients_\(size)/"
         guard let url = URL(string: baseURL + imageName) else {
             DispatchQueue.main.async {

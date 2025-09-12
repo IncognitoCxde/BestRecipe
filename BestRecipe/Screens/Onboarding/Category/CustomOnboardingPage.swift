@@ -136,6 +136,7 @@ final class OnboardingPageViewController: UIViewController {
         subtitleLabel.text = page.subtitle
         
         // Настраиваем разноцветный текст для каждого экрана
+#warning("довольно грустное название цвета")
         let thirdColor = UIColor(named: "3rd") ?? .systemOrange
         
         switch pageIndex {

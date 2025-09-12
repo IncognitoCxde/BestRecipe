@@ -25,6 +25,7 @@ final class OnboardingStorage: OnboardingStorageProtocol {
             print("📞 Setting hasSeenOnboarding: \(newValue)")
             UserDefaults.standard.set(newValue, forKey: key)
             UserDefaults.standard.synchronize()
+#warning("Apple не рекомендует использовать UserDefaults.standard.synchronize()")
         }
     }
     

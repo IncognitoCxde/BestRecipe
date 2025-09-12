@@ -1,12 +1,8 @@
-//
-//  MainViewController.swift
-//  homework
-//
-//  Created by Zarina Sadykova on 21.08.25.
-//
+
 import UIKit
 import SnapKit
 
+#warning("лучше подобрать более понятное название контроллера")
 final class HelloViewController: UIViewController {
 
     private let viewModel: HelloViewModel

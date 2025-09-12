@@ -1,9 +1,3 @@
-//
-//  SaveManager.swift
-//  BestRecipe
-//
-//  Created by Irina  on 06/09/25.
-//
 
 import Foundation
 
@@ -11,6 +5,7 @@ final class SaveManager {
     
     static let shared = SaveManager()
     private let key = "favorite_recipe_ids"
+    #warning("избегаем литералы")
 
     private init() {}
 

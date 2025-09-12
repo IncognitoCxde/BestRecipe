@@ -1,9 +1,4 @@
-//
-//  RecentRecipesViewController.swift
-//  BestRecipe
-//
-//  Created by iMacbook on 8/30/25.
-//
+
 
 import UIKit
 
@@ -13,6 +8,7 @@ class RecentRecipesViewController: UIViewController {
     
     let recentTitle = UILabel()
     let recentTableView = UITableView()
+#warning("вьюмодель можно передавать через init")
     private let viewModel = SideViewModel()
     
     // MARK: - Lifecycle
@@ -54,7 +50,8 @@ class RecentRecipesViewController: UIViewController {
         }
         viewModel.loadMockTrendingData()
     }
-    
+
+#warning("так сейчас не принято, нарушение S + отрыв от самого элемента; из DesignSystem или через замыкание")
     func setUpTitle() {
         recentTitle.text = "Recent recipes"
         recentTitle.font = UIFont(name: AppFont.SemiBold, size: 25)

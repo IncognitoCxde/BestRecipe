@@ -7,6 +7,7 @@
 
 import UIKit
 
+#warning("расширения лучше вынести в отдельную папку Extensions и указывать в названии файла расширяемый тип")
 extension String {
     var htmlStripped: String {
         guard let data = self.data(using: .utf8) else { return self }

@@ -7,6 +7,7 @@
 
 import UIKit
 
+// очень хороший менеджер, well done
 protocol HomeNetworkingProtocol {
     func fetchTrending(completion: @escaping ((Result<RecipesResponse, NetworkError>) -> Void))
     func fetchRecipesByPopularCategory(for category: Categories, completion: @escaping (Result<RecipesResponse, NetworkError>) -> Void)

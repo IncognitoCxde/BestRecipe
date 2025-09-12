@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  BestRecipe
-//
-//  Created by iMacbook on 8/15/25.
-//
-
 import UIKit
 
 @main

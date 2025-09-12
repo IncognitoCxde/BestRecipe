@@ -1,9 +1,5 @@
 //
 //  CategoryIndicator.swift
-//  homework
-//
-//  Created by Zarina Sadykova on 24.08.25.
-//
 
 import UIKit
 import SnapKit
@@ -18,7 +14,8 @@ final class OnboardingIndicatorsView: UIView {
         stack.alignment = .center
         return stack
     }()
-    
+
+    #warning("делать индикатор через картинки -- немного костыльное решение, в будущем стоит попробовать через UIView")
     private let firstIndicator = UIImageView(image: UIImage(named: "FirstIndicator"))
     private let secondIndicator = UIImageView(image: UIImage(named: "SecondIndicator"))
     private let thirdIndicator = UIImageView(image: UIImage(named: "ThirdIndicator"))

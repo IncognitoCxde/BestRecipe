@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+#warning("не совсем понятно, что это")
 private let kOverlayTag = 999_001
 private let kBlurTag    = 999_002
 

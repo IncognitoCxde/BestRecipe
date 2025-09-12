@@ -11,23 +11,25 @@ final class AppCoordinator {
     private let storage: OnboardingStorageProtocol
     var navigationController: UINavigationController?
 
+    // отличный инит! Great job!
     init(window: UIWindow, storage: OnboardingStorageProtocol) {
         self.window = window
         self.storage = storage
         print("AppCoordinator: инициализирован")
+        // принт вряд ли нужен
     }
 
     func start() {
-        print("AppCoordinator: start()")
-        print("🔍 Текущее значение hasSeenOnboarding: \(storage.hasSeenOnboarding)")
-        
-        if storage.hasSeenOnboarding {
-            print("AppCoordinator: hasSeenOnboarding = true, переходим на Home")
-            showHome()
-        } else {
-            print("AppCoordinator: hasSeenOnboarding = false, показываем Hello")
+//        print("AppCoordinator: start()")
+//        print("🔍 Текущее значение hasSeenOnboarding: \(storage.hasSeenOnboarding)")
+//        
+//        if storage.hasSeenOnboarding {
+//            print("AppCoordinator: hasSeenOnboarding = true, переходим на Home")
+//            showHome()
+//        } else {
+//            print("AppCoordinator: hasSeenOnboarding = false, показываем Hello")
             showHello()
-        }
+//        }
         
         window.makeKeyAndVisible()
         print("AppCoordinator: start() завершен.")

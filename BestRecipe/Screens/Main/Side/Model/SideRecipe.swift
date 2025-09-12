@@ -1,10 +1,5 @@
-//
-//  TrendingRecipe.swift
-//  BestRecipe
-//
-//  Created by iMacbook on 8/30/25.
-//
 
+#warning("тут не нужен UIKit")
 import UIKit
 
 struct SideRecipe: Codable {

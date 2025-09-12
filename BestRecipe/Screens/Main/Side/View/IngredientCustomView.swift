@@ -1,9 +1,4 @@
-//
-//  IngredientCustomView.swift
-//  BestRecipe
-//
-//  Created by iMacbook on 9/6/25.
-//
+
 
 import UIKit
 
@@ -22,13 +17,13 @@ class IngredientCustomView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    #warning("эта функция делает слишком много")
     private func setupUI(ingredient: ingredient) {
         backgroundColor = .neutral40
         layer.cornerRadius = 10
         clipsToBounds = true
         
-        
+        #warning("по принятой ныне практике, отдельные элементы должны настраиваться либо через DesignSystem (extension or separated classes), либо через замыкание при создании каждого элемента -- разобрать")
         imageView.loadImage(from: ingredient.image ?? "")
         imageView.tintColor = .primary50
         imageView.contentMode = .scaleAspectFit
@@ -38,11 +33,11 @@ class IngredientCustomView: UIView {
         }
         
         nameLabel.text = ingredient.name
-        nameLabel.font = UIFont(name: AppFont.Regular, size: 16)
+        nameLabel.font = UIFont(name: AppFont.regular, size: 16)
         nameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         amountLabel.text = String(ingredient.amount ?? 0.0) + " " + (ingredient.unit ?? "unit")
-        amountLabel.font = UIFont(name: AppFont.Regular, size: 14)
+        amountLabel.font = UIFont(name: AppFont.regular, size: 14)
         amountLabel.textColor = .neutral60
         amountLabel.setContentHuggingPriority(.required, for: .horizontal)
         

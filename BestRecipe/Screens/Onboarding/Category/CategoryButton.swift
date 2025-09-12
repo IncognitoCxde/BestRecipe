@@ -1,11 +1,7 @@
-//
-//  CategoryButton.swift
-//  homework
-//
-//  Created by Zarina Sadykova on 19.08.25.
-//
+
 import UIKit
 
+#warning("непонятное название + файл должен быть в DesignSystem")
 class CustomButton: UIButton {
 
     // MARK: - Public Properties
@@ -16,6 +12,7 @@ class CustomButton: UIButton {
     }
     
     // MARK: - Initialization
+#warning("это можно в обычный инит, тут не нужен convenience")
     convenience init(title: String, cornerRadius: CGFloat = 12) {
         self.init(frame: .zero)
         setTitle(title, for: .normal)
