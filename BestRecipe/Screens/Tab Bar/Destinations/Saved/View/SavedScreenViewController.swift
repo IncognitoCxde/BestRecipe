@@ -14,10 +14,17 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
     
     private let viewModel = SavedRecipesViewModel()
     
+    private var horizontalInset: CGFloat {
+        UIDevice.current.userInterfaceIdiom == .pad ? 40 : 20
+    }
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Saved Recipes"
-        label.font = UIFont(name: AppFont.SemiBold, size: 24)
+        if let customFont = UIFont(name: AppFont.SemiBold, size: 24) {
+            label.font = UIFontMetrics(forTextStyle: .title2).scaledFont(for: customFont)
+        }
+        label.adjustsFontForContentSizeCategory = true
         label.textColor = .neutral100
         return label
     }()
@@ -65,6 +72,9 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
         view.addSubview(tableView)
         view.addSubview(emptyStateLabel)
         
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
+        
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -76,18 +86,18 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
     private func setupConstraints() {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(20)
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(20)
+            make.leading.trailing.equalToSuperview().inset(horizontalInset)
+        }
+
+        emptyStateLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(tableView.snp.centerY)
+            make.leading.trailing.equalToSuperview().inset(horizontalInset)
         }
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(16)
             make.leading.trailing.bottom.equalToSuperview()
-        }
-        
-        emptyStateLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalTo(tableView.snp.centerY)
-            make.leading.trailing.equalToSuperview().inset(20)
         }
     }
     
@@ -138,17 +148,17 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedRecipe = viewModel.recipes[indexPath.row]
         viewModel.fetchRecipeDetail(for: selectedRecipe.id) { [weak self] detail in
-            guard let detail = detail else {
-                return
-            }
-            let detailViewModel = RecipeDetailViewModel(recipe: detail)
-            let detailsVC = RecipeDetailsViewController()
-            detailsVC.viewModel = detailViewModel
+            guard let self = self, let detail = detail else { return }
+
             DispatchQueue.main.async {
-                self?.navigationController?.pushViewController(detailsVC, animated: true)
+                let detailViewModel = RecipeDetailViewModel(recipe: detail)
+                let detailsVC = RecipeDetailsViewController()
+                detailsVC.viewModel = detailViewModel
+                self.navigationController?.pushViewController(detailsVC, animated: true)
             }
         }
     }
+
 
 
 }
