@@ -18,18 +18,11 @@ final class OnboardingStorage: OnboardingStorageProtocol {
     var hasSeenOnboarding: Bool {
         get {
             let value = UserDefaults.standard.bool(forKey: key)
-            print("🔍 Reading hasSeenOnboarding: \(value)")
             return value
         }
         set {
-            print("📞 Setting hasSeenOnboarding: \(newValue)")
             UserDefaults.standard.set(newValue, forKey: key)
             UserDefaults.standard.synchronize()
         }
-    }
-    
-    // Для отладки
-    func printStatus() {
-        print("📞 Current hasSeenOnboarding status: \(hasSeenOnboarding)")
     }
 }

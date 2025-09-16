@@ -10,7 +10,6 @@ import Foundation
 final class HelloViewModel {
     var onContinue: (() -> Void)?
     func continueToOnboarding() {
-        print("HelloViewModel: continueToOnboarding() вызван")
         onContinue?()
     }
 }

@@ -7,6 +7,10 @@
 import UIKit
 import SnapKit
 
+// Протокол для делегата перехода между страницами
+protocol OnboardingPageDelegate: AnyObject {
+    func goToPage(_ index: Int)
+}
 
 final class OnboardingPageViewController: UIViewController {
     
@@ -15,11 +19,10 @@ final class OnboardingPageViewController: UIViewController {
     private let isLastPage: Bool
     private let onContinue: () -> Void
     private let onSkip: () -> Void
+    weak var delegate: OnboardingPageDelegate?
     
     private let bg = BackgroundImageView(imageName: "")
     private let gradientOverlay = GradientOverlayView()
-    
-    // Заменяем обычный titleLabel на кастомный MulticolorTitleLabel
     private let titleLabel = MulticolorTitleLabel()
     
     private let subtitleLabel: UILabel = {
@@ -31,7 +34,6 @@ final class OnboardingPageViewController: UIViewController {
         return label
     }()
     
-    // Заменяем на кастомную кнопку
     private let actionButton: CustomButton = {
         let button = CustomButton(title: "")
         return button
@@ -45,7 +47,6 @@ final class OnboardingPageViewController: UIViewController {
         return button
     }()
     
-    // Добавляем индикаторы
     private let indicatorsView: OnboardingIndicatorsView = {
         let view = OnboardingIndicatorsView()
         return view
@@ -96,7 +97,6 @@ final class OnboardingPageViewController: UIViewController {
         view.addSubview(indicatorsView)
         view.addSubview(skipButton)
         
-        
         // Action button
         actionButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -124,11 +124,15 @@ final class OnboardingPageViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-30)
         }
-
         
         // Add actions
         actionButton.addTarget(self, action: #selector(continueTapped), for: .touchUpInside)
         skipButton.addTarget(self, action: #selector(skipTapped), for: .touchUpInside)
+        
+        // Обработчик тапов на индикаторы
+        indicatorsView.onIndicatorTapped = { [weak self] index in
+            self?.delegate?.goToPage(index)
+        }
     }
     
     private func configure() {
@@ -140,10 +144,6 @@ final class OnboardingPageViewController: UIViewController {
         
         switch pageIndex {
         case 0:
-            // "Recipes from\nall over the\nWorld"
-            // Строка 0: "Recipes from" - ничего не красим
-            // Строка 1: "all over the" - красим "over the"
-            // Строка 2: "World" - красим "World"
             titleLabel.setText(page.title,
                               coloredParts: [
                                 "1": ["over the"],
@@ -151,18 +151,12 @@ final class OnboardingPageViewController: UIViewController {
                               ],
                                color: .secondary50)
         case 1:
-            // "Recipes with\neach and every detail"
-            // Строка 0: "Recipes with" - ничего не красим
-            // Строка 1: "each and every detail" - красим всю строку
             titleLabel.setText(page.title,
                               coloredParts: [
                                 "1": ["each and every detail"]
                               ],
                                color: .secondary50)
         case 2:
-            // "Cook it now or\nsave it for later"
-            // Строка 0: "Cook it now or" - ничего не красим
-            // Строка 1: "save it for later" - красим всю строку
             titleLabel.setText(page.title,
                               coloredParts: [
                                 "1": ["save it for later"]
@@ -185,7 +179,6 @@ final class OnboardingPageViewController: UIViewController {
         indicatorsView.setCurrentPage(pageIndex)
     }
 
-    
     @objc private func continueTapped() {
         onContinue()
     }

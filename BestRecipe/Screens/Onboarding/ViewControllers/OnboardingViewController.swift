@@ -10,7 +10,6 @@ final class OnboardingViewController: UIPageViewController {
     
     private let viewModel: OnboardingViewModel
     private var pages: [UIViewController] = []
-    private let indicatorsView = OnboardingIndicatorsView()
     
     init(viewModel: OnboardingViewModel) {
         self.viewModel = viewModel
@@ -28,32 +27,32 @@ final class OnboardingViewController: UIPageViewController {
     }
     
     private func setupPages() {
-            // Создаем страницы
-            for (index, page) in viewModel.pages.enumerated() {
-                let isLastPage = index == viewModel.pages.count - 1
-                let pageVC = OnboardingPageViewController(
-                    page: page,
-                    pageIndex: index, // Передаем индекс страницы
-                    isLastPage: isLastPage,
-                    onContinue: { [weak self] in
-                        self?.handleContinue(at: index)
-                    },
-                    onSkip: { [weak self] in
-                        self?.viewModel.skip()
-                    }
-                )
-                pages.append(pageVC)
-            }
-            
-            // Устанавливаем первую страницу
-            if let firstPage = pages.first {
-                setViewControllers([firstPage], direction: .forward, animated: true)
-            }
-            
-            dataSource = self
-            delegate = self
+        // Создаем страницы
+        for (index, page) in viewModel.pages.enumerated() {
+            let isLastPage = index == viewModel.pages.count - 1
+            let pageVC = OnboardingPageViewController(
+                page: page,
+                pageIndex: index,
+                isLastPage: isLastPage,
+                onContinue: { [weak self] in
+                    self?.handleContinue(at: index)
+                },
+                onSkip: { [weak self] in
+                    self?.viewModel.skip()
+                }
+            )
+            pageVC.delegate = self // Устанавливаем делегат
+            pages.append(pageVC)
         }
-    
+        
+        // Устанавливаем первую страницу
+        if let firstPage = pages.first {
+            setViewControllers([firstPage], direction: .forward, animated: true)
+        }
+        
+        dataSource = self
+        delegate = self
+    }
     
     private func setupAppearance() {
         view.backgroundColor = .black
@@ -61,21 +60,25 @@ final class OnboardingViewController: UIPageViewController {
     
     private func handleContinue(at index: Int) {
         if index < pages.count - 1 {
-            // Переход к следующей странице
-            let nextPage = pages[index + 1]
-            setViewControllers([nextPage], direction: .forward, animated: true)
-            indicatorsView.setCurrentPage(index + 1)
+            navigateToPage(index + 1)
         } else {
-            // Завершение онбординга
             viewModel.finish()
         }
     }
     
-    // Анимированное обновление индикаторов
-    private func updateIndicators(for page: Int) {
-        UIView.animate(withDuration: 0.3) {
-            self.indicatorsView.setCurrentPage(page)
-        }
+    private func navigateToPage(_ index: Int) {
+        guard index >= 0 && index < pages.count else { return }
+        
+        let direction: UIPageViewController.NavigationDirection = index > (viewModel.currentIndex) ? .forward : .reverse
+        setViewControllers([pages[index]], direction: direction, animated: true)
+        viewModel.currentIndex = index
+    }
+}
+
+// MARK: - OnboardingPageDelegate
+extension OnboardingViewController: OnboardingPageDelegate {
+    func goToPage(_ index: Int) {
+        navigateToPage(index)
     }
 }
 
@@ -101,11 +104,7 @@ extension OnboardingViewController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if let currentVC = viewControllers?.first,
            let index = pages.firstIndex(of: currentVC) {
-            updateIndicators(for: index)
+            viewModel.currentIndex = index
         }
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        // Можно добавить предварительную анимацию индикаторов
     }
 }

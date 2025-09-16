@@ -53,9 +53,7 @@ final class OnboardingViewModel {
     }
     
     func finish() {
-        print("OnboardingViewModel.finish() called")
         storage.hasSeenOnboarding = true // ← ✅ Это должно быть true
-        print("Set hasSeenOnboarding to true")
         onFinish?()
     }
 

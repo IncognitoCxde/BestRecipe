@@ -14,32 +14,23 @@ final class AppCoordinator {
     init(window: UIWindow, storage: OnboardingStorageProtocol) {
         self.window = window
         self.storage = storage
-        print("AppCoordinator: инициализирован")
     }
 
     func start() {
-        print("AppCoordinator: start()")
-        print("🔍 Текущее значение hasSeenOnboarding: \(storage.hasSeenOnboarding)")
-        
         if storage.hasSeenOnboarding {
-            print("AppCoordinator: hasSeenOnboarding = true, переходим на Registration")
             showRegistration()
         } else {
-            print("AppCoordinator: hasSeenOnboarding = false, показываем Hello")
             showHello()
         }
         
         window.makeKeyAndVisible()
-        print("AppCoordinator: start() завершен.")
     }
 
     func showHello() {
-        print("Coordinator: showHello()")
         let helloViewModel = HelloViewModel()
         let helloViewController = HelloViewController(viewModel: helloViewModel)
         
         helloViewModel.onContinue = { [weak self] in
-            print("Coordinator: Замыкание helloViewModel.onContinue вызвано")
             self?.showOnboarding()
         }
         
@@ -49,13 +40,11 @@ final class AppCoordinator {
     }
 
     private func showOnboarding() {
-        print("Coordinator: showOnboarding()")
         let onboardingViewModel = OnboardingViewModel(storage: storage)
         
         let onboardingViewController = OnboardingViewController(viewModel: onboardingViewModel)
         
         onboardingViewModel.onFinish = { [weak self] in
-            print("Coordinator: Замыкание onboardingViewModel.onFinish вызвано")
             self?.showRegistration()
         }
 
@@ -63,7 +52,6 @@ final class AppCoordinator {
     }
 
     private func showRegistration() {
-        print("Coordinator: showRegistration()")
         let registrationViewController = LoginViewController()
         let navController = UINavigationController(rootViewController: registrationViewController)
         navController.isNavigationBarHidden = true
@@ -71,7 +59,6 @@ final class AppCoordinator {
         UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {
             self.window.rootViewController = navController
         }, completion: { _ in
-            print("Coordinator: Успешно перешли на RegistrationViewController.")
         })
     }
 }
