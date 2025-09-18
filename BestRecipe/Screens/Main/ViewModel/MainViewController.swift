@@ -18,7 +18,7 @@ class MainViewController: UIViewController, UISearchBarDelegate {
     
     let titleLabel = UILabel()
     let titleLabel2 = UILabel()
-    let searchBar = UISearchBar()
+    let searchBar = SearchBarView()
     let trendingLabel = UILabel()
     let seeAllButton = UIButton()
     var viewModel = MainViewModel()
@@ -67,26 +67,7 @@ class MainViewController: UIViewController, UISearchBarDelegate {
     // MARK: - Search Bar
     
     func configureSearchBar() {
-        searchBar.delegate = self
-        searchBar.placeholder = " Search recipes"
-        searchBar.layer.borderWidth = 1
-        searchBar.searchTextField.font = UIFont(name: AppFont.regular, size: 17)
-        
-        searchBar.layer.borderColor = UIColor.neutral50.cgColor
-        searchBar.layer.cornerRadius = 12
-        searchBar.layer.masksToBounds = true
-        
-        if let searchTextField = searchBar.value(forKey: "searchField") as? UITextField {
-            searchTextField.backgroundColor = .clear
-        }
-        
-        if let customSearchImage = UIImage(named: "Union") {
-            searchBar.setImage(customSearchImage, for: .search, state: .normal)
-            
-        }
-        
         view.addSubview(searchBar)
-        
         
         searchBar.snp.makeConstraints { make in
             make.top.equalTo(180)
@@ -94,6 +75,8 @@ class MainViewController: UIViewController, UISearchBarDelegate {
             make.trailing.equalToSuperview().inset(20)
             make.height.equalTo(50)
         }
+        
+        
     }
     
     // MARK: - Trending Collection View
