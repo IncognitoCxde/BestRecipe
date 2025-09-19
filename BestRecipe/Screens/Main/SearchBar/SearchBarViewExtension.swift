@@ -19,22 +19,22 @@ extension SearchBarView: UISearchBarDelegate {
             mainVC.resultsTableView.isHidden = true
             mainVC.results.removeAll()
             return
-        }
-        
-        mainVC.ultimateCollectionView.isHidden = true
-        mainVC.resultsTableView.isHidden = false
-        
-        let group = DispatchGroup()
-        
-        group.enter()
-        networkingManager.fetchSearchedRecipes(query: searchText) { [weak self] result in
-            defer { group.leave() }
-            guard self != nil else { return }
-            switch result {
-            case .success(let response):
-                mainVC.results = response.results ?? []
-            case .failure(let error):
-                print("Error fetching trending recipes: \(error)")
+        } else {
+            mainVC.ultimateCollectionView.isHidden = true
+            mainVC.resultsTableView.isHidden = false
+            
+            let group = DispatchGroup()
+            
+            group.enter()
+            networkingManager.fetchSearchedRecipes(query: searchText) { [weak self] result in
+                defer { group.leave() }
+                guard self != nil else { return }
+                switch result {
+                case .success(let response):
+                    mainVC.results = response.results ?? []
+                case .failure(let error):
+                    print("Error fetching trending recipes: \(error)")
+                }
             }
         }
     }
