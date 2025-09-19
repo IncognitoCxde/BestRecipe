@@ -28,6 +28,17 @@ class MainViewController: UIViewController, UISearchBarDelegate {
     
     var selectedIndexPath: IndexPath?
     
+    var resultsTableView: UITableView = {
+        let table = UITableView()
+        return table
+    }()
+    
+    var results: [SearchRecipe] = [] {
+        didSet {
+            resultsTableView.reloadData()
+        }
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -45,13 +56,14 @@ class MainViewController: UIViewController, UISearchBarDelegate {
         configureSearchBar()
         bindViewModel()
         configureUltimateCollectionView()
+        setUpResultsTableView()
     }
     
     // MARK: - Navigation
     
     func configureNavTitle() {
         titleLabel.text = "Get amazing recipes \nfor cooking"
-        titleLabel.textColor = UIColor(named: "Neutal 100")
+        titleLabel.textColor = UIColor.neutral100
         titleLabel.font = UIFont(name: AppFont.semiBold, size: 27)
         titleLabel.textAlignment = .left
         titleLabel.numberOfLines = 2
@@ -104,6 +116,16 @@ class MainViewController: UIViewController, UISearchBarDelegate {
             make.bottom.equalToSuperview()
         }
         
+    }
+    
+    func setUpResultsTableView() {
+        resultsTableView.isHidden = true
+        view.addSubview(resultsTableView)
+        resultsTableView.snp.makeConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(5)
+            make.bottom.equalToSuperview()
+        }
     }
     
     // MARK: - Data Centre
@@ -411,5 +433,21 @@ extension MainViewController: UICollectionViewDelegate {
                 }
             }
         }
+    }
+}
+
+// MARK: - SearchBarDelegate
+
+extension MainViewController: SearchBarViewDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+    }
+    
+    func endSearch() {
+        
     }
 }

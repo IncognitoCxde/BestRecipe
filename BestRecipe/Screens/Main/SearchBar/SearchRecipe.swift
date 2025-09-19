@@ -1,11 +1,11 @@
 //
-//  TrendingRecipe.swift
+//  SearchRecipe.swift
 //  BestRecipe
 //
-//  Created by iMacbook on 8/30/25.
+//  Created by iMacbook on 9/19/25.
 //
 
-struct SideRecipe: Codable {
+struct SearchRecipe: Codable {
     let id: Int?
     let title: String?
     let image: String?
@@ -14,8 +14,7 @@ struct SideRecipe: Codable {
     let numberOfIngredients: Int?
 }
 
-struct FullRecipeResponse: Codable {
-    var results: [SideRecipe]?
+struct SearchRecipesResponse: Codable {
+    var results: [SearchRecipe]?
 }
-
 

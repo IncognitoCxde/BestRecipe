@@ -8,8 +8,7 @@
 import UIKit
 
 protocol SearchBarViewDelegate: AnyObject {
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
-//
-//    func endSearch()
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
+    func endSearch()
 }

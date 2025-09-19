@@ -13,6 +13,7 @@ protocol HomeNetworkingProtocol {
     func fetchPopular(completion: @escaping ((Result<RecipesResponse, NetworkError>) -> Void))
     func fetchRecipeDetail(id: Int, completion: @escaping (Result<RecipeDetail, NetworkError>) -> Void)
     func fetchFullTrending(completion: @escaping ((Result<FullRecipeResponse, NetworkError>) -> Void))
+    func fetchSearchedRecipes(query: String, completion: @escaping (Result<SearchRecipesResponse, NetworkError>) -> Void)
 }
 
 final class HomeNetworkingManager: HomeNetworkingProtocol {
@@ -46,5 +47,11 @@ final class HomeNetworkingManager: HomeNetworkingProtocol {
         guard let url = manager.createURL(for: .fullTrending) else { return }
         manager.makeTask(for: url, apiKey: API.apiKey, completion: completion)
     }
+    
+    func fetchSearchedRecipes(query: String, completion: @escaping (Result<SearchRecipesResponse, NetworkError>) -> Void) {
+        guard let url = manager.createURL(for: .search(query: query)) else { return }
+        manager.makeTask(for: url, apiKey: API.apiKey, completion: completion)
+    }
+    
     
 }
