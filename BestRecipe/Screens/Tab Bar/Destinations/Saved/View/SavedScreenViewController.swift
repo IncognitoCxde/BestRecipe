@@ -21,7 +21,7 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Saved Recipes"
-        if let customFont = UIFont(name: AppFont.SemiBold, size: 24) {
+        if let customFont = UIFont(name: AppFont.semiBold, size: 24) {
             label.font = UIFontMetrics(forTextStyle: .title2).scaledFont(for: customFont)
         }
         label.adjustsFontForContentSizeCategory = true
@@ -39,7 +39,7 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
     private let emptyStateLabel: UILabel = {
         let label = UILabel()
         label.text = "You have no saved recipes yet."
-        label.font = UIFont(name: AppFont.Regular, size: 17)
+        label.font = UIFont(name: AppFont.regular, size: 17)
         label.adjustsFontForContentSizeCategory = true
         label.textColor = .neutral50
         label.textAlignment = .center
