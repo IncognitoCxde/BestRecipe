@@ -21,7 +21,6 @@ class SavedRecipesViewModel {
     func loadSavedRecipes() {
         let ids = SaveManager.shared.getFavorites()
         recipes = []
-        onRecipesUpdated?()
         
         let group = DispatchGroup()
         var fetched: [Recipe] = []
@@ -57,6 +56,13 @@ class SavedRecipesViewModel {
         }
     }
     
+    func removeRecipe(withID id: Int, completion: @escaping (Int?) -> Void) {
+        SaveManager.shared.remove(id: id)
+        recipes.removeAll(where: { $0.id == id })
+        onRecipesUpdated?()
+        completion(nil)
+    }
+
     func fetchRecipeDetail(for id: Int, completion: @escaping (RecipeDetail?) -> Void) {
             network.fetchRecipeDetail(id: id) { result in
                 switch result {

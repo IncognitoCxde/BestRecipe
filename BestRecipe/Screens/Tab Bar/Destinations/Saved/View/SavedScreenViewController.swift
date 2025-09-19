@@ -125,25 +125,27 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard indexPath.row < viewModel.recipes.count else {
+            return UITableViewCell() 
+        }
+
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecipeCell", for: indexPath) as? RecipeCell else {
             return UITableViewCell()
         }
 
         let recipe = viewModel.recipes[indexPath.row]
         cell.configure(with: recipe)
-        cell.saveButton.recipeID = recipe.id
+
         cell.saveButton.onToggle = { [weak self] in
-            guard let self = self else { return }
-            if let index = self.viewModel.recipes.firstIndex(where: { $0.id == recipe.id }) {
-                self.viewModel.recipes.remove(at: index)
-                self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+            self?.viewModel.removeRecipe(withID: recipe.id) { _ in
+                self?.tableView.reloadData()
+                self?.updateUIForEmptyState()
             }
         }
+
         return cell
     }
 
-
-    
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedRecipe = viewModel.recipes[indexPath.row]
