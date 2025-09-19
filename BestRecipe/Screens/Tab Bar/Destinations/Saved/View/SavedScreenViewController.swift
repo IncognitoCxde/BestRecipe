@@ -37,22 +37,22 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
     }()
     
     private let emptyStateLabel: UILabel = {
-            let label = UILabel()
-            label.text = "You have no saved recipes yet."
-            label.font = UIFont.preferredFont(forTextStyle: .subheadline)
-            label.adjustsFontForContentSizeCategory = true
-            label.textColor = .neutral50
-            label.textAlignment = .center
-            label.numberOfLines = 0
-            label.isHidden = true
-            return label
-        }()
+        let label = UILabel()
+        label.text = "You have no saved recipes yet."
+        label.font = UIFont(name: AppFont.Regular, size: 17)
+        label.adjustsFontForContentSizeCategory = true
+        label.textColor = .neutral50
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.isHidden = true
+        return label
+    }()
     
     // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         
         setupViews()
         setupConstraints()
@@ -91,8 +91,7 @@ class SavedScreenViewController: UIViewController, UITableViewDelegate, UITableV
 
         emptyStateLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalTo(tableView.snp.centerY)
-            make.leading.trailing.equalToSuperview().inset(horizontalInset)
+            make.centerY.equalToSuperview()
         }
         
         tableView.snp.makeConstraints { make in
