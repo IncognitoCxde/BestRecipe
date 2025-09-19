@@ -16,8 +16,8 @@ class RecipeDetailsViewController: UIViewController {
 
     // MARK: - UI Elements
     
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
+    private var scrollView: UIScrollView!
+    private var contentView: UIView!
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -102,7 +102,8 @@ class RecipeDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        scrollView = UIScrollView()
+        contentView = UIView()
         view.backgroundColor = .white
         setupUI()
         setupCustomBackButton()

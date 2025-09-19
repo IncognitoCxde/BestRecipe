@@ -14,6 +14,7 @@ class CustomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpCenterButton()
+        updateCenterButtonFrame()
         
         let customTabBar = CurvedTabBar()
         setValue(customTabBar, forKey: "tabBar")
@@ -44,18 +45,21 @@ class CustomTabBarController: UITabBarController {
     }
     
     private func setUpCenterButton() {
-        let buttonsize: CGFloat = 60
+        let buttonSize: CGFloat = 60
+        let x = tabBar.center.x
+        let y = tabBar.frame.origin.y - (buttonSize / 2)
+
         centerButton.frame = CGRect(
-            x: CGFloat(Int(tabBar.bounds.width / 2 - buttonsize / 2)),
-            y: 730,
-            width: buttonsize,
-            height: buttonsize
+            x: x - buttonSize / 2,
+            y: y,
+            width: buttonSize,
+            height: buttonSize
         )
-        
+
         centerButton.setImage(UIImage(systemName: "plus"), for: .normal)
         centerButton.tintColor = .white
         centerButton.backgroundColor = .primary50
-        centerButton.layer.cornerRadius = 30
+        centerButton.layer.cornerRadius = buttonSize / 2
         
         view.addSubview(centerButton)
         view.bringSubviewToFront(centerButton)
@@ -67,4 +71,20 @@ class CustomTabBarController: UITabBarController {
         let createVC = CreateRecipeViewController()
         navigationController?.pushViewController(createVC, animated: true)
     }
+    
+    private func updateCenterButtonFrame() {
+        let buttonSize: CGFloat = 60
+        let x = tabBar.center.x
+        let verticalOffset: CGFloat = 60
+        let y = tabBar.frame.origin.y - (buttonSize / 2) - verticalOffset
+
+        centerButton.frame = CGRect(
+            x: x - buttonSize / 2,
+            y: y,
+            width: buttonSize,
+            height: buttonSize
+        )
+    }
+
+
 }
