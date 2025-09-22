@@ -79,6 +79,7 @@ class MainViewController: UIViewController, UISearchBarDelegate {
     // MARK: - Search Bar
     
     func configureSearchBar() {
+        searchBar.delegate = self
         view.addSubview(searchBar)
         
         searchBar.snp.makeConstraints { make in
@@ -87,7 +88,6 @@ class MainViewController: UIViewController, UISearchBarDelegate {
             make.trailing.equalToSuperview().inset(20)
             make.height.equalTo(50)
         }
-        
         
     }
     
@@ -119,7 +119,11 @@ class MainViewController: UIViewController, UISearchBarDelegate {
     }
     
     func setUpResultsTableView() {
-        resultsTableView.isHidden = true
+//        resultsTableView.isHidden = true
+        resultsTableView.delegate = self
+        resultsTableView.dataSource = self
+        resultsTableView.register(ResultsTableViewCell.self, forCellReuseIdentifier: ResultsTableViewCell.identifier )
+        self.resultsTableView.isHidden = (self.results.isEmpty)
         view.addSubview(resultsTableView)
         resultsTableView.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom).offset(20)
@@ -441,13 +445,76 @@ extension MainViewController: UICollectionViewDelegate {
 extension MainViewController: SearchBarViewDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
+        if searchText.isEmpty {
+            self.ultimateCollectionView.isHidden = false
+            self.resultsTableView.isHidden = true
+        }
+        
+        let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else {
+            self.results = []
+            self.resultsTableView.isHidden = true
+            return
+        }
+        
+        networkingManager.fetchSearchedRecipes(query: trimmed) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    self?.results = response.results ?? []
+                    self?.resultsTableView.isHidden = (self?.results.isEmpty ?? true)
+                case .failure(let error):
+                    print("Networking failed: \(error)")
+                }
+            }
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
+        searchBar.resignFirstResponder()
+        if let query = searchBar.text {
+            self.searchBar(searchBar, textDidChange: query)
+        }
     }
     
     func endSearch() {
+        results = []
+        resultsTableView.isHidden = true
+    }
+    
+}
+
+// MARK: - Results TableView Delegate & Data Source
+
+extension MainViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return results.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ResultsTableViewCell.identifier, for: indexPath)
+        cell.textLabel?.text = results[indexPath.row].title
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 240
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let recipeId = results[indexPath.row].id ?? 0
         
+        networkingManager.fetchRecipeDetail(id: recipeId) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let detail):
+                    let detailVC = RecipeDetailViewController(recipe: detail)
+                    self?.navigationController?.pushViewController(detailVC, animated: true)
+                case .failure(let error):
+                    print("Failed to fetch recipe details:", error)
+                }
+            }
+        }
     }
 }

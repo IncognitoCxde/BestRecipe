@@ -9,7 +9,7 @@ import UIKit
 
 class ResultsTableViewCell: UITableViewCell {
     
-    static let identifier = ResultsTableViewCell.self
+    static let identifier = String(describing: ResultsTableViewCell.self)
     
     let networkingManager: HomeNetworkingProtocol = HomeNetworkingManager()
     
@@ -48,46 +48,6 @@ class ResultsTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let ratingStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.spacing = 4
-        stackView.backgroundColor = UIColor(white: 0, alpha: 0.5)
-        stackView.layer.cornerRadius = 8
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
-        return stackView
-    }()
-    
-    private let ratingIcon: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "star.fill"))
-        imageView.tintColor = .neutral100
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    private let ratingLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: AppFont.regular, size: 14)
-        label.textColor = .white
-        return label
-    }()
-    
-    let numOfIngredients: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: AppFont.regular, size: 14)
-        label.textColor = .white
-        return label
-    }()
-    
-   let timeTaken: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: AppFont.regular, size: 14)
-        label.textColor = .white
-        return label
-    }()
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .clear
@@ -103,13 +63,6 @@ class ResultsTableViewCell: UITableViewCell {
     private func setupViews() {
         contentView.addSubview(recipeImageView)
         contentView.addSubview(titleLabel)
-        contentView.addSubview(numOfIngredients)
-        contentView.addSubview(timeTaken)
-        
-        ratingStackView.addArrangedSubview(ratingIcon)
-        ratingStackView.addArrangedSubview(ratingLabel)
-        
-        recipeImageView.addSubview(ratingStackView)
     }
     
     private func setupConstraints() {
@@ -122,31 +75,13 @@ class ResultsTableViewCell: UITableViewCell {
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(recipeImageView.snp.leading).inset(20)
             make.trailing.equalTo(recipeImageView.snp.trailing).inset(30)
-            make.bottom.equalTo(recipeImageView.snp.bottom).inset(40)
+            make.bottom.equalTo(recipeImageView.snp.bottom).inset(10)
         }
-        
-        ratingStackView.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(10)
-        }
-        
-        numOfIngredients.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(5)
-            make.leading.equalTo(titleLabel.snp.leading)
-        }
-        
-        timeTaken.snp.makeConstraints { make in
-            make.top.equalTo(numOfIngredients.snp.top)
-            make.leading.equalTo(numOfIngredients.snp.trailing).offset(5)
-        }
-                
     }
     
     func configure(with recipe: SearchRecipe) {
-        recipeImageView.setImage(from: recipe.image ?? "")
+        recipeImageView.loadImage(from: recipe.image ?? "chef")
         titleLabel.text = recipe.title
-        ratingLabel.text = "\(recipe.rating ?? 5.0)"
-        numOfIngredients.text = "\(recipe.numberOfIngredients ?? 5) Ingredients |"
-        timeTaken.text = "\(recipe.timeTaken ?? 15) mins"
         
     }
 

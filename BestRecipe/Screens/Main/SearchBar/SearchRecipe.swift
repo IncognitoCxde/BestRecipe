@@ -9,9 +9,6 @@ struct SearchRecipe: Codable {
     let id: Int?
     let title: String?
     let image: String?
-    let timeTaken: Int?
-    let rating: Double?
-    let numberOfIngredients: Int?
 }
 
 struct SearchRecipesResponse: Codable {
