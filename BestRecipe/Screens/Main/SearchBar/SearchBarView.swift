@@ -38,11 +38,13 @@ final class SearchBarView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpConstraints()
+        setupDelegate()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setUpConstraints()
+        setupDelegate()
     }
     
     

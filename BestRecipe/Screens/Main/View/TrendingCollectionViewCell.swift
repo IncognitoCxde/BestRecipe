@@ -17,21 +17,27 @@ class TrendingCollectionViewCell: UICollectionViewCell {
     private let ratingButton = UIButton()
     private let saveButton = SaveButton()
     private var toggleState = 0
-    
-//    override var isSelected: Bool {
-//        didSet {
-//            saveButton.setImage(.bookmarkActive, for: .normal)
-//        }
-//    }
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setUpUI()
+        setUpConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setUpUI() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(imageView)
         contentView.addSubview(creatorImage)
         contentView.addSubview(creatorLabel)
         contentView.addSubview(saveButton)
-        
+    }
+    
+    func setUpConstraints() {
         imageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(8)
             make.leading.trailing.equalToSuperview().inset(5)
@@ -66,11 +72,6 @@ class TrendingCollectionViewCell: UICollectionViewCell {
             make.width.equalTo(60)
             make.height.equalTo(65)
         }
-        
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     func  configure(with recipe: Recipe) {

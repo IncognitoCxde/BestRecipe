@@ -17,3 +17,5 @@ struct SideRecipe: Codable {
 struct FullRecipeResponse: Codable {
     var results: [SideRecipe]?
 }
+
+
