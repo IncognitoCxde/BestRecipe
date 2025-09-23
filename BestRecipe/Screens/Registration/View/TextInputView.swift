@@ -129,7 +129,6 @@ class TextInputView: UIView {
         containerView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(height)
         }
         
         // Заголовок справа над контейнером

@@ -18,25 +18,6 @@ class ResultsTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
-        let vignetteOverlay = UIView()
-        vignetteOverlay.isUserInteractionEnabled = false
-        vignetteOverlay.backgroundColor = .clear
-        
-        imageView.addSubview(vignetteOverlay)
-        vignetteOverlay.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
-        let gradient = CAGradientLayer()
-        gradient.colors = [
-            UIColor.black.withAlphaComponent(0.5).cgColor,
-            UIColor.clear.cgColor,
-            UIColor.clear.cgColor,
-            UIColor.black.withAlphaComponent(0.5).cgColor
-        ]
-        gradient.locations = [0, 0.1, 0.7, 1] as [NSNumber]
-        gradient.frame = UIScreen.main.bounds
-        vignetteOverlay.layer.addSublayer(gradient)
         return imageView
     }()
     
@@ -80,9 +61,8 @@ class ResultsTableViewCell: UITableViewCell {
     }
     
     func configure(with recipe: SearchRecipe) {
-        recipeImageView.loadImage(from: recipe.image ?? "chef")
+        recipeImageView.setImage(from: recipe.image ?? "chef")
         titleLabel.text = recipe.title
-        
     }
 
 }
