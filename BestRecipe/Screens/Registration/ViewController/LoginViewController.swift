@@ -170,7 +170,6 @@ class LoginViewController: UIViewController {
         }
         
         if login == MockUser.email && password == MockUser.password {
-            print("✅ Successful login: \(login)")
             let tabBarController = UINavigationController(rootViewController: CustomTabBarController())
             tabBarController.modalPresentationStyle = .fullScreen
             present(tabBarController, animated: true)
@@ -182,13 +181,9 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func googleButtonTapped() {
-        print("Google button tapped")
-        // Обработка входа через Google
     }
     
     @objc private func signInTapped() {
-        print("Sign Up tapped")
-        // Переход на экран ввода данных (регистрации)
         let registrationVC = RegistrationViewController()
         registrationVC.modalPresentationStyle = .fullScreen
         present(registrationVC, animated: true)
