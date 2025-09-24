@@ -54,6 +54,7 @@ class RegistrationViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         setupUI()
         setupConstraints()
         setupLoginTapGesture()
