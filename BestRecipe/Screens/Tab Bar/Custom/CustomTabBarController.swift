@@ -17,7 +17,7 @@ class CustomTabBarController: UITabBarController {
         updateCenterButtonFrame()
         
         let customTabBar = CurvedTabBar()
-         
+        setValue(customTabBar, forKey: "tabBar")
         
         let mvc = MainViewController()
         mvc.tabBarItem = UITabBarItem(title: nil,
