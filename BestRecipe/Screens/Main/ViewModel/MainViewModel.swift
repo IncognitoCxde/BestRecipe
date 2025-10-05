@@ -9,7 +9,6 @@ import UIKit
 
 class MainViewModel {
     
-    
     let networkingManager: HomeNetworkingProtocol = HomeNetworkingManager()
     let response = RecipesResponse()
     
