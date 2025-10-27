@@ -20,4 +20,6 @@ Special thanks to:
 
 Irina (Github: https://github.com/irinazakhvatkina)
 
+Zarina (Github: https://github.com/ZarinaSadykovaQA)
+
 © 2025 Best Recipe. All rights reserved.
